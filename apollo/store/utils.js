@@ -14,13 +14,11 @@ export function createUser(data) {
 }
 
 export function createNote(data) {
-  const tags = data.tags.split(',').map(str => str.toLowerCase())
-
   return {
     id: v4(),
     content: data.content,
     author: data.author,
-    tags: tags,
+    tags: data.tags,
     color: data.color,
     style: data.style,
     font: data.font,

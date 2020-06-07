@@ -2,6 +2,7 @@ import {useMutation, useQuery} from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import {useRouter} from 'next/router'
 import {useState} from 'react'
+import TagsInput from 'react-tagsinput'
 import {withApollo} from '../apollo/client'
 import Field from '../components/field'
 import Layout from '../components/layout'
@@ -11,7 +12,7 @@ import {getErrorMessage} from '../lib/form'
 const CreateNoteMutation = gql`
   mutation CreateNoteMutation(
     $content: String!
-    $tags: String!
+    $tags: [String]!
     $color: String!
     $style: String!
     $font: String!
@@ -59,6 +60,7 @@ const New = () => {
   const [colorVal, nextColor] = useArrayIterator(NOTE_OPTIONS.color)
   const [styleVal, nextStyle] = useArrayIterator(NOTE_OPTIONS.style)
   const [fontVal, nextFont] = useArrayIterator(NOTE_OPTIONS.font)
+  const [tags, setTags] = useState([])
   const [errorMsg, setErrorMsg] = useState()
   const router = useRouter()
   const {data, loading} = useQuery(ViewerQuery)
@@ -66,13 +68,12 @@ const New = () => {
   async function handleSubmit(event) {
     event.preventDefault()
     const contentElement = event.currentTarget.elements.content
-    const tagsElement = event.currentTarget.elements.tags
 
     try {
       await createNote({
         variables: {
           content: contentElement.value,
-          tags: tagsElement.value,
+          tags,
           color: colorVal,
           style: styleVal,
           font: fontVal,
@@ -95,26 +96,35 @@ const New = () => {
   if (data && data.viewer) {
     return (
       <Layout>
-        <Note color={colorVal} style={styleVal} font={fontVal}>
-          <form onSubmit={handleSubmit}>
-            {errorMsg && <p>{errorMsg}</p>}
-            {loading && <p>loading...</p>}
-            <Field name="content" type="text" required label="Note" />
-            <Field name="tags" type="text" required label="Tags" />
-            <button onClick={nextColor} type="button">
-              {colorVal}
-            </button>
-            <button onClick={nextStyle} type="button">
-              {styleVal}
-            </button>
-            <button onClick={nextFont} type="button">
-              {fontVal}
-            </button>
-            <button disabled={loading} type="submit">
-              Send
-            </button>
-          </form>
-        </Note>
+        <form onSubmit={handleSubmit}>
+          {errorMsg && <p>{errorMsg}</p>}
+          {loading && <p>loading...</p>}
+          <Note color={colorVal} style={styleVal} font={fontVal}>
+            <Field
+              name="content"
+              type="text"
+              required
+              label="Note"
+              placeholder="Write a kind note"
+              floating
+              center
+            />
+          </Note>
+          <label>Tag related topics</label>
+          <TagsInput value={tags} onChange={setTags} />
+          <button onClick={nextColor} type="button">
+            {colorVal}
+          </button>
+          <button onClick={nextStyle} type="button">
+            {styleVal}
+          </button>
+          <button onClick={nextFont} type="button">
+            {fontVal}
+          </button>
+          <button disabled={loading} type="submit">
+            Send
+          </button>
+        </form>
       </Layout>
     )
   }

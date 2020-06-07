@@ -28,7 +28,7 @@ export const typeDefs = gql`
 
   input CreateNoteInput {
     content: String!
-    tags: String!
+    tags: [String]!
     color: String!
     style: String!
     font: String!
