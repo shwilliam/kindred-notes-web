@@ -22,12 +22,21 @@ export const typeDefs = gql`
     password: String!
   }
 
+  input CreateNoteInput {
+    content: String!
+    tags: String!
+  }
+
   type SignUpPayload {
     user: User!
   }
 
   type SignInPayload {
     user: User!
+  }
+
+  type CreateNotePayload {
+    note: Note!
   }
 
   type Query {
@@ -41,5 +50,6 @@ export const typeDefs = gql`
     signUp(input: SignUpInput!): SignUpPayload!
     signIn(input: SignInInput!): SignInPayload!
     signOut: Boolean!
+    createNote(input: CreateNoteInput!): CreateNotePayload!
   }
 `

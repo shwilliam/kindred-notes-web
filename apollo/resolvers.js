@@ -1,27 +1,19 @@
 import {AuthenticationError, UserInputError} from 'apollo-server-micro'
+import bcrypt from 'bcrypt'
 import cookie from 'cookie'
 import jwt from 'jsonwebtoken'
 import getConfig from 'next/config'
-import bcrypt from 'bcrypt'
-import v4 from 'uuid/v4'
-import {firestore} from './store'
+import {
+  addNote,
+  addUser,
+  createNote,
+  createUser,
+  firestore,
+  getUserByEmail,
+  getUserById,
+} from './store'
 
 const JWT_SECRET = getConfig().serverRuntimeConfig.JWT_SECRET
-
-// FIXME
-const users = []
-
-function createUser(data) {
-  const salt = bcrypt.genSaltSync()
-  const interestsArr = data.interests.split(',').map(str => str.toLowerCase())
-
-  return {
-    id: v4(),
-    email: data.email,
-    hashedPassword: bcrypt.hashSync(data.password, salt),
-    interests: interestsArr,
-  }
-}
 
 function validPassword(user, password) {
   return bcrypt.compareSync(password, user.hashedPassword)
@@ -33,9 +25,10 @@ export const resolvers = {
       const {token} = cookie.parse(context.req.headers.cookie ?? '')
       if (token) {
         try {
-          const {id, email} = jwt.verify(token, JWT_SECRET)
+          const {id} = jwt.verify(token, JWT_SECRET)
+          const user = await getUserById(id)
 
-          return users.find(user => user.id === id && user.email === email)
+          return user
         } catch {
           throw new AuthenticationError(
             'Authentication token is invalid, please log in',
@@ -49,7 +42,7 @@ export const resolvers = {
       if (token) {
         try {
           const {id} = jwt.verify(token, JWT_SECRET)
-          const user = users.find(user => user.id === id)
+          const user = await getUserById(id)
 
           const notesSnapshot = await firestore.collection('notes').get()
           notesSnapshot.forEach(doc => {
@@ -68,13 +61,13 @@ export const resolvers = {
     async signUp(_parent, args, _context, _info) {
       const user = createUser(args.input)
 
-      users.push(user)
+      addUser(user)
 
       return {user}
     },
 
     async signIn(_parent, args, context, _info) {
-      const user = users.find(user => user.email === args.input.email)
+      const user = await getUserByEmail(args.input.email)
 
       if (user && validPassword(user, args.input.password)) {
         const token = jwt.sign(
@@ -114,6 +107,13 @@ export const resolvers = {
       )
 
       return true
+    },
+    async createNote(_parent, args, _context, _info) {
+      const note = createNote(args.input)
+
+      addNote(note)
+
+      return {note}
     },
   },
 }

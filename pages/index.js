@@ -1,8 +1,8 @@
-import {withApollo} from '../apollo/client'
+import {useQuery} from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import Link from 'next/link'
-import {useQuery} from '@apollo/react-hooks'
 import {useRouter} from 'next/router'
+import {withApollo} from '../apollo/client'
 
 const ViewerQuery = gql`
   query ViewerQuery {
@@ -12,6 +12,7 @@ const ViewerQuery = gql`
     }
     notes {
       id
+      content
     }
   }
 `
@@ -31,17 +32,19 @@ const Index = () => {
   if (data && data.viewer) {
     return (
       <div>
-        You're signed in as {data.viewer.email} goto{' '}
+        You're signed in as {data.viewer.email} go to{' '}
         <Link href="/about">
-          <a>static</a>
+          <a>about</a>
         </Link>{' '}
-        page. or{' '}
+        page, or{' '}
         <Link href="/signout">
-          <a>signout</a>
+          <a>sign out</a>
         </Link>
-        {data.notes?.map(note => (
-          <p>{JSON.stringify(note)}</p>
-        ))}
+        <ul>
+          {data.notes?.map(({id, content}) => (
+            <li key={id}>{content}</li>
+          ))}
+        </ul>
       </div>
     )
   }
