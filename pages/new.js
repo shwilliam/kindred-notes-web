@@ -4,6 +4,7 @@ import {useRouter} from 'next/router'
 import {useState} from 'react'
 import {withApollo} from '../apollo/client'
 import Field from '../components/field'
+import Layout from '../components/layout'
 import {getErrorMessage} from '../lib/form'
 
 const CreateNoteMutation = gql`
@@ -59,15 +60,17 @@ const New = () => {
 
   if (data && data.viewer) {
     return (
-      <form onSubmit={handleSubmit}>
-        {errorMsg && <p>{errorMsg}</p>}
-        {loading && <p>loading...</p>}
-        <Field name="content" type="text" required label="Note" />
-        <Field name="tags" type="text" required label="Tags" />
-        <button disabled={loading} type="submit">
-          Send
-        </button>
-      </form>
+      <Layout>
+        <form onSubmit={handleSubmit}>
+          {errorMsg && <p>{errorMsg}</p>}
+          {loading && <p>loading...</p>}
+          <Field name="content" type="text" required label="Note" />
+          <Field name="tags" type="text" required label="Tags" />
+          <button disabled={loading} type="submit">
+            Send
+          </button>
+        </form>
+      </Layout>
     )
   }
 

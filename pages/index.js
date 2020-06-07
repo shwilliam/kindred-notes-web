@@ -3,6 +3,7 @@ import gql from 'graphql-tag'
 import Link from 'next/link'
 import {useRouter} from 'next/router'
 import {withApollo} from '../apollo/client'
+import Layout from '../components/layout'
 
 const ViewerQuery = gql`
   query ViewerQuery {
@@ -31,7 +32,7 @@ const Index = () => {
 
   if (data && data.viewer) {
     return (
-      <div>
+      <Layout>
         You're signed in as {data.viewer.email} go to{' '}
         <Link href="/about">
           <a>about</a>
@@ -45,7 +46,7 @@ const Index = () => {
             <li key={id}>{content}</li>
           ))}
         </ul>
-      </div>
+      </Layout>
     )
   }
 
