@@ -11,6 +11,8 @@
 html,
 body,
 #__next {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+    Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   height: 100%;
 }
 
@@ -34,10 +36,23 @@ body,
   background-color: var(--color__bg--accent);
 }
 
+.link.-no-ul {
+  text-decoration: none;
+}
+
 .nav {
   width: 100%;
   display: flex;
   justify-content: space-around;
+}
+
+.input.-floating {
+  border: none;
+  background-color: transparent;
+}
+
+.input.-center {
+  text-align: center;
 }
 
 .note-grid {
@@ -55,6 +70,7 @@ body,
   display: flex;
   justify-content: center;
   align-items: center;
+  text-align: center;
   padding: var(--layout__rhythm);
   border: 1px solid currentColor;
   border-radius: 7.5px;
@@ -77,4 +93,12 @@ body,
 
 .note.-border {
   background-color: var(--color__bg);
+}
+
+.note.-hand {
+  font-family: cursive;
+}
+
+.note.-mono {
+  font-family: 'Courier New', Courier, monospace;
 }

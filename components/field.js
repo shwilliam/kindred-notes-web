@@ -1,20 +1,33 @@
-export default function Field(props) {
+export default function Field({
+  name,
+  label,
+  required = false,
+  autoComplete = 'false',
+  placeholder,
+  type = 'text',
+  floating = false,
+  center = false,
+}) {
   return (
     <div>
       <label
-        id={[props.name, 'label'].join('-')}
-        htmlFor={[props.name, 'input'].join('-')}
+        id={[name, 'label'].join('-')}
+        htmlFor={[name, 'input'].join('-')}
+        className={floating ? 'sr-only' : ''}
       >
-        {props.label}{' '}
-        {props.required ? <span title="Required">*</span> : undefined}
+        {label} {required ? <span title="Required">*</span> : undefined}
       </label>
       <br />
       <input
-        autoComplete={props.autoComplete}
-        id={[props.name, 'input'].join('-')}
-        name={props.name}
-        required={props.required}
-        type={props.type}
+        className={`input ${floating ? '-floating' : ''} ${
+          center ? '-center' : ''
+        }`}
+        autoComplete={autoComplete}
+        id={[name, 'input'].join('-')}
+        name={name}
+        required={required}
+        type={type}
+        placeholder={placeholder}
       />
     </div>
   )

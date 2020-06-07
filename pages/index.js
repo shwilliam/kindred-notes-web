@@ -5,6 +5,7 @@ import Link from 'next/link'
 import {useRouter} from 'next/router'
 import {withApollo} from '../apollo/client'
 import Layout from '../components/layout'
+import Note from '../components/note'
 
 const ViewerQuery = gql`
   query ViewerQuery {
@@ -15,10 +16,16 @@ const ViewerQuery = gql`
     notes {
       id
       content
+      color
+      font
+      style
     }
     sentNotes {
       id
       content
+      color
+      font
+      style
     }
   }
 `
@@ -54,10 +61,14 @@ const Index = () => {
           <TabPanels>
             <TabPanel>
               <ul className="note-grid">
-                {data.notes?.map(({id, content}) => (
-                  <li className="note note-grid__cell" key={id}>
+                {data.notes?.map(({id, content, color, style, font}) => (
+                  <li className="note-grid__cell" key={id}>
                     <Link href={`/note/${id}`}>
-                      <a>{content}</a>
+                      <a className="link -no-ul">
+                        <Note color={color} style={style} font={font}>
+                          {content}
+                        </Note>
+                      </a>
                     </Link>
                   </li>
                 ))}
@@ -65,10 +76,14 @@ const Index = () => {
             </TabPanel>
             <TabPanel>
               <ul className="note-grid">
-                {data.sentNotes?.map(({id, content}) => (
-                  <li className="note note-grid__cell" key={id}>
+                {data.sentNotes?.map(({id, content, color, style, font}) => (
+                  <li className="note-grid__cell" key={id}>
                     <Link href={`/note/${id}`}>
-                      <a>{content}</a>
+                      <a className="link -no-ul">
+                        <Note color={color} style={style} font={font}>
+                          {content}
+                        </Note>
+                      </a>
                     </Link>
                   </li>
                 ))}
