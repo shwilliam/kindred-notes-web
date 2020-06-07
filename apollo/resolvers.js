@@ -56,6 +56,21 @@ export const resolvers = {
         return notes
       }
     },
+    async note(_parent, _args, context, _info) {
+      const {token} = cookie.parse(context.req.headers.cookie ?? '')
+
+      if (token) {
+        try {
+          jwt.verify(token, JWT_SECRET)
+          const noteSnapshot = await firestore.collection('notes').get()
+          let note
+          noteSnapshot.forEach(doc => {
+            note = doc.data()
+          })
+          return note
+        } catch {}
+      }
+    },
   },
   Mutation: {
     async signUp(_parent, args, _context, _info) {

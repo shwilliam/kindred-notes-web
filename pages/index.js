@@ -41,9 +41,13 @@ const Index = () => {
         <Link href="/signout">
           <a>sign out</a>
         </Link>
-        <ul>
+        <ul className="note-grid">
           {data.notes?.map(({id, content}) => (
-            <li key={id}>{content}</li>
+            <li className="note note-grid__cell" key={id}>
+              <Link href={`/note/${id}`}>
+                <a>{content}</a>
+              </Link>
+            </li>
           ))}
         </ul>
       </Layout>

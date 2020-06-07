@@ -44,6 +44,7 @@ export const typeDefs = gql`
     users: [User]!
     viewer: User
     notes: [Note]
+    note(id: String!): Note!
   }
 
   type Mutation {
