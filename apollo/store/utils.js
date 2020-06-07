@@ -21,5 +21,8 @@ export function createNote(data) {
     content: data.content,
     author: data.author,
     tags: tags,
+    color: data.color,
+    style: data.style,
+    font: data.font,
   }
 }

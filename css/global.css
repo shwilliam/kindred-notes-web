@@ -1,9 +1,37 @@
+:root {
+  --layout__rhythm: 20px;
+  --color__text: #222;
+  --color__bg: #fefefe;
+  --color__bg--accent: #e5f3f7;
+  --color__accent--blue: lightblue;
+  --color__accent--green: lightgreen;
+  --color__accent--yellow: lightyellow;
+}
+
+html,
+body,
+#__next {
+  height: 100%;
+}
+
+.layout {
+  color: var(--color__text);
+  background-color: var(--color__bg);
+  height: 100%;
+}
+
+.main {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 var(--layout__rhythm);
+}
+
 .footer {
-  position: absolute;
+  position: fixed;
   right: 0;
   bottom: 0;
   left: 0;
-  background-color: #e5f3f7;
+  background-color: var(--color__bg--accent);
 }
 
 .nav {
@@ -14,4 +42,39 @@
 
 .note-grid {
   display: grid;
+  height: 100%;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  grid-auto-rows: 200px;
+  grid-gap: var(--layout__rhythm);
+}
+
+.note-grid__cell {
+}
+
+.note {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: var(--layout__rhythm);
+  border: 1px solid currentColor;
+  border-radius: 7.5px;
+}
+
+.note.-blue {
+  background-color: var(--color__accent--blue);
+  border-color: var(--color__accent--blue);
+}
+
+.note.-green {
+  background-color: var(--color__accent--green);
+  border-color: var(--color__accent--green);
+}
+
+.note.-yellow {
+  background-color: var(--color__accent--yellow);
+  border-color: var(--color__accent--yellow);
+}
+
+.note.-border {
+  background-color: var(--color__bg);
 }

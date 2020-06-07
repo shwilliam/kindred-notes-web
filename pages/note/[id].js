@@ -3,17 +3,21 @@ import gql from 'graphql-tag'
 import {useRouter} from 'next/router'
 import {withApollo} from '../../apollo/client'
 import Layout from '../../components/layout'
+import Note from '../../components/note'
 
 const NoteQuery = gql`
   query NoteQuery($id: String!) {
     note(id: $id) {
       id
       content
+      color
+      style
+      font
     }
   }
 `
 
-function Note() {
+function NotePage() {
   const router = useRouter()
   const {id} = router.query
   const {loading, error, data} = useQuery(NoteQuery, {variables: {id}})
@@ -29,9 +33,11 @@ function Note() {
   const {note} = data
   return (
     <Layout>
-      <p className="note">{note.content}</p>
+      <Note color={note.color} style={note.style} font={note.font}>
+        {note.content}
+      </Note>
     </Layout>
   )
 }
 
-export default withApollo(Note)
+export default withApollo(NotePage)

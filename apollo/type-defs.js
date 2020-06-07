@@ -10,6 +10,9 @@ export const typeDefs = gql`
     id: ID!
     author: String!
     content: String!
+    color: String!
+    style: String!
+    font: String!
   }
 
   input SignUpInput {
@@ -26,6 +29,9 @@ export const typeDefs = gql`
   input CreateNoteInput {
     content: String!
     tags: String!
+    color: String!
+    style: String!
+    font: String!
   }
 
   type SignUpPayload {

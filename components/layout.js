@@ -2,10 +2,10 @@ import Nav from './nav'
 
 export default function Layout({children}) {
   return (
-    <div>
-      <main>{children}</main>
+    <div className="layout">
+      <main className="main">{children}</main>
 
-      <footer>
+      <footer className="footer">
         <Nav />
       </footer>
     </div>
