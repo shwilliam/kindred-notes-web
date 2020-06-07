@@ -1,0 +1,17 @@
+.footer {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: #e5f3f7;
+}
+
+.nav {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+}
+
+.note-grid {
+  display: grid;
+}
