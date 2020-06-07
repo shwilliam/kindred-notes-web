@@ -4,18 +4,22 @@ import jwt from 'jsonwebtoken'
 import getConfig from 'next/config'
 import bcrypt from 'bcrypt'
 import v4 from 'uuid/v4'
+import {firestore} from './store'
 
 const JWT_SECRET = getConfig().serverRuntimeConfig.JWT_SECRET
 
+// FIXME
 const users = []
 
 function createUser(data) {
   const salt = bcrypt.genSaltSync()
+  const interestsArr = data.interests.split(',').map(str => str.toLowerCase())
 
   return {
     id: v4(),
     email: data.email,
     hashedPassword: bcrypt.hashSync(data.password, salt),
+    interests: interestsArr,
   }
 }
 
@@ -37,6 +41,26 @@ export const resolvers = {
             'Authentication token is invalid, please log in',
           )
         }
+      }
+    },
+    async notes(_parent, _args, context, _info) {
+      const {token} = cookie.parse(context.req.headers.cookie ?? '')
+      let notes = []
+      if (token) {
+        try {
+          const {id} = jwt.verify(token, JWT_SECRET)
+          const user = users.find(user => user.id === id)
+
+          const notesSnapshot = await firestore.collection('notes').get()
+          notesSnapshot.forEach(doc => {
+            const note = doc.data()
+
+            if (note.tags.some(tag => user.interests.includes(tag)))
+              notes.push(note)
+          })
+        } catch {}
+
+        return notes
       }
     },
   },

@@ -6,8 +6,14 @@ export const typeDefs = gql`
     email: String!
   }
 
+  type Note {
+    id: ID!
+    content: String!
+  }
+
   input SignUpInput {
     email: String!
+    interests: String!
     password: String!
   }
 
@@ -28,6 +34,7 @@ export const typeDefs = gql`
     user(id: ID!): User!
     users: [User]!
     viewer: User
+    notes: [Note]
   }
 
   type Mutation {

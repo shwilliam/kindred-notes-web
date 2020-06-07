@@ -10,6 +10,9 @@ const ViewerQuery = gql`
       id
       email
     }
+    notes {
+      id
+    }
   }
 `
 
@@ -36,6 +39,9 @@ const Index = () => {
         <Link href="/signout">
           <a>signout</a>
         </Link>
+        {data.notes?.map(note => (
+          <p>{JSON.stringify(note)}</p>
+        ))}
       </div>
     )
   }
