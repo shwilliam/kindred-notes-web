@@ -13,6 +13,8 @@ import {
   getUserById,
 } from './store'
 
+// TODO: handle errors
+
 const JWT_SECRET = getConfig().serverRuntimeConfig.JWT_SECRET
 
 function validPassword(user, password) {
@@ -48,7 +50,10 @@ export const resolvers = {
           notesSnapshot.forEach(doc => {
             const note = doc.data()
 
-            if (note.tags.some(tag => user.interests.includes(tag)))
+            if (
+              note.author !== id &&
+              note.tags.some(tag => user.interests.includes(tag))
+            )
               notes.push(note)
           })
         } catch {}
@@ -56,17 +61,41 @@ export const resolvers = {
         return notes
       }
     },
-    async note(_parent, _args, context, _info) {
+    async sentNotes(_parent, _args, context, _info) {
+      const {token} = cookie.parse(context.req.headers.cookie ?? '')
+      let notes = []
+      if (token) {
+        try {
+          const {id} = jwt.verify(token, JWT_SECRET)
+          const user = await getUserById(id)
+
+          const notesSnapshot = await firestore.collection('notes').get()
+          notesSnapshot.forEach(doc => {
+            const note = doc.data()
+
+            if (note.author === id) notes.push(note)
+          })
+        } catch {}
+
+        return notes
+      }
+    },
+    async note(_parent, args, context, _info) {
       const {token} = cookie.parse(context.req.headers.cookie ?? '')
 
       if (token) {
         try {
           jwt.verify(token, JWT_SECRET)
-          const noteSnapshot = await firestore.collection('notes').get()
+          const noteSnapshot = await firestore
+            .collection('notes')
+            .where('id', '==', args.id)
+            .get()
+
           let note
           noteSnapshot.forEach(doc => {
             note = doc.data()
           })
+
           return note
         } catch {}
       }
@@ -123,12 +152,18 @@ export const resolvers = {
 
       return true
     },
-    async createNote(_parent, args, _context, _info) {
-      const note = createNote(args.input)
+    async createNote(_parent, args, context, _info) {
+      const {token} = cookie.parse(context.req.headers.cookie ?? '')
+      if (token) {
+        try {
+          const {id} = jwt.verify(token, JWT_SECRET)
+          const note = createNote({...args.input, author: id})
 
-      addNote(note)
+          addNote(note)
 
-      return {note}
+          return {note}
+        } catch {}
+      }
     },
   },
 }

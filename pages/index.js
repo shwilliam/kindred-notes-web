@@ -1,4 +1,5 @@
 import {useQuery} from '@apollo/react-hooks'
+import {Tab, TabList, TabPanel, TabPanels, Tabs} from '@reach/tabs'
 import gql from 'graphql-tag'
 import Link from 'next/link'
 import {useRouter} from 'next/router'
@@ -12,6 +13,10 @@ const ViewerQuery = gql`
       email
     }
     notes {
+      id
+      content
+    }
+    sentNotes {
       id
       content
     }
@@ -41,15 +46,36 @@ const Index = () => {
         <Link href="/signout">
           <a>sign out</a>
         </Link>
-        <ul className="note-grid">
-          {data.notes?.map(({id, content}) => (
-            <li className="note note-grid__cell" key={id}>
-              <Link href={`/note/${id}`}>
-                <a>{content}</a>
-              </Link>
-            </li>
-          ))}
-        </ul>
+        <Tabs>
+          <TabList>
+            <Tab>Received</Tab>
+            <Tab>Sent</Tab>
+          </TabList>
+          <TabPanels>
+            <TabPanel>
+              <ul className="note-grid">
+                {data.notes?.map(({id, content}) => (
+                  <li className="note note-grid__cell" key={id}>
+                    <Link href={`/note/${id}`}>
+                      <a>{content}</a>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </TabPanel>
+            <TabPanel>
+              <ul className="note-grid">
+                {data.sentNotes?.map(({id, content}) => (
+                  <li className="note note-grid__cell" key={id}>
+                    <Link href={`/note/${id}`}>
+                      <a>{content}</a>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </TabPanel>
+          </TabPanels>
+        </Tabs>
       </Layout>
     )
   }

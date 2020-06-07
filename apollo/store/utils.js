@@ -19,6 +19,7 @@ export function createNote(data) {
   return {
     id: v4(),
     content: data.content,
+    author: data.author,
     tags: tags,
   }
 }

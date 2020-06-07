@@ -8,6 +8,7 @@ export const typeDefs = gql`
 
   type Note {
     id: ID!
+    author: String!
     content: String!
   }
 
@@ -44,6 +45,7 @@ export const typeDefs = gql`
     users: [User]!
     viewer: User
     notes: [Note]
+    sentNotes: [Note]
     note(id: String!): Note!
   }
 
