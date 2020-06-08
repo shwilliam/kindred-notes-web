@@ -26,6 +26,7 @@ function NotePage() {
   if (loading)
     return (
       <Layout>
+        <header className="header">Note</header>
         <p>loading...</p>
       </Layout>
     )
@@ -33,7 +34,10 @@ function NotePage() {
   const {note} = data
   return (
     <Layout>
-      <Note color={note.color} style={note.style} font={note.font}>
+      <header className="header">
+        <h1>Note</h1>
+      </header>
+      <Note color={note.color} style={note.style} font={note.font} full>
         {note.content}
       </Note>
     </Layout>

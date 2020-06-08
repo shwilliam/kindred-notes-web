@@ -1,11 +1,12 @@
-import {useState} from 'react'
-import Link from 'next/link'
-import {withApollo} from '../apollo/client'
+import {useApolloClient, useMutation} from '@apollo/react-hooks'
 import gql from 'graphql-tag'
-import {useMutation, useApolloClient} from '@apollo/react-hooks'
+import Link from 'next/link'
+import {useRouter} from 'next/router'
+import {useState} from 'react'
+import {withApollo} from '../apollo/client'
+import AuthLayout from '../components/auth-layout'
 import Field from '../components/field'
 import {getErrorMessage} from '../lib/form'
-import {useRouter} from 'next/router'
 
 const SignInMutation = gql`
   mutation SignInMutation($email: String!, $password: String!) {
@@ -47,7 +48,7 @@ function SignIn() {
   }
 
   return (
-    <>
+    <AuthLayout>
       <h1>Sign In</h1>
       <form onSubmit={handleSubmit}>
         {errorMsg && <p>{errorMsg}</p>}
@@ -55,6 +56,7 @@ function SignIn() {
           name="email"
           type="email"
           autoComplete="email"
+          placeholder="Email"
           required
           label="Email"
         />
@@ -62,15 +64,21 @@ function SignIn() {
           name="password"
           type="password"
           autoComplete="password"
+          placeholder="Password"
           required
           label="Password"
         />
-        <button type="submit">Sign in</button> or{' '}
-        <Link href="signup">
-          <a>Sign up</a>
-        </Link>
+        <button className="button -full" type="submit">
+          Login
+        </button>
+        <p>
+          Don't have an account?{' '}
+          <Link href="signup">
+            <a>Sign up</a>
+          </Link>
+        </p>
       </form>
-    </>
+    </AuthLayout>
   )
 }
 

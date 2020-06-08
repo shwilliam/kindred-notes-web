@@ -5,6 +5,9 @@ import {useState} from 'react'
 import TagsInput from 'react-tagsinput'
 import {withApollo} from '../apollo/client'
 import Field from '../components/field'
+import IconFont from '../components/icons/font'
+import IconPalette from '../components/icons/palette'
+import IconSquare from '../components/icons/square'
 import Layout from '../components/layout'
 import Note from '../components/note'
 import {getErrorMessage} from '../lib/form'
@@ -96,34 +99,67 @@ const New = () => {
   if (data && data.viewer) {
     return (
       <Layout>
+        <header className="header">
+          <h1>New note</h1>
+        </header>
         <form onSubmit={handleSubmit}>
           {errorMsg && <p>{errorMsg}</p>}
           {loading && <p>loading...</p>}
-          <Note color={colorVal} style={styleVal} font={fontVal}>
+          <Note color={colorVal} style={styleVal} font={fontVal} full>
             <Field
+              className="note__input"
               name="content"
               type="text"
               required
               label="Note"
               placeholder="Write a kind note"
+              invert={styleVal === 'FILL'}
               floating
               center
             />
+            <section className="note__actions">
+              <button
+                className="button -floating"
+                onClick={nextColor}
+                type="button"
+              >
+                <span className="sr-only">{colorVal}</span>
+                <IconPalette
+                  className={`icon -${colorVal.toLowerCase()} -${styleVal.toLowerCase()}`}
+                />
+              </button>
+              <button
+                className="button -floating"
+                onClick={nextStyle}
+                type="button"
+              >
+                <span className="sr-only">{styleVal}</span>
+                <IconSquare
+                  className={`icon -${colorVal.toLowerCase()} -${styleVal.toLowerCase()}`}
+                  fill={styleVal === 'FILL'}
+                />
+              </button>
+              <button
+                className="button -floating"
+                onClick={nextFont}
+                type="button"
+              >
+                <span className="sr-only">{fontVal}</span>
+                <IconFont
+                  className={`icon -${colorVal.toLowerCase()} -${styleVal.toLowerCase()}`}
+                />
+              </button>
+            </section>
           </Note>
-          <label>Tag related topics</label>
-          <TagsInput value={tags} onChange={setTags} />
-          <button onClick={nextColor} type="button">
-            {colorVal}
-          </button>
-          <button onClick={nextStyle} type="button">
-            {styleVal}
-          </button>
-          <button onClick={nextFont} type="button">
-            {fontVal}
-          </button>
-          <button disabled={loading} type="submit">
-            Send
-          </button>
+
+          <div className="wrapper">
+            <label>Tag related topics</label>
+            <TagsInput value={tags} onChange={setTags} />
+
+            <button className="button -full" disabled={loading} type="submit">
+              Post
+            </button>
+          </div>
         </form>
       </Layout>
     )

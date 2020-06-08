@@ -1,11 +1,12 @@
 :root {
   --layout__rhythm: 20px;
   --color__text: #222;
+  --color__text--invert: #fefefe;
   --color__bg: #fefefe;
-  --color__bg--accent: #e5f3f7;
-  --color__accent--blue: lightblue;
-  --color__accent--green: lightgreen;
-  --color__accent--yellow: lightyellow;
+  --color__ui: #ebf5f8;
+  --color__accent--blue: #48a9c6;
+  --color__accent--green: #56c298;
+  --color__accent--yellow: #ffc53f;
 }
 
 html,
@@ -16,16 +17,30 @@ body,
   height: 100%;
 }
 
+.wrapper {
+  height: 100%;
+  width: 80%;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
 .layout {
   color: var(--color__text);
   background-color: var(--color__bg);
   height: 100%;
 }
 
-.main {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 0 var(--layout__rhythm);
+.layout.-fill {
+  background-color: var(--color__ui);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.header {
+  min-height: 100px;
+  background-color: var(--color__ui);
 }
 
 .footer {
@@ -33,11 +48,31 @@ body,
   right: 0;
   bottom: 0;
   left: 0;
-  background-color: var(--color__bg--accent);
+  background-color: var(--color__ui);
+}
+
+.link {
+  display: block;
+  height: 100%;
 }
 
 .link.-no-ul {
   text-decoration: none;
+}
+
+[data-reach-tab-list],
+[data-reach-tab] {
+  background-color: var(--color__ui);
+  color: var(--color__accent--blue);
+}
+
+[data-reach-tab-list] {
+  display: flex;
+}
+
+[data-reach-tab] {
+  width: 50%;
+  padding: calc(var(--layout__rhythm) / 2);
 }
 
 .nav {
@@ -46,13 +81,62 @@ body,
   justify-content: space-around;
 }
 
+.nav__link {
+  padding: var(--layout__rhythm);
+}
+
+.nav__icon {
+  color: var(--color__accent--blue);
+  height: 28px;
+  width: 28px;
+}
+
+.nav__icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.input {
+  background-color: transparent;
+  border: none;
+  border-bottom: 1px solid var(--color__text);
+}
+
 .input.-floating {
   border: none;
-  background-color: transparent;
+}
+
+.input.-invert {
+  color: var(--color__text--invert);
 }
 
 .input.-center {
   text-align: center;
+}
+
+a.button,
+.button {
+  cursor: pointer;
+  color: var(--color__text--invert);
+  text-decoration: none;
+  background-color: var(--color__accent--blue);
+  padding: calc(var(--layout__rhythm) / 2) var(--layout__rhythm);
+  margin: var(--layout__rhythm) 0;
+  border: none;
+  border-radius: 4px;
+}
+
+.button.-full {
+  text-align: center;
+  display: block;
+  width: 100%;
+}
+
+.button.-floating {
+  border: none;
+  padding: var(--layout__rhythm);
+  background-color: transparent;
+  margin: 0;
 }
 
 .note-grid {
@@ -61,19 +145,30 @@ body,
   grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
   grid-auto-rows: 200px;
   grid-gap: var(--layout__rhythm);
+  border: var(--layout__rhythm) solid var(--color__bg);
 }
 
 .note-grid__cell {
+  height: 150px;
 }
 
 .note {
+  margin: 0 auto;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   text-align: center;
   padding: var(--layout__rhythm);
   border: 1px solid currentColor;
-  border-radius: 7.5px;
+  border-radius: 5px;
+}
+
+.note.-full {
+  height: 300px;
+  margin: var(--layout__rhythm) auto;
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 1px -1px,
+    rgba(0, 0, 0, 0.14) 0px 1px 1px 0px, rgba(0, 0, 0, 0.12) 0px 1px 3px 0px;
 }
 
 .note.-blue {
@@ -91,6 +186,10 @@ body,
   border-color: var(--color__accent--yellow);
 }
 
+.note.-fill {
+  color: var(--color__text--invert);
+}
+
 .note.-border {
   background-color: var(--color__bg);
 }
@@ -101,4 +200,38 @@ body,
 
 .note.-mono {
   font-family: 'Courier New', Courier, monospace;
+}
+
+.note__actions {
+  justify-self: flex-end;
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+}
+
+.note__input {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.icon {
+  overflow: visible;
+}
+
+.icon.-blue {
+  color: var(--color__accent--blue);
+}
+
+.icon.-green {
+  color: var(--color__accent--green);
+}
+
+.icon.-yellow {
+  color: var(--color__accent--yellow);
+}
+
+.icon.-fill {
+  color: var(--color__bg);
 }

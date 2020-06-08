@@ -45,14 +45,21 @@ const Index = () => {
   if (data && data.viewer) {
     return (
       <Layout>
-        You're signed in as {data.viewer.email} go to{' '}
-        <Link href="/about">
-          <a>about</a>
-        </Link>{' '}
-        page, or{' '}
-        <Link href="/signout">
-          <a>sign out</a>
-        </Link>
+        <header className="header">
+          <h1>Kindred Notes</h1>
+
+          <div>
+            You're signed in as {data.viewer.email} go to{' '}
+            <Link href="/about">
+              <a>about</a>
+            </Link>{' '}
+            page, or{' '}
+            <Link href="/signout">
+              <a>sign out</a>
+            </Link>
+          </div>
+        </header>
+
         <Tabs>
           <TabList>
             <Tab>Received</Tab>

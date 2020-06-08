@@ -7,21 +7,23 @@ export default function Field({
   type = 'text',
   floating = false,
   center = false,
+  invert = false,
+  ...props
 }) {
   return (
-    <div>
+    <div {...props}>
       <label
         id={[name, 'label'].join('-')}
         htmlFor={[name, 'input'].join('-')}
-        className={floating ? 'sr-only' : ''}
+        className="sr-only"
       >
         {label} {required ? <span title="Required">*</span> : undefined}
       </label>
-      <br />
+      {!floating && <br />}
       <input
         className={`input ${floating ? '-floating' : ''} ${
           center ? '-center' : ''
-        }`}
+        } ${invert ? '-invert' : ''}`}
         autoComplete={autoComplete}
         id={[name, 'input'].join('-')}
         name={name}
