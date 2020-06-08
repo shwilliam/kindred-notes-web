@@ -1,3 +1,4 @@
+const firebase = require('@firebase/app').default
 import {AuthenticationError, UserInputError} from 'apollo-server-micro'
 import bcrypt from 'bcrypt'
 import cookie from 'cookie'
@@ -7,6 +8,7 @@ import {
   addNote,
   addUser,
   createNote,
+  createReply,
   createUser,
   firestore,
   getUserByEmail,
@@ -66,13 +68,14 @@ export const resolvers = {
       if (token) {
         try {
           const {id} = jwt.verify(token, JWT_SECRET)
-          const user = await getUserById(id)
 
           const notesSnapshot = await firestore.collection('notes').get()
           notesSnapshot.forEach(doc => {
             const note = doc.data()
 
-            if (note.author === id) notes.push(note)
+            if (note.author === id) {
+              notes.push(note)
+            }
           })
         } catch {}
 
@@ -85,17 +88,37 @@ export const resolvers = {
       if (token) {
         try {
           jwt.verify(token, JWT_SECRET)
+
           const noteSnapshot = await firestore
             .collection('notes')
             .where('id', '==', args.id)
             .get()
 
-          let note
+          let noteDoc
           noteSnapshot.forEach(doc => {
-            note = doc.data()
+            noteDoc = doc
           })
 
-          return note
+          const note = noteDoc.data()
+
+          const replies = []
+
+          if (note.replies) {
+            await Promise.all(
+              note.replies.map(async replyId => {
+                const repliesSnapshot = await noteDoc.ref
+                  .collection('replies')
+                  .doc(replyId)
+                  .get()
+
+                const reply = repliesSnapshot.data()
+
+                replies.push(reply)
+              }),
+            )
+          }
+
+          return {...note, replies}
         } catch {}
       }
     },
@@ -108,7 +131,6 @@ export const resolvers = {
 
       return {user}
     },
-
     async signIn(_parent, args, context, _info) {
       const user = await getUserByEmail(args.input.email)
 
@@ -161,6 +183,40 @@ export const resolvers = {
           addNote(note)
 
           return {note}
+        } catch {}
+      }
+    },
+    async createReply(_parent, args, context, _info) {
+      const {token} = cookie.parse(context.req.headers.cookie ?? '')
+      if (token) {
+        try {
+          const {id} = jwt.verify(token, JWT_SECRET)
+
+          const noteSnapshot = await firestore
+            .collection('notes')
+            .where('id', '==', args.input.noteId)
+            .get()
+
+          const reply = createReply({...args.input, author: id})
+
+          const batch = firestore.batch()
+
+          let noteRef
+          noteSnapshot.forEach(async doc => {
+            noteRef = doc.ref
+          })
+
+          // add reply to subcollection
+          batch.set(noteRef.collection('replies').doc(reply.id), reply)
+
+          // add reply doc id to note replies field
+          batch.update(noteRef, {
+            replies: firebase.firestore.FieldValue.arrayUnion(reply.id),
+          })
+
+          await batch.commit()
+
+          return {reply}
         } catch {}
       }
     },

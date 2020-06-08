@@ -24,3 +24,11 @@ export const createNote = data => {
     font: data.font,
   }
 }
+
+export const createReply = data => {
+  return {
+    id: v4(),
+    content: data.content,
+    author: data.author,
+  }
+}

@@ -6,6 +6,12 @@ export const typeDefs = gql`
     email: String!
   }
 
+  type Reply {
+    id: ID!
+    content: String!
+    author: String!
+  }
+
   type Note {
     id: ID!
     author: String!
@@ -13,6 +19,16 @@ export const typeDefs = gql`
     color: String!
     style: String!
     font: String!
+  }
+
+  type NoteWithReplies {
+    id: ID!
+    author: String!
+    content: String!
+    color: String!
+    style: String!
+    font: String!
+    replies: [Reply]
   }
 
   input SignUpInput {
@@ -34,6 +50,11 @@ export const typeDefs = gql`
     font: String!
   }
 
+  input CreateReplyInput {
+    content: String!
+    noteId: String!
+  }
+
   type SignUpPayload {
     user: User!
   }
@@ -46,13 +67,17 @@ export const typeDefs = gql`
     note: Note!
   }
 
+  type CreateReplyPayload {
+    reply: Reply!
+  }
+
   type Query {
     user(id: ID!): User!
     users: [User]!
     viewer: User
     notes: [Note]
     sentNotes: [Note]
-    note(id: String!): Note!
+    note(id: String!): NoteWithReplies!
   }
 
   type Mutation {
@@ -60,5 +85,6 @@ export const typeDefs = gql`
     signIn(input: SignInInput!): SignInPayload!
     signOut: Boolean!
     createNote(input: CreateNoteInput!): CreateNotePayload!
+    createReply(input: CreateReplyInput!): CreateReplyPayload!
   }
 `
