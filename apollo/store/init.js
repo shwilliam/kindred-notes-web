@@ -1,11 +1,18 @@
 const firebase = require('@firebase/app').default
 require('@firebase/firestore')
+import getConfig from 'next/config'
+
+const {
+  FIREBASE_KEY,
+  FIREBASE_DOMAIN,
+  FIREBASE_ID,
+} = getConfig().serverRuntimeConfig
 
 try {
   firebase.initializeApp({
-    apiKey: process.env.FIREBASE_KEY,
-    authDomain: process.env.FIREBASE_DOMAIN,
-    projectId: process.env.FIREBASE_ID,
+    apiKey: FIREBASE_KEY,
+    authDomain: FIREBASE_DOMAIN,
+    projectId: FIREBASE_ID,
   })
 } catch (err) {
   if (/already exists/.test(err.message))

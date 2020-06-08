@@ -15,7 +15,7 @@ import {
 
 // TODO: handle errors
 
-const JWT_SECRET = getConfig().serverRuntimeConfig.JWT_SECRET
+const {JWT_SECRET} = getConfig().serverRuntimeConfig
 
 function validPassword(user, password) {
   return bcrypt.compareSync(password, user.hashedPassword)
