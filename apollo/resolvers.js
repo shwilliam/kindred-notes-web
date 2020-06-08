@@ -17,9 +17,8 @@ import {
 
 const {JWT_SECRET} = getConfig().serverRuntimeConfig
 
-function validPassword(user, password) {
-  return bcrypt.compareSync(password, user.hashedPassword)
-}
+const isValidPassword = (user, password) =>
+  bcrypt.compareSync(password, user.hashedPassword)
 
 export const resolvers = {
   Query: {
@@ -113,7 +112,7 @@ export const resolvers = {
     async signIn(_parent, args, context, _info) {
       const user = await getUserByEmail(args.input.email)
 
-      if (user && validPassword(user, args.input.password)) {
+      if (user && isValidPassword(user, args.input.password)) {
         const token = jwt.sign(
           {email: user.email, id: user.id, time: new Date()},
           JWT_SECRET,

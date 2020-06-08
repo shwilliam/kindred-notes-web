@@ -1,7 +1,7 @@
 import bcrypt from 'bcrypt'
 import v4 from 'uuid/v4'
 
-export function createUser(data) {
+export const createUser = data => {
   const salt = bcrypt.genSaltSync()
   const interestsArr = data.interests.split(',').map(str => str.toLowerCase())
 
@@ -13,7 +13,7 @@ export function createUser(data) {
   }
 }
 
-export function createNote(data) {
+export const createNote = data => {
   return {
     id: v4(),
     content: data.content,

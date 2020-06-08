@@ -1,6 +1,6 @@
 import {firestore} from './index'
 
-export async function getUserById(id) {
+export const getUserById = async id => {
   let user
   try {
     const usersSnapshot = await firestore
@@ -13,7 +13,7 @@ export async function getUserById(id) {
   return user
 }
 
-export async function getUserByEmail(email) {
+export const getUserByEmail = async email => {
   let user
   try {
     const usersSnapshot = await firestore

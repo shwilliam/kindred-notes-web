@@ -1,5 +1,5 @@
-export default function Pen({fill = false, ...props}) {
-  return fill ? (
+export const IconPen = ({fill = false, ...props}) =>
+  fill ? (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width="23.971"
@@ -92,4 +92,3 @@ export default function Pen({fill = false, ...props}) {
       </g>
     </svg>
   )
-}

@@ -1,5 +1,5 @@
-export default function Square({fill = false, ...props}) {
-  return fill ? (
+export const IconSquare = ({fill = false, ...props}) =>
+  fill ? (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width="25"
@@ -38,4 +38,3 @@ export default function Square({fill = false, ...props}) {
       </g>
     </svg>
   )
-}

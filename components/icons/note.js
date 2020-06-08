@@ -1,5 +1,5 @@
-export default function Note({fill = false, ...props}) {
-  return fill ? (
+export const IconNote = ({fill = false, ...props}) =>
+  fill ? (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width="20.028"
@@ -98,4 +98,3 @@ export default function Note({fill = false, ...props}) {
       </g>
     </svg>
   )
-}

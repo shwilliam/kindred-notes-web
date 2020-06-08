@@ -4,8 +4,7 @@ import gql from 'graphql-tag'
 import Link from 'next/link'
 import {useRouter} from 'next/router'
 import {withApollo} from '../apollo/client'
-import Layout from '../components/layout'
-import Note from '../components/note'
+import {Layout, Note} from '../components'
 
 const ViewerQuery = gql`
   query ViewerQuery {

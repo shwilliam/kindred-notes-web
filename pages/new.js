@@ -4,12 +4,14 @@ import {useRouter} from 'next/router'
 import {useState} from 'react'
 import TagsInput from 'react-tagsinput'
 import {withApollo} from '../apollo/client'
-import Field from '../components/field'
-import IconFont from '../components/icons/font'
-import IconPalette from '../components/icons/palette'
-import IconSquare from '../components/icons/square'
-import Layout from '../components/layout'
-import Note from '../components/note'
+import {
+  Field,
+  IconFont,
+  IconPalette,
+  IconSquare,
+  Layout,
+  Note,
+} from '../components'
 import {getErrorMessage} from '../lib/form'
 
 const CreateNoteMutation = gql`
@@ -68,7 +70,7 @@ const New = () => {
   const router = useRouter()
   const {data, loading} = useQuery(ViewerQuery)
 
-  async function handleSubmit(event) {
+  const handleSubmit = async event => {
     event.preventDefault()
     const contentElement = event.currentTarget.elements.content
 

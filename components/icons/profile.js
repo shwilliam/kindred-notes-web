@@ -1,5 +1,5 @@
-export default function Profile({fill = false, ...props}) {
-  return fill ? (
+export const IconProfile = ({fill = false, ...props}) =>
+  fill ? (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width="19.079"
@@ -58,4 +58,3 @@ export default function Profile({fill = false, ...props}) {
       </g>
     </svg>
   )
-}

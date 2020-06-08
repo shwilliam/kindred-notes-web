@@ -2,8 +2,7 @@ import {useQuery} from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import {useRouter} from 'next/router'
 import {withApollo} from '../../apollo/client'
-import Layout from '../../components/layout'
-import Note from '../../components/note'
+import {Layout, Note} from '../../components'
 
 const NoteQuery = gql`
   query NoteQuery($id: String!) {
@@ -17,7 +16,7 @@ const NoteQuery = gql`
   }
 `
 
-function NotePage() {
+const NotePage = () => {
   const router = useRouter()
   const {id} = router.query
   const {loading, error, data} = useQuery(NoteQuery, {variables: {id}})

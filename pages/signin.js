@@ -4,8 +4,7 @@ import Link from 'next/link'
 import {useRouter} from 'next/router'
 import {useState} from 'react'
 import {withApollo} from '../apollo/client'
-import AuthLayout from '../components/auth-layout'
-import Field from '../components/field'
+import {AuthLayout, Field} from '../components'
 import {getErrorMessage} from '../lib/form'
 
 const SignInMutation = gql`
@@ -19,13 +18,13 @@ const SignInMutation = gql`
   }
 `
 
-function SignIn() {
+const SignIn = () => {
   const client = useApolloClient()
   const [signIn] = useMutation(SignInMutation)
   const [errorMsg, setErrorMsg] = useState()
   const router = useRouter()
 
-  async function handleSubmit(event) {
+  const handleSubmit = async event => {
     event.preventDefault()
 
     const emailElement = event.currentTarget.elements.email

@@ -1,13 +1,11 @@
-import Nav from './nav'
+import {Nav} from './index'
 
-export default function Layout({children}) {
-  return (
-    <div className="layout">
-      {children}
+export const Layout = ({children}) => (
+  <div className="layout">
+    {children}
 
-      <footer className="footer">
-        <Nav />
-      </footer>
-    </div>
-  )
-}
+    <footer className="footer">
+      <Nav />
+    </footer>
+  </div>
+)

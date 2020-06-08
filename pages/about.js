@@ -1,10 +1,9 @@
-import Link from 'next/link'
-import Layout from '../components/layout'
+import {Layout} from '../components'
 
 // FIXME: hide footer
 // TODO: link to sign up
 
-export default function About() {
+const About = () => {
   return (
     <Layout>
       <header className="header">
@@ -31,3 +30,5 @@ export default function About() {
     </Layout>
   )
 }
+
+export default About

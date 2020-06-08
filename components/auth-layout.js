@@ -1,3 +1,3 @@
-export default function AuthLayout({children}) {
-  return <div className="layout -fill">{children}</div>
-}
+export const AuthLayout = ({children}) => (
+  <div className="layout -fill">{children}</div>
+)

@@ -1,4 +1,4 @@
-export default function Field({
+export const Field = ({
   name,
   label,
   required = false,
@@ -9,28 +9,26 @@ export default function Field({
   center = false,
   invert = false,
   ...props
-}) {
-  return (
-    <div {...props}>
-      <label
-        id={[name, 'label'].join('-')}
-        htmlFor={[name, 'input'].join('-')}
-        className="sr-only"
-      >
-        {label} {required ? <span title="Required">*</span> : undefined}
-      </label>
-      {!floating && <br />}
-      <input
-        className={`input ${floating ? '-floating' : ''} ${
-          center ? '-center' : ''
-        } ${invert ? '-invert' : ''}`}
-        autoComplete={autoComplete}
-        id={[name, 'input'].join('-')}
-        name={name}
-        required={required}
-        type={type}
-        placeholder={placeholder}
-      />
-    </div>
-  )
-}
+}) => (
+  <div {...props}>
+    <label
+      id={[name, 'label'].join('-')}
+      htmlFor={[name, 'input'].join('-')}
+      className="sr-only"
+    >
+      {label} {required ? <span title="Required">*</span> : undefined}
+    </label>
+    {!floating && <br />}
+    <input
+      className={`input ${floating ? '-floating' : ''} ${
+        center ? '-center' : ''
+      } ${invert ? '-invert' : ''}`}
+      autoComplete={autoComplete}
+      id={[name, 'input'].join('-')}
+      name={name}
+      required={required}
+      type={type}
+      placeholder={placeholder}
+    />
+  </div>
+)

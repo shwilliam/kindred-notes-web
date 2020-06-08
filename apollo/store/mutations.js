@@ -1,6 +1,6 @@
 import {firestore} from './index'
 
-export async function addUser(user) {
+export const addUser = async user => {
   try {
     const newUser = await firestore.collection('users').add(user)
     return newUser
@@ -9,7 +9,7 @@ export async function addUser(user) {
   }
 }
 
-export async function addNote(note) {
+export const addNote = async note => {
   try {
     const newNote = await firestore.collection('notes').add(note)
     return newNote
