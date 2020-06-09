@@ -2,7 +2,6 @@ import {useMutation, useQuery} from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import {useRouter} from 'next/router'
 import {useState} from 'react'
-import TagsInput from 'react-tagsinput'
 import {withApollo} from '../apollo/client'
 import {
   Field,
@@ -12,6 +11,7 @@ import {
   IconSquare,
   Layout,
   Note,
+  TagsInput,
 } from '../components'
 import {getErrorMessage} from '../lib/form'
 
@@ -66,7 +66,7 @@ const New = () => {
   const [colorVal, nextColor] = useArrayIterator(NOTE_OPTIONS.color)
   const [styleVal, nextStyle] = useArrayIterator(NOTE_OPTIONS.style)
   const [fontVal, nextFont] = useArrayIterator(NOTE_OPTIONS.font)
-  const [tags, setTags] = useState([])
+  const [topicsVal, setTopicsVal] = useState([])
   const [errorMsg, setErrorMsg] = useState()
   const router = useRouter()
   const {data, loading} = useQuery(ViewerQuery)
@@ -79,7 +79,7 @@ const New = () => {
       await createNote({
         variables: {
           content: contentElement.value,
-          tags,
+          tags: topicsVal,
           color: colorVal,
           style: styleVal,
           font: fontVal,
@@ -89,6 +89,15 @@ const New = () => {
     } catch (error) {
       setErrorMsg(getErrorMessage(error))
     }
+  }
+
+  const handleTagClick = ({target}) => {
+    setTopicsVal(s => {
+      const topics = [...s]
+      console.log(topics)
+      topics.splice(target.dataset.idx, 1)
+      return topics
+    })
   }
 
   if (
@@ -158,7 +167,25 @@ const New = () => {
 
           <div className="wrapper">
             <label>Tag related topics</label>
-            <TagsInput value={tags} onChange={setTags} />
+            <TagsInput
+              className="input -center note__input"
+              value={topicsVal}
+              onChange={setTopicsVal}
+              placeholder="Anxiety"
+            />
+
+            <ul className="tags">
+              {topicsVal?.map((topic, idx) => (
+                <li
+                  key={idx}
+                  data-idx={idx}
+                  className="tag"
+                  onClick={handleTagClick}
+                >
+                  {topic}
+                </li>
+              ))}
+            </ul>
 
             <button className="button -full" disabled={loading} type="submit">
               Post

@@ -28,7 +28,6 @@
     "prop-types": "^15.6.2",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
-    "react-tagsinput": "^3.19.0",
     "uuid": "3.4.0"
   },
   "author": "William L <w-lindvall@outlook.com>",
