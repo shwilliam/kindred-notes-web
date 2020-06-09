@@ -3,7 +3,7 @@ import gql from 'graphql-tag'
 import Link from 'next/link'
 import {useRouter} from 'next/router'
 import {withApollo} from '../apollo/client'
-import {Layout, Note, TagsInput} from '../components'
+import {FadeIn, Note, TagsInput} from '../components'
 
 const ViewerQuery = gql`
   query ViewerQuery {
@@ -54,7 +54,7 @@ const Profile = () => {
 
   if (data && data.viewer) {
     return (
-      <Layout>
+      <FadeIn>
         <header className="wrapper">
           <h1 className="sr-only">Profile</h1>
         </header>
@@ -102,7 +102,7 @@ const Profile = () => {
             </Link>
           </footer>
         </main>
-      </Layout>
+      </FadeIn>
     )
   }
 

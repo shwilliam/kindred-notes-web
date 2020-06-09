@@ -3,7 +3,7 @@ import gql from 'graphql-tag'
 import {useRouter} from 'next/router'
 import {useState} from 'react'
 import {withApollo} from '../../apollo/client'
-import {Field, IconBookmark, IconLogo, Layout, Note} from '../../components'
+import {FadeIn, Field, IconBookmark, IconLogo, Note} from '../../components'
 import {getErrorMessage} from '../../lib/form'
 
 const NoteQuery = gql`
@@ -91,17 +91,17 @@ const NotePage = () => {
   if (error) return <p>oops</p>
   if (loading)
     return (
-      <Layout>
+      <>
         <header className="header">Note</header>
         <p>loading...</p>
-      </Layout>
+      </>
     )
 
   const {note, viewer} = data
   const isBookmarked = viewer.bookmarks?.includes(note.id)
   const isOwn = note.author === viewer.id
   return (
-    <Layout>
+    <FadeIn>
       <header className="header">
         <h1 className="sr-only">Note</h1>
         <IconLogo className="header__logo" />
@@ -118,7 +118,7 @@ const NotePage = () => {
         {note.content}
       </Note>
 
-      {isOwn && note.replies && (
+      {isOwn && note?.replies.length > 0 && (
         <section className="wrapper">
           <h2 className="title">Who appreciated your note</h2>
           <ul>
@@ -147,7 +147,7 @@ const NotePage = () => {
           </button>
         </form>
       )}
-    </Layout>
+    </FadeIn>
   )
 }
 

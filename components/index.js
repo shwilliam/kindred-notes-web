@@ -1,4 +1,5 @@
 export * from './auth-layout'
+export * from './fade-in'
 export * from './field'
 export * from './icons'
 export * from './layout'

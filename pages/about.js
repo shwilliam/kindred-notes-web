@@ -1,11 +1,11 @@
-import {Layout} from '../components'
+import {FadeIn} from '../components'
 
 // FIXME: hide footer
 // TODO: link to sign up
 
 const About = () => {
   return (
-    <Layout>
+    <FadeIn>
       <header className="header">
         <h1>About</h1>
       </header>
@@ -27,7 +27,7 @@ const About = () => {
         our many differences in perspectives, beliefs and values, that at the
         core, we are all the same.
       </p>
-    </Layout>
+    </FadeIn>
   )
 }
 

@@ -3,16 +3,7 @@ import gql from 'graphql-tag'
 import {useRouter} from 'next/router'
 import {useState} from 'react'
 import {withApollo} from '../apollo/client'
-import {
-  Field,
-  IconFont,
-  IconLogo,
-  IconPalette,
-  IconSquare,
-  Layout,
-  Note,
-  TagsInput,
-} from '../components'
+import {FadeIn, Field, IconFont, IconLogo, IconPalette, IconSquare, Note, TagsInput} from '../components'
 import {getErrorMessage} from '../lib/form'
 
 const CreateNoteMutation = gql`
@@ -110,7 +101,7 @@ const New = () => {
 
   if (data && data.viewer) {
     return (
-      <Layout>
+      <FadeIn>
         <header className="header">
           <h1 className="sr-only">New note</h1>
           <IconLogo className="header__logo" />
@@ -192,7 +183,7 @@ const New = () => {
             </button>
           </div>
         </form>
-      </Layout>
+      </FadeIn>
     )
   }
 
