@@ -61,6 +61,10 @@ export const typeDefs = gql`
     noteId: String!
   }
 
+  input UpdateInterestsInput {
+    interests: [String]!
+  }
+
   type SignUpPayload {
     user: User!
   }
@@ -81,6 +85,10 @@ export const typeDefs = gql`
     isBookmarked: Boolean!
   }
 
+  type UpdateInterestsPayload {
+    interests: [String]!
+  }
+
   type Query {
     user(id: ID!): User!
     users: [User]!
@@ -99,5 +107,6 @@ export const typeDefs = gql`
     createReply(input: CreateReplyInput!): CreateReplyPayload!
     bookmarkNote(input: BookmarkNoteInput!): BookmarkNotePayload!
     unbookmarkNote(input: BookmarkNoteInput!): BookmarkNotePayload!
+    updateInterests(input: UpdateInterestsInput!): UpdateInterestsPayload!
   }
 `

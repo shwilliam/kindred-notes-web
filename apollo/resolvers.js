@@ -290,5 +290,24 @@ export const resolvers = {
         return {isBookmarked: false}
       }
     },
+    async updateInterests(_parent, args, context, _info) {
+      const {token} = cookie.parse(context.req.headers.cookie ?? '')
+      if (token) {
+        try {
+          const {id} = jwt.verify(token, JWT_SECRET)
+          let userDoc
+          const usersSnapshot = await firestore
+            .collection('users')
+            .where('id', '==', id)
+            .get()
+          usersSnapshot.forEach(doc => (userDoc = doc))
+          userDoc.ref.update({
+            interests: args.input.interests,
+          })
+        } catch (e) {console.log(e)}
+
+        return {interests: args.input.interests}
+      }
+    },
   },
 }
