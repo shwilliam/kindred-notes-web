@@ -6,7 +6,7 @@ export const Note = ({
   children,
 }) => (
   <div
-    className={`note wrapper -${color.toLowerCase()} -${style.toLowerCase()} -${font.toLowerCase()} ${
+    className={`note -${color.toLowerCase()} -${style.toLowerCase()} -${font.toLowerCase()} ${
       full ? '-full' : ''
     }`}
   >

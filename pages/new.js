@@ -7,6 +7,7 @@ import {withApollo} from '../apollo/client'
 import {
   Field,
   IconFont,
+  IconLogo,
   IconPalette,
   IconSquare,
   Layout,
@@ -102,7 +103,8 @@ const New = () => {
     return (
       <Layout>
         <header className="header">
-          <h1>New note</h1>
+          <h1 className="sr-only">New note</h1>
+          <IconLogo className="header__logo" />
         </header>
         <form onSubmit={handleSubmit}>
           {errorMsg && <p>{errorMsg}</p>}

@@ -36,22 +36,12 @@ const Profile = () => {
   if (data && data.viewer) {
     return (
       <Layout>
-        <header className="header">
-          <h1>Profile</h1>
-
-          <div>
-            You're signed in as {data.viewer.email} go to{' '}
-            <Link href="/about">
-              <a>about</a>
-            </Link>{' '}
-            page, or{' '}
-            <Link href="/signout">
-              <a>sign out</a>
-            </Link>
-          </div>
+        <header>
+          <h1 className="sr-only">Profile</h1>
         </header>
         <main className="main">
-          <h2>Favourite Notes</h2>
+          <p className="profile__title">{data.viewer.email}</p>
+          <h2 className="title -center">Favourite Notes</h2>
           <ul className="note-grid">
             {data.bookmarks?.map(({id, content, color, style, font}) => (
               <li className="note-grid__cell" key={id}>
@@ -65,9 +55,11 @@ const Profile = () => {
               </li>
             ))}
           </ul>
-          <Link href="/signout">
-            <a className="button -full">Sign out</a>
-          </Link>
+          <footer className="wrapper">
+            <Link href="/signout">
+              <a className="button -full">Sign out</a>
+            </Link>
+          </footer>
         </main>
       </Layout>
     )

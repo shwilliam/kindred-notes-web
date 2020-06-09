@@ -4,7 +4,7 @@ import gql from 'graphql-tag'
 import Link from 'next/link'
 import {useRouter} from 'next/router'
 import {withApollo} from '../apollo/client'
-import {Layout, Note} from '../components'
+import {IconLogo, Layout, Note} from '../components'
 
 const ViewerQuery = gql`
   query ViewerQuery {
@@ -45,18 +45,8 @@ const Index = () => {
     return (
       <Layout>
         <header className="header">
-          <h1>Kindred Notes</h1>
-
-          <div>
-            You're signed in as {data.viewer.email} go to{' '}
-            <Link href="/about">
-              <a>about</a>
-            </Link>{' '}
-            page, or{' '}
-            <Link href="/signout">
-              <a>sign out</a>
-            </Link>
-          </div>
+          <h1 className="sr-only">Kindred Notes</h1>
+          <IconLogo className="header__logo" />
         </header>
 
         <Tabs>

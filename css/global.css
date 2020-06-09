@@ -1,6 +1,6 @@
 :root {
   --layout__rhythm: 20px;
-  --color__text: #222;
+  --color__text: #444;
   --color__text--invert: #fefefe;
   --color__bg: #fefefe;
   --color__ui: #ebf5f8;
@@ -18,7 +18,6 @@ body,
 }
 
 .wrapper {
-  height: 100%;
   width: 80%;
   max-width: 600px;
   margin: 0 auto;
@@ -41,6 +40,22 @@ body,
 .header {
   min-height: 100px;
   background-color: var(--color__ui);
+  text-align: center;
+}
+
+.header__logo {
+  width: 65px;
+  height: 65px;
+  margin: var(--layout__rhythm);
+}
+
+.title {
+  font-size: 1.4rem;
+  font-weight: 600;
+}
+
+.title.-center {
+  text-align: center;
 }
 
 .footer {
@@ -97,9 +112,11 @@ body,
 }
 
 .input {
+  width: 100%;
   background-color: transparent;
   border: none;
   border-bottom: 1px solid var(--color__text);
+  padding: calc(var(--layout__rhythm) / 4);
 }
 
 .input.-floating {
@@ -143,16 +160,17 @@ a.button,
   display: grid;
   height: 100%;
   grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-  grid-auto-rows: 200px;
-  grid-gap: var(--layout__rhythm);
-  border: var(--layout__rhythm) solid var(--color__bg);
 }
 
 .note-grid__cell {
   height: 150px;
+  border-radius: 0;
 }
 
 .note {
+  height: 100%;
+  width: 100%;
+  position: relative;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -161,14 +179,17 @@ a.button,
   text-align: center;
   padding: var(--layout__rhythm);
   border: 1px solid currentColor;
-  border-radius: 5px;
 }
 
 .note.-full {
+  width: 80%;
+  max-width: 600px;
+  margin: 0 auto;
   height: 300px;
   margin: var(--layout__rhythm) auto;
   box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 1px -1px,
     rgba(0, 0, 0, 0.14) 0px 1px 1px 0px, rgba(0, 0, 0, 0.12) 0px 1px 3px 0px;
+  border-radius: 5px;
 }
 
 .note.-blue {
@@ -188,6 +209,7 @@ a.button,
 
 .note.-fill {
   color: var(--color__text--invert);
+  border-color: var(--color__ui);
 }
 
 .note.-border {
@@ -203,10 +225,13 @@ a.button,
 }
 
 .note__actions {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
   justify-self: flex-end;
   display: flex;
   justify-content: space-around;
-  width: 100%;
 }
 
 .note__input {
@@ -214,6 +239,12 @@ a.button,
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.note__bookmark {
+  position: absolute;
+  top: var(--layout__rhythm);
+  right: var(--layout__rhythm);
 }
 
 .icon {
@@ -234,4 +265,11 @@ a.button,
 
 .icon.-fill {
   color: var(--color__bg);
+}
+
+.profile__title {
+  text-align: center;
+  font-size: 0.85rem;
+  font-weight: 400;
+  color: var(--color__accent--blue);
 }

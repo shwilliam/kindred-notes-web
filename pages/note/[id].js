@@ -3,16 +3,18 @@ import gql from 'graphql-tag'
 import {useRouter} from 'next/router'
 import {useState} from 'react'
 import {withApollo} from '../../apollo/client'
-import {Field, Layout, Note} from '../../components'
+import {Field, IconBookmark, IconLogo, Layout, Note} from '../../components'
 import {getErrorMessage} from '../../lib/form'
 
 const NoteQuery = gql`
   query NoteQuery($id: String!) {
     viewer {
+      id
       bookmarks
     }
     note(id: $id) {
       id
+      author
       content
       color
       style
@@ -96,47 +98,55 @@ const NotePage = () => {
     )
 
   const {note, viewer} = data
-  const isBookmarked = viewer.bookmarks.includes(note.id)
+  const isBookmarked = viewer.bookmarks?.includes(note.id)
+  const isOwn = note.author === viewer.id
   return (
     <Layout>
       <header className="header">
-        <h1>Note</h1>
+        <h1 className="sr-only">Note</h1>
+        <IconLogo className="header__logo" />
       </header>
       <Note color={note.color} style={note.style} font={note.font} full>
         <button
           type="button"
+          className="button -floating note__bookmark"
           onClick={isBookmarked ? onUnbookmark : onBookmark}
         >
-          {isBookmarked && 'un'}bookmark
+          <span className="sr-only">{isBookmarked && 'un'}bookmark</span>
+          <IconBookmark fill={isBookmarked} />
         </button>
         {note.content}
       </Note>
 
-      {note.replies && (
-        <ul>
-          {note.replies?.map(({id, content}) => (
-            <li key={id}>{content}</li>
-          ))}
-        </ul>
+      {isOwn && note.replies && (
+        <section className="wrapper">
+          <h2 className="title">Who appreciated your note</h2>
+          <ul>
+            {note.replies?.map(({id, content}) => (
+              <li key={id}>{content}</li>
+            ))}
+          </ul>
+        </section>
       )}
 
-      <form onSubmit={handleSubmit} className="wrapper">
-        {errorMsg && <p>{errorMsg}</p>}
-        {loading && <p>loading...</p>}
-        <Field
-          className="note__input"
-          name="content"
-          type="text"
-          required
-          label="Reply"
-          placeholder="Write a response"
-          floating
-          center
-        />
-        <button className="button -full" type="submit">
-          Send
-        </button>
-      </form>
+      {!isOwn && (
+        <form onSubmit={handleSubmit} className="wrapper">
+          {errorMsg && <p>{errorMsg}</p>}
+          {loading && <p>loading...</p>}
+          <Field
+            className="input"
+            name="content"
+            type="text"
+            required
+            label="Reply"
+            placeholder="Write a response"
+            floating
+          />
+          <button className="button -full" type="submit">
+            Send
+          </button>
+        </form>
+      )}
     </Layout>
   )
 }
