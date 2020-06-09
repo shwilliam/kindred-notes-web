@@ -39,6 +39,34 @@ export const resolvers = {
         }
       }
     },
+    async bookmarks(_parent, _args, context, _info) {
+      const {token} = cookie.parse(context.req.headers.cookie ?? '')
+      if (token) {
+        const bookmarks = []
+        try {
+          const {id} = jwt.verify(token, JWT_SECRET)
+          const user = await getUserById(id)
+
+          await Promise.all(
+            user.bookmarks.map(async noteId => {
+              const noteSnapshot = await firestore
+                .collection('notes')
+                .where('id', '==', noteId)
+                .get()
+
+              let noteDoc
+              noteSnapshot.forEach(doc => {
+                noteDoc = doc
+              })
+
+              const note = noteDoc.data()
+              bookmarks.push(note)
+            }),
+          )
+        } catch {}
+        return bookmarks
+      }
+    },
     async notes(_parent, _args, context, _info) {
       const {token} = cookie.parse(context.req.headers.cookie ?? '')
       let notes = []
@@ -218,6 +246,48 @@ export const resolvers = {
 
           return {reply}
         } catch {}
+      }
+    },
+    async bookmarkNote(_parent, args, context, _info) {
+      const {token} = cookie.parse(context.req.headers.cookie ?? '')
+      if (token) {
+        try {
+          const {id} = jwt.verify(token, JWT_SECRET)
+          let userDoc
+          const usersSnapshot = await firestore
+            .collection('users')
+            .where('id', '==', id)
+            .get()
+          usersSnapshot.forEach(doc => (userDoc = doc))
+          userDoc.ref.update({
+            bookmarks: firebase.firestore.FieldValue.arrayUnion(
+              args.input.noteId,
+            ),
+          })
+        } catch {}
+
+        return {isBookmarked: true}
+      }
+    },
+    async unbookmarkNote(_parent, args, context, _info) {
+      const {token} = cookie.parse(context.req.headers.cookie ?? '')
+      if (token) {
+        try {
+          const {id} = jwt.verify(token, JWT_SECRET)
+          let userDoc
+          const usersSnapshot = await firestore
+            .collection('users')
+            .where('id', '==', id)
+            .get()
+          usersSnapshot.forEach(doc => (userDoc = doc))
+          userDoc.ref.update({
+            bookmarks: firebase.firestore.FieldValue.arrayRemove(
+              args.input.noteId,
+            ),
+          })
+        } catch {}
+
+        return {isBookmarked: false}
       }
     },
   },

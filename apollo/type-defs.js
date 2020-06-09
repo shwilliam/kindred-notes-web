@@ -4,6 +4,8 @@ export const typeDefs = gql`
   type User {
     id: ID!
     email: String!
+    interests: [String]!
+    bookmarks: [String]
   }
 
   type Reply {
@@ -55,6 +57,10 @@ export const typeDefs = gql`
     noteId: String!
   }
 
+  input BookmarkNoteInput {
+    noteId: String!
+  }
+
   type SignUpPayload {
     user: User!
   }
@@ -71,10 +77,15 @@ export const typeDefs = gql`
     reply: Reply!
   }
 
+  type BookmarkNotePayload {
+    isBookmarked: Boolean!
+  }
+
   type Query {
     user(id: ID!): User!
     users: [User]!
     viewer: User
+    bookmarks: [Note]
     notes: [Note]
     sentNotes: [Note]
     note(id: String!): NoteWithReplies!
@@ -86,5 +97,7 @@ export const typeDefs = gql`
     signOut: Boolean!
     createNote(input: CreateNoteInput!): CreateNotePayload!
     createReply(input: CreateReplyInput!): CreateReplyPayload!
+    bookmarkNote(input: BookmarkNoteInput!): BookmarkNotePayload!
+    unbookmarkNote(input: BookmarkNoteInput!): BookmarkNotePayload!
   }
 `

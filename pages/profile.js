@@ -3,13 +3,20 @@ import gql from 'graphql-tag'
 import Link from 'next/link'
 import {useRouter} from 'next/router'
 import {withApollo} from '../apollo/client'
-import {Layout} from '../components'
+import {Layout, Note} from '../components'
 
 const ViewerQuery = gql`
   query ViewerQuery {
     viewer {
       id
       email
+    }
+    bookmarks {
+      id
+      content
+      color
+      font
+      style
     }
   }
 `
@@ -44,6 +51,20 @@ const Profile = () => {
           </div>
         </header>
         <main className="main">
+          <h2>Favourite Notes</h2>
+          <ul className="note-grid">
+            {data.bookmarks?.map(({id, content, color, style, font}) => (
+              <li className="note-grid__cell" key={id}>
+                <Link href={`/note/${id}`}>
+                  <a className="link -no-ul">
+                    <Note color={color} style={style} font={font}>
+                      {content}
+                    </Note>
+                  </a>
+                </Link>
+              </li>
+            ))}
+          </ul>
           <Link href="/signout">
             <a className="button -full">Sign out</a>
           </Link>
