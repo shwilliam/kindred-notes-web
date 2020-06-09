@@ -4,7 +4,7 @@ import gql from 'graphql-tag'
 import Link from 'next/link'
 import {useRouter} from 'next/router'
 import {withApollo} from '../apollo/client'
-import {FadeIn, IconLogo, Note} from '../components'
+import {FadeIn, Footer, Header, Note} from '../components'
 
 const ViewerQuery = gql`
   query ViewerQuery {
@@ -43,51 +43,52 @@ const Index = () => {
 
   if (data && data.viewer) {
     return (
-      <FadeIn>
-        <header className="header">
-          <h1 className="sr-only">Kindred Notes</h1>
-          <IconLogo className="header__logo" />
-        </header>
+      <>
+        <h1 className="sr-only">Kindred Notes</h1>
+        <Header />
 
-        <Tabs>
-          <TabList>
-            <Tab>Received</Tab>
-            <Tab>Sent</Tab>
-          </TabList>
-          <TabPanels>
-            <TabPanel>
-              <ul className="note-grid">
-                {data.notes?.map(({id, content, color, style, font}) => (
-                  <li className="note-grid__cell" key={id}>
-                    <Link href={`/note/${id}`}>
-                      <a className="link -no-ul">
-                        <Note color={color} style={style} font={font}>
-                          {content}
-                        </Note>
-                      </a>
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </TabPanel>
-            <TabPanel>
-              <ul className="note-grid">
-                {data.sentNotes?.map(({id, content, color, style, font}) => (
-                  <li className="note-grid__cell" key={id}>
-                    <Link href={`/note/${id}`}>
-                      <a className="link -no-ul">
-                        <Note color={color} style={style} font={font}>
-                          {content}
-                        </Note>
-                      </a>
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </TabPanel>
-          </TabPanels>
-        </Tabs>
-      </FadeIn>
+        <FadeIn>
+          <Tabs>
+            <TabList>
+              <Tab>Received</Tab>
+              <Tab>Sent</Tab>
+            </TabList>
+            <TabPanels>
+              <TabPanel>
+                <ul className="note-grid">
+                  {data.notes?.map(({id, content, color, style, font}) => (
+                    <li className="note-grid__cell" key={id}>
+                      <Link href={`/note/${id}`}>
+                        <a className="link -no-ul">
+                          <Note color={color} style={style} font={font}>
+                            {content}
+                          </Note>
+                        </a>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </TabPanel>
+              <TabPanel>
+                <ul className="note-grid">
+                  {data.sentNotes?.map(({id, content, color, style, font}) => (
+                    <li className="note-grid__cell" key={id}>
+                      <Link href={`/note/${id}`}>
+                        <a className="link -no-ul">
+                          <Note color={color} style={style} font={font}>
+                            {content}
+                          </Note>
+                        </a>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </TabPanel>
+            </TabPanels>
+          </Tabs>
+        </FadeIn>
+        <Footer />
+      </>
     )
   }
 

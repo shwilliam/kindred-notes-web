@@ -48,7 +48,7 @@ const SignIn = () => {
 
   return (
     <AuthLayout>
-      <h1>Sign In</h1>
+      <h2 className="sr-only">Sign In</h2>
       <form onSubmit={handleSubmit}>
         {errorMsg && <p>{errorMsg}</p>}
         <Field
@@ -73,7 +73,7 @@ const SignIn = () => {
         <p>
           Don't have an account?{' '}
           <Link href="signup">
-            <a>Sign up</a>
+            <a className="link -no-ul">Sign up</a>
           </Link>
         </p>
       </form>

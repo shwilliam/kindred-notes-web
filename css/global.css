@@ -28,14 +28,28 @@ body,
   color: var(--color__text);
   background-color: var(--color__bg);
   height: 100%;
+  width: 100%;
+  overflow: hidden;
 }
 
 .layout.-fill {
-  background-color: var(--color__ui);
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+.layout__wave {
+  position: fixed;
+  min-width: 100vw;
+}
+
+.layout__wave.-up {
+  top: 0;
+}
+
+.layout__wave.-down {
+  bottom: 0;
 }
 
 .header {
@@ -59,6 +73,13 @@ body,
   text-align: center;
 }
 
+.logo__title {
+  font-size: 1.85rem;
+  font-weight: 600;
+  color: var(--color__accent--blue);
+  padding: calc(var(--layout__rhythm) / 2) 0 var(--layout__rhythm) 0;
+}
+
 .footer {
   position: fixed;
   right: 0;
@@ -73,6 +94,7 @@ body,
 }
 
 .link.-no-ul {
+  font-weight: 600;
   text-decoration: none;
 }
 
@@ -213,6 +235,10 @@ a.button,
   border-color: var(--color__ui);
 }
 
+.note.-full.-fill {
+  border: none;
+}
+
 .note.-border {
   background-color: var(--color__bg);
 }
@@ -276,11 +302,12 @@ a.button,
 }
 
 .tag {
+  font-size: 0.85rem;
   cursor: pointer;
   padding: calc(var(--layout__rhythm) / 2) var(--layout__rhythm);
   margin: calc(var(--layout__rhythm) / 4);
-  color: var(--color__text--invert);
-  background-color: var(--color__accent--blue);
+  background-color: var(--color__ui);
+  color: var(--color__accent--blue);
   border-radius: 4px;
 }
 

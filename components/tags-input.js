@@ -12,6 +12,7 @@ export const TagsInput = ({
   const [tagInput, setTagInput] = useState('')
 
   // TODO: validate tag on input (eg. no duplicates, max length, max tags amount)
+  // TODO: split on <CR>
 
   const handleChange = ({target}) => {
     const input = target.value

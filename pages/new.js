@@ -3,7 +3,17 @@ import gql from 'graphql-tag'
 import {useRouter} from 'next/router'
 import {useState} from 'react'
 import {withApollo} from '../apollo/client'
-import {FadeIn, Field, IconFont, IconLogo, IconPalette, IconSquare, Note, TagsInput} from '../components'
+import {
+  FadeIn,
+  Field,
+  Footer,
+  Header,
+  IconFont,
+  IconPalette,
+  IconSquare,
+  Note,
+  TagsInput,
+} from '../components'
 import {getErrorMessage} from '../lib/form'
 
 const CreateNoteMutation = gql`
@@ -101,89 +111,91 @@ const New = () => {
 
   if (data && data.viewer) {
     return (
-      <FadeIn>
-        <header className="header">
-          <h1 className="sr-only">New note</h1>
-          <IconLogo className="header__logo" />
-        </header>
-        <form onSubmit={handleSubmit}>
-          {errorMsg && <p>{errorMsg}</p>}
-          {loading && <p>loading...</p>}
-          <Note color={colorVal} style={styleVal} font={fontVal} full>
-            <Field
-              className="note__input"
-              name="content"
-              type="text"
-              required
-              label="Note"
-              placeholder="Write a kind note"
-              invert={styleVal === 'FILL'}
-              floating
-              center
-            />
-            <section className="note__actions">
-              <button
-                className="button -floating"
-                onClick={nextColor}
-                type="button"
-              >
-                <span className="sr-only">{colorVal}</span>
-                <IconPalette
-                  className={`icon -${colorVal.toLowerCase()} -${styleVal.toLowerCase()}`}
-                />
-              </button>
-              <button
-                className="button -floating"
-                onClick={nextStyle}
-                type="button"
-              >
-                <span className="sr-only">{styleVal}</span>
-                <IconSquare
-                  className={`icon -${colorVal.toLowerCase()} -${styleVal.toLowerCase()}`}
-                  fill={styleVal === 'FILL'}
-                />
-              </button>
-              <button
-                className="button -floating"
-                onClick={nextFont}
-                type="button"
-              >
-                <span className="sr-only">{fontVal}</span>
-                <IconFont
-                  className={`icon -${colorVal.toLowerCase()} -${styleVal.toLowerCase()}`}
-                />
-              </button>
-            </section>
-          </Note>
+      <>
+        <h1 className="sr-only">New note</h1>
+        <Header />
 
-          <div className="wrapper">
-            <label>Tag related topics</label>
-            <TagsInput
-              className="input -center note__input"
-              value={topicsVal}
-              onChange={setTopicsVal}
-              placeholder="Anxiety"
-            />
-
-            <ul className="tags">
-              {topicsVal?.map((topic, idx) => (
-                <li
-                  key={idx}
-                  data-idx={idx}
-                  className="tag"
-                  onClick={handleTagClick}
+        <FadeIn>
+          <form onSubmit={handleSubmit}>
+            {errorMsg && <p>{errorMsg}</p>}
+            {loading && <p>loading...</p>}
+            <Note color={colorVal} style={styleVal} font={fontVal} full>
+              <Field
+                className="note__input"
+                name="content"
+                type="text"
+                required
+                label="Note"
+                placeholder="Write a kind note"
+                invert={styleVal === 'FILL'}
+                floating
+                center
+              />
+              <section className="note__actions">
+                <button
+                  className="button -floating"
+                  onClick={nextColor}
+                  type="button"
                 >
-                  {topic}
-                </li>
-              ))}
-            </ul>
+                  <span className="sr-only">{colorVal}</span>
+                  <IconPalette
+                    className={`icon -${colorVal.toLowerCase()} -${styleVal.toLowerCase()}`}
+                  />
+                </button>
+                <button
+                  className="button -floating"
+                  onClick={nextStyle}
+                  type="button"
+                >
+                  <span className="sr-only">{styleVal}</span>
+                  <IconSquare
+                    className={`icon -${colorVal.toLowerCase()} -${styleVal.toLowerCase()}`}
+                    fill={styleVal === 'FILL'}
+                  />
+                </button>
+                <button
+                  className="button -floating"
+                  onClick={nextFont}
+                  type="button"
+                >
+                  <span className="sr-only">{fontVal}</span>
+                  <IconFont
+                    className={`icon -${colorVal.toLowerCase()} -${styleVal.toLowerCase()}`}
+                  />
+                </button>
+              </section>
+            </Note>
 
-            <button className="button -full" disabled={loading} type="submit">
-              Post
-            </button>
-          </div>
-        </form>
-      </FadeIn>
+            <div className="wrapper">
+              <label>Tag related topics</label>
+              <TagsInput
+                className="input -center note__input"
+                value={topicsVal}
+                onChange={setTopicsVal}
+                placeholder="Anxiety"
+              />
+
+              <ul className="tags">
+                {topicsVal?.map((topic, idx) => (
+                  <li
+                    key={idx}
+                    data-idx={idx}
+                    className="tag"
+                    onClick={handleTagClick}
+                  >
+                    {topic}
+                  </li>
+                ))}
+              </ul>
+
+              <button className="button -full" disabled={loading} type="submit">
+                Post
+              </button>
+            </div>
+          </form>
+        </FadeIn>
+        <Footer />
+      </>
     )
   }
 

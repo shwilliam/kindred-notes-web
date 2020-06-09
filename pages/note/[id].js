@@ -3,7 +3,14 @@ import gql from 'graphql-tag'
 import {useRouter} from 'next/router'
 import {useState} from 'react'
 import {withApollo} from '../../apollo/client'
-import {FadeIn, Field, IconBookmark, IconLogo, Note} from '../../components'
+import {
+  FadeIn,
+  Field,
+  Footer,
+  Header,
+  IconBookmark,
+  Note,
+} from '../../components'
 import {getErrorMessage} from '../../lib/form'
 
 const NoteQuery = gql`
@@ -91,63 +98,65 @@ const NotePage = () => {
   if (error) return <p>oops</p>
   if (loading)
     return (
-      <>
-        <header className="header">Note</header>
+      <FadeIn>
+        <h1 className="sr-only">Note</h1>
         <p>loading...</p>
-      </>
+      </FadeIn>
     )
 
   const {note, viewer} = data
   const isBookmarked = viewer.bookmarks?.includes(note.id)
   const isOwn = note.author === viewer.id
   return (
-    <FadeIn>
-      <header className="header">
-        <h1 className="sr-only">Note</h1>
-        <IconLogo className="header__logo" />
-      </header>
-      <Note color={note.color} style={note.style} font={note.font} full>
-        <button
-          type="button"
-          className="button -floating note__bookmark"
-          onClick={isBookmarked ? onUnbookmark : onBookmark}
-        >
-          <span className="sr-only">{isBookmarked && 'un'}bookmark</span>
-          <IconBookmark fill={isBookmarked} />
-        </button>
-        {note.content}
-      </Note>
+    <>
+      <h1 className="sr-only">Note</h1>
+      <Header />
 
-      {isOwn && note?.replies.length > 0 && (
-        <section className="wrapper">
-          <h2 className="title">Who appreciated your note</h2>
-          <ul>
-            {note.replies?.map(({id, content}) => (
-              <li key={id}>{content}</li>
-            ))}
-          </ul>
-        </section>
-      )}
-
-      {!isOwn && (
-        <form onSubmit={handleSubmit} className="wrapper">
-          {errorMsg && <p>{errorMsg}</p>}
-          {loading && <p>loading...</p>}
-          <Field
-            className="input"
-            name="content"
-            type="text"
-            required
-            label="Reply"
-            placeholder="Write a response"
-            floating
-          />
-          <button className="button -full" type="submit">
-            Send
+      <FadeIn>
+        <Note color={note.color} style={note.style} font={note.font} full>
+          <button
+            type="button"
+            className="button -floating note__bookmark"
+            onClick={isBookmarked ? onUnbookmark : onBookmark}
+          >
+            <span className="sr-only">{isBookmarked && 'un'}bookmark</span>
+            <IconBookmark fill={isBookmarked} />
           </button>
-        </form>
-      )}
-    </FadeIn>
+          {note.content}
+        </Note>
+
+        {isOwn && note?.replies.length > 0 && (
+          <section className="wrapper">
+            <h2 className="title">Who appreciated your note</h2>
+            <ul>
+              {note.replies?.map(({id, content}) => (
+                <li key={id}>{content}</li>
+              ))}
+            </ul>
+          </section>
+        )}
+
+        {!isOwn && (
+          <form onSubmit={handleSubmit} className="wrapper">
+            {errorMsg && <p>{errorMsg}</p>}
+            {loading && <p>loading...</p>}
+            <Field
+              className="input"
+              name="content"
+              type="text"
+              required
+              label="Reply"
+              placeholder="Write a response"
+              floating
+            />
+            <button className="button -full" type="submit">
+              Send
+            </button>
+          </form>
+        )}
+      </FadeIn>
+      <Footer />
+    </>
   )
 }
 
