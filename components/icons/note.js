@@ -25,21 +25,21 @@ export const IconNote = ({fill = false, ...props}) =>
             data-name="Path 1229"
             d="M206.58,99.377a1.1,1.1,0,0,0,0-2.2h-3.815a1.1,1.1,0,0,0,0,2.2Z"
             transform="translate(-199.758 -97.176)"
-            fill="currentColor"
+            fill="#fff"
           />
           <path
             id="Path_1230"
             data-name="Path 1230"
             d="M183.6,167.184h-8a1.1,1.1,0,1,0,0,2.2h8a1.1,1.1,0,1,0,0-2.2Z"
             transform="translate(-174.498 -162.269)"
-            fill="currentColor"
+            fill="#fff"
           />
           <path
             id="Path_1231"
             data-name="Path 1231"
             d="M183.6,231.967h-8a1.1,1.1,0,1,0,0,2.2h8a1.1,1.1,0,1,0,0-2.2Z"
             transform="translate(-174.498 -222.503)"
-            fill="currentColor"
+            fill="#fff"
           />
         </g>
       </g>

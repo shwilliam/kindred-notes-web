@@ -91,7 +91,10 @@ const NotePage = () => {
             onClick={isBookmarked ? onUnbookmark : onBookmark}
           >
             <span className="sr-only">{isBookmarked && 'un'}bookmark</span>
-            <IconBookmark fill={isBookmarked} />
+            <IconBookmark
+              fill={isBookmarked}
+              bordered={note.style === 'BORDER'}
+            />
           </button>
           {note.content}
         </Note>
