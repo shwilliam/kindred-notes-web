@@ -3,7 +3,7 @@ import gql from 'graphql-tag'
 import Link from 'next/link'
 import {useRouter} from 'next/router'
 import {withApollo} from '../apollo/client'
-import {FadeIn, Footer, Header, Note, TagsInput} from '../components'
+import {FadeIn, Footer, Header, Note, Spinner, TagsInput} from '../components'
 
 const Profile = () => {
   const router = useRouter()
@@ -94,6 +94,7 @@ const Profile = () => {
     <>
       <h1 className="sr-only">Profile</h1>
       <Header />
+      <Spinner />
       <Footer />
     </>
   )

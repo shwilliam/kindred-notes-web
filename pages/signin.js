@@ -12,6 +12,8 @@ const SignIn = () => {
   const router = useRouter()
   const [signIn] = useMutation(SignInMutation)
   const [errorMsg, setErrorMsg] = useState()
+  const [wavesOpen, setWavesOpen] = useState(true)
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   const handleSubmit = async event => {
     event.preventDefault()
@@ -20,6 +22,7 @@ const SignIn = () => {
     const passwordElement = event.currentTarget.elements.password
 
     try {
+      setIsSubmitting(true)
       await client.resetStore()
       const {data} = await signIn({
         variables: {
@@ -28,18 +31,19 @@ const SignIn = () => {
         },
       })
       if (data.signIn.user) {
-        await router.push('/')
+        setWavesOpen(false)
+        setTimeout(() => router.push('/'), 650)
       }
     } catch (error) {
       setErrorMsg(getErrorMessage(error))
     }
+    setIsSubmitting(false)
   }
 
   return (
-    <AuthLayout>
+    <AuthLayout open={wavesOpen}>
       <h2 className="sr-only">Sign In</h2>
       <form onSubmit={handleSubmit}>
-        {errorMsg && <p>{errorMsg}</p>}
         <Field
           name="email"
           type="email"
@@ -56,7 +60,10 @@ const SignIn = () => {
           required
           label="Password"
         />
-        <button className="button -full" type="submit">
+
+        {errorMsg && <p className="error">{errorMsg}</p>}
+
+        <button disabled={isSubmitting} className="button -full" type="submit">
           Log in
         </button>
         <p className="wave-pad -small">

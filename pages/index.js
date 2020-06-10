@@ -4,7 +4,7 @@ import gql from 'graphql-tag'
 import Link from 'next/link'
 import {useRouter} from 'next/router'
 import {withApollo} from '../apollo/client'
-import {FadeIn, Footer, Header, Note} from '../components'
+import {FadeIn, Footer, Header, Note, Spinner} from '../components'
 
 const Index = () => {
   const router = useRouter()
@@ -32,34 +32,62 @@ const Index = () => {
             </TabList>
             <TabPanels>
               <TabPanel>
-                <ul className="note-grid">
-                  {data.notes?.map(({id, content, color, style, font}) => (
-                    <li className="note-grid__cell" key={id}>
-                      <Link href={`/note/${id}`}>
-                        <a className="link -no-ul">
-                          <Note color={color} style={style} font={font}>
-                            {content}
-                          </Note>
-                        </a>
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
+                {data.notes?.length ? (
+                  <ul className="note-grid">
+                    {data.notes.map(({id, content, color, style, font}) => (
+                      <li className="note-grid__cell" key={id}>
+                        <Link href={`/note/${id}`}>
+                          <a className="link -no-ul">
+                            <Note color={color} style={style} font={font}>
+                              {content}
+                            </Note>
+                          </a>
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <div className="info wrapper">
+                    <p className="info__text">
+                      Looks like no notes match your interests.
+                    </p>
+                    <p className="info__text">
+                      <Link href="/profile">
+                        <a>Click here</a>
+                      </Link>{' '}
+                      to add some.
+                    </p>
+                  </div>
+                )}
               </TabPanel>
               <TabPanel>
-                <ul className="note-grid">
-                  {data.sentNotes?.map(({id, content, color, style, font}) => (
-                    <li className="note-grid__cell" key={id}>
-                      <Link href={`/note/${id}`}>
-                        <a className="link -no-ul">
-                          <Note color={color} style={style} font={font}>
-                            {content}
-                          </Note>
-                        </a>
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
+                {data.sentNotes?.length ? (
+                  <ul className="note-grid">
+                    {data.sentNotes.map(({id, content, color, style, font}) => (
+                      <li className="note-grid__cell" key={id}>
+                        <Link href={`/note/${id}`}>
+                          <a className="link -no-ul">
+                            <Note color={color} style={style} font={font}>
+                              {content}
+                            </Note>
+                          </a>
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <div className="info wrapper">
+                    <p className="info__text">
+                      Your sent notes will show up here.{' '}
+                    </p>
+                    <p className="info__text">
+                      <Link href="/new">
+                        <a>Click here</a>
+                      </Link>{' '}
+                      to send you first!
+                    </p>
+                  </div>
+                )}
               </TabPanel>
             </TabPanels>
           </Tabs>
@@ -73,6 +101,7 @@ const Index = () => {
     <>
       <h1 className="sr-only">Kindred Notes</h1>
       <Header />
+      <Spinner />
       <Footer />
     </>
   )
