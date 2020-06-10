@@ -1,4 +1,6 @@
 export * from './auth-layout'
+export * from './avatar'
+export * from './avatar-select'
 export * from './fade-in'
 export * from './field'
 export * from './footer'

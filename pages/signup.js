@@ -4,7 +4,13 @@ import Link from 'next/link'
 import {useRouter} from 'next/router'
 import {useState} from 'react'
 import {withApollo} from '../apollo/client'
-import {TermsAndConditions, AuthLayout, Field, TagsInput} from '../components'
+import {
+  AuthLayout,
+  AvatarSelect,
+  Field,
+  TagsInput,
+  TermsAndConditions,
+} from '../components'
 import {getErrorMessage} from '../lib/form'
 
 const SignUp = () => {
@@ -14,6 +20,7 @@ const SignUp = () => {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [step, setStep] = useState('INITIAL')
   const [interests, setInterests] = useState([])
+  const [avatar, setAvatar] = useState(1)
   const [hasAgreedToTerms, setHasAgreedToTerms] = useState(false)
 
   const toggleDetails = event => {
@@ -77,6 +84,7 @@ const SignUp = () => {
             email: emailElement.value,
             interests,
             password: passwordElement.value,
+            avatar,
           },
         })
 
@@ -133,6 +141,9 @@ const SignUp = () => {
             ['DETAILS', 'TERMS'].includes(step) ? '-show' : ''
           }`}
         >
+          <div className="title -small -center">Select your Avatar</div>
+          <AvatarSelect value={avatar} onChange={setAvatar} />
+
           <label>
             <div className="title -small -center">Topics of Interest</div>
             <TagsInput
@@ -209,8 +220,16 @@ const SignUpMutation = gql`
     $email: String!
     $interests: [String]!
     $password: String!
+    $avatar: Int!
   ) {
-    signUp(input: {email: $email, interests: $interests, password: $password}) {
+    signUp(
+      input: {
+        email: $email
+        interests: $interests
+        password: $password
+        avatar: $avatar
+      }
+    ) {
       user {
         id
         email

@@ -6,6 +6,7 @@ export const typeDefs = gql`
     email: String!
     interests: [String]!
     bookmarks: [String]
+    avatar: Int!
   }
 
   type Reply {
@@ -37,6 +38,7 @@ export const typeDefs = gql`
     email: String!
     interests: [String]!
     password: String!
+    avatar: Int!
   }
 
   input SignInInput {

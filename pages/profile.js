@@ -3,7 +3,7 @@ import gql from 'graphql-tag'
 import Link from 'next/link'
 import {useRouter} from 'next/router'
 import {withApollo} from '../apollo/client'
-import {FadeIn, Footer, Header, Note, Spinner, TagsInput} from '../components'
+import {Avatar, FadeIn, Footer, Note, Spinner, TagsInput} from '../components'
 
 const Profile = () => {
   const router = useRouter()
@@ -31,11 +31,10 @@ const Profile = () => {
     return (
       <>
         <h1 className="sr-only">Profile</h1>
-        <Header />
-
         <FadeIn className="footer-pad">
           <main className="main">
             <div className="wrapper">
+              <Avatar variant={data.viewer.avatar} />
               <p className="profile__title">{data.viewer.email}</p>
               <label>
                 <p className="title -small -center">Topics of Interest</p>
@@ -61,7 +60,7 @@ const Profile = () => {
               </ul>
             </div>
             {data.bookmarks?.length ? (
-              <>
+              <div className="wrapper -no-pad">
                 <h2 className="title -small -center">Favourite Notes</h2>
                 <ul className="note-grid">
                   {data.bookmarks?.map(({id, content, color, style, font}) => (
@@ -76,7 +75,7 @@ const Profile = () => {
                     </li>
                   ))}
                 </ul>
-              </>
+              </div>
             ) : null}
             <footer className="wrapper">
               <Link href="/signout">
@@ -93,7 +92,6 @@ const Profile = () => {
   return (
     <>
       <h1 className="sr-only">Profile</h1>
-      <Header />
       <Spinner />
       <Footer />
     </>
@@ -106,6 +104,7 @@ const ViewerQuery = gql`
       id
       email
       interests
+      avatar
     }
     bookmarks {
       id
