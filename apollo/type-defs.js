@@ -35,7 +35,7 @@ export const typeDefs = gql`
 
   input SignUpInput {
     email: String!
-    interests: String!
+    interests: [String]!
     password: String!
   }
 

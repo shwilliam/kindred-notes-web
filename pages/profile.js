@@ -58,45 +58,51 @@ const Profile = () => {
         <h1 className="sr-only">Profile</h1>
         <Header />
 
-        <FadeIn>
+        <FadeIn className="footer-pad">
           <main className="main">
-            <p className="profile__title">{data.viewer.email}</p>
-            <label>
-              <p className="title -center">Topics of Interest</p>
-              <TagsInput
-                className="input -center note__input"
-                value={data.viewer.interests}
-                onChange={handleInterestsChange}
-                placeholder="Anxiety"
-              />
-            </label>
+            <div className="wrapper">
+              <p className="profile__title">{data.viewer.email}</p>
+              <label>
+                <p className="title -small -center">Topics of Interest</p>
+                <TagsInput
+                  className="input"
+                  value={data.viewer.interests}
+                  onChange={handleInterestsChange}
+                  placeholder="Anxiety"
+                />
+              </label>
 
-            <ul className="tags">
-              {data.viewer.interests?.map((topic, idx) => (
-                <li
-                  key={idx}
-                  data-idx={idx}
-                  className="tag"
-                  onClick={handleInterestClick}
-                >
-                  {topic}&nbsp;&nbsp;&nbsp;✕
-                </li>
-              ))}
-            </ul>
-            <h2 className="title -center">Favourite Notes</h2>
-            <ul className="note-grid">
-              {data.bookmarks?.map(({id, content, color, style, font}) => (
-                <li className="note-grid__cell" key={id}>
-                  <Link href={`/note/${id}`}>
-                    <a className="link -no-ul">
-                      <Note color={color} style={style} font={font}>
-                        {content}
-                      </Note>
-                    </a>
-                  </Link>
-                </li>
-              ))}
-            </ul>
+              <ul className="tags">
+                {data.viewer.interests?.map((topic, idx) => (
+                  <li
+                    key={idx}
+                    data-idx={idx}
+                    className="tag"
+                    onClick={handleInterestClick}
+                  >
+                    {topic}&nbsp;&nbsp;&nbsp;✕
+                  </li>
+                ))}
+              </ul>
+            </div>
+            {data.bookmarks?.length ? (
+              <>
+                <h2 className="title -small -center">Favourite Notes</h2>
+                <ul className="note-grid">
+                  {data.bookmarks?.map(({id, content, color, style, font}) => (
+                    <li className="note-grid__cell" key={id}>
+                      <Link href={`/note/${id}`}>
+                        <a className="link -no-ul">
+                          <Note color={color} style={style} font={font}>
+                            {content}
+                          </Note>
+                        </a>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </>
+            ) : null}
             <footer className="wrapper">
               <Link href="/signout">
                 <a className="button -full">Sign out</a>

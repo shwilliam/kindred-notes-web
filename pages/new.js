@@ -95,7 +95,6 @@ const New = () => {
   const handleTagClick = ({target}) => {
     setTopicsVal(s => {
       const topics = [...s]
-      console.log(topics)
       topics.splice(target.dataset.idx, 1)
       return topics
     })
@@ -115,7 +114,7 @@ const New = () => {
         <h1 className="sr-only">New note</h1>
         <Header />
 
-        <FadeIn>
+        <FadeIn className="footer-pad">
           <form onSubmit={handleSubmit}>
             {errorMsg && <p>{errorMsg}</p>}
             {loading && <p>loading...</p>}
@@ -167,13 +166,15 @@ const New = () => {
             </Note>
 
             <div className="wrapper">
-              <label>Tag related topics</label>
-              <TagsInput
-                className="input -center note__input"
-                value={topicsVal}
-                onChange={setTopicsVal}
-                placeholder="Anxiety"
-              />
+              <label>
+                <span className="title -small">Tag related topics</span>
+                <TagsInput
+                  className="input note__input"
+                  value={topicsVal}
+                  onChange={setTopicsVal}
+                  placeholder="Anxiety"
+                />
+              </label>
 
               <ul className="tags">
                 {topicsVal?.map((topic, idx) => (
@@ -183,7 +184,7 @@ const New = () => {
                     className="tag"
                     onClick={handleTagClick}
                   >
-                    {topic}
+                    {topic}&nbsp;&nbsp;&nbsp;✕
                   </li>
                 ))}
               </ul>

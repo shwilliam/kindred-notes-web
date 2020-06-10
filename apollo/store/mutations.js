@@ -1,5 +1,7 @@
+const firebase = require('@firebase/app').default
 import {ApolloError} from 'apollo-server-micro'
 import {firestore} from './index'
+import {createReply} from './utils'
 
 export const addUser = async user => {
   try {
