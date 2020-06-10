@@ -70,7 +70,7 @@ const SignIn = () => {
         <button className="button -full" type="submit">
           Login
         </button>
-        <p>
+        <p className="wave-pad -small">
           Don't have an account?{' '}
           <Link href="signup">
             <a className="link -no-ul">Sign up</a>

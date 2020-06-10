@@ -18,7 +18,6 @@ export const Field = ({
     >
       {label} {required ? <span title="Required">*</span> : undefined}
     </label>
-    {!floating && <br />}
     <input
       className={`input ${floating ? '-floating' : ''} ${
         center ? '-center' : ''

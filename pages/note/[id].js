@@ -112,7 +112,7 @@ const NotePage = () => {
       <h1 className="sr-only">Note</h1>
       <Header />
 
-      <FadeIn>
+      <FadeIn className="footer-pad">
         <Note color={note.color} style={note.style} font={note.font} full>
           <button
             type="button"

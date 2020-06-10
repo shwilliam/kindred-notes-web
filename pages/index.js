@@ -47,7 +47,7 @@ const Index = () => {
         <h1 className="sr-only">Kindred Notes</h1>
         <Header />
 
-        <FadeIn>
+        <FadeIn className="footer-pad">
           <Tabs>
             <TabList>
               <Tab>Received</Tab>

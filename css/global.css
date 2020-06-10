@@ -19,9 +19,33 @@ body,
 }
 
 .wrapper {
-  width: 80%;
+  width: 75%;
   max-width: 600px;
   margin: 0 auto;
+}
+
+.fill {
+  display: block;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: var(--color__bg);
+  z-index: 999;
+  overflow-x: hidden;
+  padding: 0 var(--layout__rhythm);
+}
+
+.offscreen {
+  height: 0%;
+  transform: translateY(100vh);
+  transition: transform 0.4s ease-in-out 0.1s, height 0.2s ease-in-out;
+}
+
+.offscreen.-show {
+  height: 100%;
+  transform: translateY(0vh);
 }
 
 .layout {
@@ -29,7 +53,7 @@ body,
   background-color: var(--color__bg);
   height: 100%;
   width: 100%;
-  overflow: hidden;
+  overflow-x: hidden;
 }
 
 .layout.-fill {
@@ -37,6 +61,9 @@ body,
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+.layout.-fill * {
+  z-index: 999;
 }
 
 .layout__wave {
@@ -67,6 +94,11 @@ body,
 .title {
   font-size: 1.4rem;
   font-weight: 600;
+  margin: var(--layout__rhythm) 0;
+}
+
+.title.-small {
+  font-size: 1.15rem;
 }
 
 .title.-center {
@@ -77,7 +109,7 @@ body,
   font-size: 1.85rem;
   font-weight: 600;
   color: var(--color__accent--blue);
-  padding: calc(var(--layout__rhythm) / 2) 0 var(--layout__rhythm) 0;
+  padding: calc(var(--layout__rhythm) / 2) 0;
 }
 
 .footer {
@@ -139,7 +171,8 @@ body,
   background-color: transparent;
   border: none;
   border-bottom: 1px solid var(--color__text);
-  padding: calc(var(--layout__rhythm) / 4);
+  padding: calc(var(--layout__rhythm) / 2);
+  margin: calc(var(--layout__rhythm) / 4) 0;
 }
 
 .input.-floating {
@@ -170,6 +203,11 @@ a.button,
   text-align: center;
   display: block;
   width: 100%;
+}
+
+.button.-secondary {
+  background-color: var(--color__ui);
+  color: var(--color__accent--blue);
 }
 
 .button.-floating {
@@ -209,7 +247,7 @@ a.button,
   max-width: 600px;
   margin: 0 auto;
   height: 300px;
-  margin: var(--layout__rhythm) auto;
+  margin: calc(var(--layout__rhythm) * 2) auto;
   box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 1px -1px,
     rgba(0, 0, 0, 0.14) 0px 1px 1px 0px, rgba(0, 0, 0, 0.12) 0px 1px 3px 0px;
   border-radius: 5px;
@@ -266,6 +304,7 @@ a.button,
   display: flex;
   justify-content: center;
   align-items: center;
+  margin: calc(var(--layout__rhythm) / 1.5) 0;
 }
 
 .note__bookmark {
@@ -294,18 +333,19 @@ a.button,
   color: var(--color__bg);
 }
 
+ul.tags,
 .tags {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  margin-top: 200px;
+  margin: var(--layout__rhythm) 0;
 }
 
 .tag {
   font-size: 0.85rem;
   cursor: pointer;
   padding: calc(var(--layout__rhythm) / 2) var(--layout__rhythm);
-  margin: calc(var(--layout__rhythm) / 4);
+  margin: calc(var(--layout__rhythm) / 4) calc(var(--layout__rhythm) / 2);
   background-color: var(--color__ui);
   color: var(--color__accent--blue);
   border-radius: 4px;
@@ -316,4 +356,18 @@ a.button,
   font-size: 0.85rem;
   font-weight: 400;
   color: var(--color__accent--blue);
+  margin: var(--layout__rhythm) var(--layout__rhythm)
+    calc(var(--layout__rhythm) * 1.5) var(--layout__rhythm);
+}
+
+.wave-pad {
+  margin-bottom: 130px;
+}
+
+.wave-pad.-small {
+  margin-bottom: 70px;
+}
+
+.footer-pad {
+  margin-bottom: 120px;
 }
