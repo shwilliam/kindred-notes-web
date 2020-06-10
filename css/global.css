@@ -16,6 +16,7 @@ body,
     Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   font-size: 16px;
   height: 100%;
+  min-height: 500px;
 }
 
 .wrapper {
@@ -46,6 +47,21 @@ body,
 .offscreen.-show {
   height: 100%;
   transform: translateY(0vh);
+}
+
+.error {
+  color: #f54962;
+}
+
+.info {
+  border-radius: 4px;
+  background-color: var(--color__ui);
+  padding: var(--layout__rhythm);
+  margin: calc(var(--layout__rhythm) * 3) auto;
+}
+
+.info__text {
+  margin: calc(var(--layout__rhythm) / 2) 0;
 }
 
 .layout {
@@ -121,7 +137,6 @@ body,
 }
 
 .link {
-  display: block;
   height: 100%;
 }
 
@@ -199,22 +214,31 @@ a.button,
   border-radius: 4px;
 }
 
+a.button.-full,
 .button.-full {
   text-align: center;
   display: block;
   width: 100%;
 }
 
+a.button.-secondary,
 .button.-secondary {
   background-color: var(--color__ui);
   color: var(--color__accent--blue);
 }
 
+a.button.-floating,
 .button.-floating {
   border: none;
   padding: var(--layout__rhythm);
   background-color: transparent;
   margin: 0;
+}
+
+a.button:disabled,
+.button:disabled {
+  cursor: not-allowed;
+  background-color: var(--color__ui);
 }
 
 .note-grid {
