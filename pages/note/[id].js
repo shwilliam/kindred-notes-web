@@ -20,6 +20,7 @@ const NotePage = () => {
   const [createReply] = useMutation(CreateReplyMutation)
   const [bookmarkNote] = useMutation(BookmarkNoteMutation)
   const [unbookmarkNote] = useMutation(UnbookmarkNoteMutation)
+  const [isBookmarkedLocally, setIsBookmarkedLocally] = useState(undefined)
   const [errorMsg, setErrorMsg] = useState()
   const [isSubmitting, setIsSubmitting] = useState()
 
@@ -50,10 +51,12 @@ const NotePage = () => {
   }
 
   const onBookmark = () => {
+    setIsBookmarkedLocally(true)
     bookmarkNote({variables: {noteId: id}})
   }
 
   const onUnbookmark = () => {
+    setIsBookmarkedLocally(false)
     unbookmarkNote({variables: {noteId: id}})
   }
 
@@ -76,7 +79,10 @@ const NotePage = () => {
     )
 
   const {note, viewer} = data
-  const isBookmarked = viewer.bookmarks?.includes(note.id)
+  const isBookmarked =
+    typeof isBookmarkedLocally === 'undefined'
+      ? viewer.bookmarks?.includes(note.id)
+      : isBookmarkedLocally
   const isOwn = note.author === viewer.id
   return (
     <>
@@ -102,9 +108,11 @@ const NotePage = () => {
         {isOwn && note?.replies.length > 0 && (
           <section className="wrapper">
             <h2 className="title">Who appreciated your note</h2>
-            <ul>
+            <ul className="reply__list">
               {note.replies?.map(({id, content}) => (
-                <li key={id}>{content}</li>
+                <li className="reply" key={id}>
+                  {content}
+                </li>
               ))}
             </ul>
           </section>
