@@ -6,29 +6,6 @@ import {useRouter} from 'next/router'
 import {withApollo} from '../apollo/client'
 import {FadeIn, Footer, Header, Note} from '../components'
 
-const ViewerQuery = gql`
-  query ViewerQuery {
-    viewer {
-      id
-      email
-    }
-    notes {
-      id
-      content
-      color
-      font
-      style
-    }
-    sentNotes {
-      id
-      content
-      color
-      font
-      style
-    }
-  }
-`
-
 const Index = () => {
   const router = useRouter()
   const {data, loading} = useQuery(ViewerQuery)
@@ -92,7 +69,36 @@ const Index = () => {
     )
   }
 
-  return <p>Loading...</p>
+  return (
+    <>
+      <h1 className="sr-only">Kindred Notes</h1>
+      <Header />
+      <Footer />
+    </>
+  )
 }
+
+const ViewerQuery = gql`
+  query ViewerQuery {
+    viewer {
+      id
+      email
+    }
+    notes {
+      id
+      content
+      color
+      font
+      style
+    }
+    sentNotes {
+      id
+      content
+      color
+      font
+      style
+    }
+  }
+`
 
 export default withApollo(Index)

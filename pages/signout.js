@@ -3,12 +3,7 @@ import gql from 'graphql-tag'
 import {useRouter} from 'next/router'
 import {useEffect} from 'react'
 import {withApollo} from '../apollo/client'
-
-const SignOutMutation = gql`
-  mutation SignOutMutation {
-    signOut
-  }
-`
+import {Footer, Header} from '../components'
 
 const SignOut = () => {
   const client = useApolloClient()
@@ -23,7 +18,19 @@ const SignOut = () => {
     })
   }, [signOut, router, client])
 
-  return <p>Signing out...</p>
+  return (
+    <>
+      <h1 className="sr-only">Signing out</h1>
+      <Header />
+      <Footer />
+    </>
+  )
 }
+
+const SignOutMutation = gql`
+  mutation SignOutMutation {
+    signOut
+  }
+`
 
 export default withApollo(SignOut)

@@ -5,31 +5,6 @@ import {useRouter} from 'next/router'
 import {withApollo} from '../apollo/client'
 import {FadeIn, Footer, Header, Note, TagsInput} from '../components'
 
-const ViewerQuery = gql`
-  query ViewerQuery {
-    viewer {
-      id
-      email
-      interests
-    }
-    bookmarks {
-      id
-      content
-      color
-      font
-      style
-    }
-  }
-`
-
-const UpdateInterestsMutation = gql`
-  mutation UpdateInterestsMutation($interests: [String]!) {
-    updateInterests(input: {interests: $interests}) {
-      interests
-    }
-  }
-`
-
 const Profile = () => {
   const router = useRouter()
   const {data, loading} = useQuery(ViewerQuery)
@@ -115,7 +90,38 @@ const Profile = () => {
     )
   }
 
-  return <p>Loading...</p>
+  return (
+    <>
+      <h1 className="sr-only">Profile</h1>
+      <Header />
+      <Footer />
+    </>
+  )
 }
+
+const ViewerQuery = gql`
+  query ViewerQuery {
+    viewer {
+      id
+      email
+      interests
+    }
+    bookmarks {
+      id
+      content
+      color
+      font
+      style
+    }
+  }
+`
+
+const UpdateInterestsMutation = gql`
+  mutation UpdateInterestsMutation($interests: [String]!) {
+    updateInterests(input: {interests: $interests}) {
+      interests
+    }
+  }
+`
 
 export default withApollo(Profile)

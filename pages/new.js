@@ -14,40 +14,8 @@ import {
   Note,
   TagsInput,
 } from '../components'
+import {useArrayIterator} from '../hooks'
 import {getErrorMessage} from '../lib/form'
-
-const CreateNoteMutation = gql`
-  mutation CreateNoteMutation(
-    $content: String!
-    $tags: [String]!
-    $color: String!
-    $style: String!
-    $font: String!
-  ) {
-    createNote(
-      input: {
-        content: $content
-        tags: $tags
-        color: $color
-        style: $style
-        font: $font
-      }
-    ) {
-      note {
-        id
-      }
-    }
-  }
-`
-
-const ViewerQuery = gql`
-  query ViewerQuery {
-    viewer {
-      id
-      email
-    }
-  }
-`
 
 const NOTE_OPTIONS = {
   color: ['BLUE', 'GREEN', 'YELLOW'],
@@ -55,41 +23,48 @@ const NOTE_OPTIONS = {
   font: ['SANS', 'HAND', 'MONO'],
 }
 
-const useArrayIterator = array => {
-  const [value, setValue] = useState(1)
-  const next = () => setValue(s => s + 1)
-
-  return [array[value % array.length], next]
-}
-
 const New = () => {
+  const router = useRouter()
   const [createNote] = useMutation(CreateNoteMutation)
+  const {data, loading} = useQuery(ViewerQuery)
+  const [isSubmitting, setIsSubmitting] = useState(false)
   const [colorVal, nextColor] = useArrayIterator(NOTE_OPTIONS.color)
   const [styleVal, nextStyle] = useArrayIterator(NOTE_OPTIONS.style)
   const [fontVal, nextFont] = useArrayIterator(NOTE_OPTIONS.font)
   const [topicsVal, setTopicsVal] = useState([])
   const [errorMsg, setErrorMsg] = useState()
-  const router = useRouter()
-  const {data, loading} = useQuery(ViewerQuery)
 
   const handleSubmit = async event => {
     event.preventDefault()
-    const contentElement = event.currentTarget.elements.content
+    setIsSubmitting(true)
 
-    try {
-      await createNote({
-        variables: {
-          content: contentElement.value,
-          tags: topicsVal,
-          color: colorVal,
-          style: styleVal,
-          font: fontVal,
-        },
-      })
-      router.push('/')
-    } catch (error) {
-      setErrorMsg(getErrorMessage(error))
+    const contentElement = event.currentTarget.elements.content
+    const contentValue = contentElement.value.trim()
+    contentElement.value = contentValue
+
+    if (!event.currentTarget.checkValidity()) {
+    } else if (!topicsVal.length) {
+      setErrorMsg('Add some topics so people see your note')
+    } else {
+      setErrorMsg()
+
+      try {
+        await createNote({
+          variables: {
+            content: contentValue,
+            tags: topicsVal,
+            color: colorVal,
+            style: styleVal,
+            font: fontVal,
+          },
+        })
+        router.push('/')
+      } catch (error) {
+        setErrorMsg(getErrorMessage(error))
+      }
     }
+
+    setIsSubmitting(false)
   }
 
   const handleTagClick = ({target}) => {
@@ -116,8 +91,6 @@ const New = () => {
 
         <FadeIn className="footer-pad">
           <form onSubmit={handleSubmit}>
-            {errorMsg && <p>{errorMsg}</p>}
-            {loading && <p>loading...</p>}
             <Note color={colorVal} style={styleVal} font={fontVal} full>
               <Field
                 className="note__input"
@@ -189,7 +162,13 @@ const New = () => {
                 ))}
               </ul>
 
-              <button className="button -full" disabled={loading} type="submit">
+              {errorMsg && <p className="error">{errorMsg}</p>}
+
+              <button
+                className="button -full"
+                disabled={isSubmitting}
+                type="submit"
+              >
                 Post
               </button>
             </div>
@@ -200,7 +179,46 @@ const New = () => {
     )
   }
 
-  return <p>Loading...</p>
+  return (
+    <>
+      <h1 className="sr-only">New note</h1>
+      <Header />
+      <Footer />
+    </>
+  )
 }
+
+const CreateNoteMutation = gql`
+  mutation CreateNoteMutation(
+    $content: String!
+    $tags: [String]!
+    $color: String!
+    $style: String!
+    $font: String!
+  ) {
+    createNote(
+      input: {
+        content: $content
+        tags: $tags
+        color: $color
+        style: $style
+        font: $font
+      }
+    ) {
+      note {
+        id
+      }
+    }
+  }
+`
+
+const ViewerQuery = gql`
+  query ViewerQuery {
+    viewer {
+      id
+      email
+    }
+  }
+`
 
 export default withApollo(New)

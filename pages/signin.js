@@ -7,22 +7,11 @@ import {withApollo} from '../apollo/client'
 import {AuthLayout, Field} from '../components'
 import {getErrorMessage} from '../lib/form'
 
-const SignInMutation = gql`
-  mutation SignInMutation($email: String!, $password: String!) {
-    signIn(input: {email: $email, password: $password}) {
-      user {
-        id
-        email
-      }
-    }
-  }
-`
-
 const SignIn = () => {
   const client = useApolloClient()
+  const router = useRouter()
   const [signIn] = useMutation(SignInMutation)
   const [errorMsg, setErrorMsg] = useState()
-  const router = useRouter()
 
   const handleSubmit = async event => {
     event.preventDefault()
@@ -68,7 +57,7 @@ const SignIn = () => {
           label="Password"
         />
         <button className="button -full" type="submit">
-          Login
+          Log in
         </button>
         <p className="wave-pad -small">
           Don't have an account?{' '}
@@ -80,5 +69,16 @@ const SignIn = () => {
     </AuthLayout>
   )
 }
+
+const SignInMutation = gql`
+  mutation SignInMutation($email: String!, $password: String!) {
+    signIn(input: {email: $email, password: $password}) {
+      user {
+        id
+        email
+      }
+    }
+  }
+`
 
 export default withApollo(SignIn)
