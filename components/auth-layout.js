@@ -1,15 +1,15 @@
-import {IconWaveUp, IconLogo, IconWaveDown} from './index'
+import {IconLogo, IconWaveDown, IconWaveUp} from './index'
 
-export const AuthLayout = ({children}) => (
+export const AuthLayout = ({open = true, children}) => (
   <div className="layout -fill">
-    <IconWaveUp className="layout__wave -up" />
+    <IconWaveUp className={`wave -up ${open ? '' : '-closed'}`} />
 
-    <IconLogo />
+    <IconLogo className="logo" />
 
     <h1 className="logo__title">kindrednotes</h1>
 
-    {children}
+    <div className={`wave__content ${open ? '' : '-closed'}`}>{children}</div>
 
-    <IconWaveDown className="layout__wave -down" />
+    <IconWaveDown className={`wave -down ${open ? '' : '-closed'}`} />
   </div>
 )

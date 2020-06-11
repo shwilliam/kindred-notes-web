@@ -88,7 +88,10 @@ const SignUp = () => {
           },
         })
 
-        router.push('/signin')
+        setStep('INITIAL')
+        setTimeout(() => {
+          router.push('/signin')
+        }, 250)
       } catch (error) {
         setErrorMsg(getErrorMessage(error))
       }
