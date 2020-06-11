@@ -1,5 +1,6 @@
 export const TermsAndConditions = () => (
   <section>
+    <h3 className="title -center">Terms &amp; Conditions</h3>
     <p>
       Aliquam imperdiet dolor et ex pellentesque, sit amet rutrum orci semper.
       Sed sagittis velit quis dignissim faucibus. Sed sapien magna, dignissim ac
