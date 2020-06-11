@@ -4,6 +4,7 @@ import {useRouter} from 'next/router'
 import {useState} from 'react'
 import {withApollo} from '../../apollo/client'
 import {
+  Avatar,
   FadeIn,
   Field,
   Footer,
@@ -39,6 +40,7 @@ const NotePage = () => {
           variables: {
             content: contentValue,
             noteId: id,
+            avatar: data?.viewer?.avatar,
           },
         })
         router.reload()
@@ -109,9 +111,10 @@ const NotePage = () => {
           <section className="wrapper">
             <h2 className="title">Who appreciated your note</h2>
             <ul className="reply__list">
-              {note.replies?.map(({id, content}) => (
+              {note.replies?.map(({id, content, avatar}) => (
                 <li className="reply" key={id}>
-                  {content}
+                  <Avatar variant={avatar} small />
+                  <p className="reply__text">{content}</p>
                 </li>
               ))}
             </ul>
@@ -150,6 +153,7 @@ const NoteQuery = gql`
     viewer {
       id
       bookmarks
+      avatar
     }
     note(id: $id) {
       id
@@ -162,14 +166,19 @@ const NoteQuery = gql`
         id
         content
         author
+        avatar
       }
     }
   }
 `
 
 const CreateReplyMutation = gql`
-  mutation CreateReplyMutation($content: String!, $noteId: String!) {
-    createReply(input: {content: $content, noteId: $noteId}) {
+  mutation CreateReplyMutation(
+    $content: String!
+    $noteId: String!
+    $avatar: Int!
+  ) {
+    createReply(input: {content: $content, noteId: $noteId, avatar: $avatar}) {
       reply {
         content
       }

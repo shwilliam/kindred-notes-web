@@ -13,6 +13,7 @@ export const typeDefs = gql`
     id: ID!
     content: String!
     author: String!
+    avatar: Int!
   }
 
   type Note {
@@ -57,6 +58,7 @@ export const typeDefs = gql`
   input CreateReplyInput {
     content: String!
     noteId: String!
+    avatar: Int!
   }
 
   input BookmarkNoteInput {

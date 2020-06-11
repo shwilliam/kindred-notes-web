@@ -30,5 +30,6 @@ export const createReply = data => {
     id: v4(),
     content: data.content,
     author: data.author,
+    avatar: data.avatar,
   }
 }
