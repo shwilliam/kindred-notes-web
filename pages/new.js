@@ -15,7 +15,7 @@ import {
   TagsInput,
 } from '../components'
 import {useArrayIterator} from '../hooks'
-import {getErrorMessage} from '../lib/form'
+import {getErrorMessage} from '../lib'
 
 const NOTE_OPTIONS = {
   color: ['BLUE', 'GREEN', 'YELLOW'],

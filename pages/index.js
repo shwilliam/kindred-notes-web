@@ -1,11 +1,20 @@
-import {useQuery, useLazyQuery} from '@apollo/react-hooks'
+import {useLazyQuery, useQuery} from '@apollo/react-hooks'
 import {Tab, TabList, TabPanel, TabPanels, Tabs} from '@reach/tabs'
 import gql from 'graphql-tag'
 import Link from 'next/link'
 import {useRouter} from 'next/router'
-import {withApollo} from '../apollo/client'
-import {FadeIn, Footer, Header, Note, Spinner, Modal} from '../components'
 import {useEffect, useState} from 'react'
+import {withApollo} from '../apollo/client'
+import {
+  FadeIn,
+  Footer,
+  Header,
+  Modal,
+  Note,
+  ReplyForm,
+  ReplyList,
+  Spinner,
+} from '../components'
 
 const Index = () => {
   const router = useRouter()
@@ -51,16 +60,28 @@ const Index = () => {
         {router.query.note && (
           <Modal onDismiss={handleModalClose}>
             {openNote ? (
-              <Note
-                color={openNote.color}
-                style={openNote.style}
-                font={openNote.font}
-                full
-              >
-                {openNote.content}
-              </Note>
+              <>
+                <Note
+                  color={openNote.color}
+                  style={openNote.style}
+                  font={openNote.font}
+                  full
+                >
+                  {openNote.content}
+                </Note>
+                {openNote.author !== data.viewer.id && (
+                  <ReplyForm
+                    id={openNote.id}
+                    avatar={data.viewer.avatar}
+                    onSubmit={handleModalClose}
+                  />
+                )}
+                {openNote.author === data.viewer.id && (
+                  <ReplyList replies={openNote?.replies} />
+                )}
+              </>
             ) : (
-              <p>loading...</p>
+              <Spinner />
             )}
           </Modal>
         )}
@@ -106,7 +127,7 @@ const Index = () => {
                   <ul className="note-grid">
                     {data.sentNotes.map(({id, content, color, style, font}) => (
                       <li className="note-grid__cell" key={id}>
-                        <Link href={`/note/${id}`}>
+                        <Link href={`/?note=${id}`} as={`/note/${id}`}>
                           <a className="link -no-ul">
                             <Note color={color} style={style} font={font}>
                               {content}
@@ -142,7 +163,7 @@ const Index = () => {
     <>
       <h1 className="sr-only">Kindred Notes</h1>
       <Header />
-      <Spinner />
+      <Spinner full />
       <Footer />
     </>
   )
@@ -153,6 +174,7 @@ const ViewerQuery = gql`
     viewer {
       id
       email
+      avatar
     }
     notes {
       id

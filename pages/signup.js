@@ -11,7 +11,7 @@ import {
   TagsInput,
   TermsAndConditions,
 } from '../components'
-import {getErrorMessage} from '../lib/form'
+import {getErrorMessage} from '../lib'
 
 const SignUp = () => {
   const router = useRouter()

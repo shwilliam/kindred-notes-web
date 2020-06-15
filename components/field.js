@@ -5,9 +5,9 @@ export const Field = ({
   autoComplete = 'false',
   placeholder,
   type = 'text',
-  floating = false,
   center = false,
   invert = false,
+  floating = false,
   ...props
 }) => (
   <div {...props}>
@@ -19,9 +19,7 @@ export const Field = ({
       {label} {required ? <span title="Required">*</span> : undefined}
     </label>
     <input
-      className={`input ${floating ? '-floating' : ''} ${
-        center ? '-center' : ''
-      } ${invert ? '-invert' : ''}`}
+      className={`input ${floating ? '-floating' : ''} ${center ? '-center' : ''} ${invert ? '-invert' : ''}`}
       autoComplete={autoComplete}
       id={[name, 'input'].join('-')}
       name={name}

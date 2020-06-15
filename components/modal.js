@@ -8,8 +8,8 @@ export const Modal = ({onDismiss, children}) => {
   }
 
   return (
-    <div ref={shimRef} onClick={dismiss} className="modal">
-      <div className="modal__content">{children}</div>
+    <div ref={shimRef} onClick={dismiss} className="modal__bg">
+      <div className="modal">{children}</div>
     </div>
   )
 }

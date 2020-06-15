@@ -92,7 +92,7 @@ const Profile = () => {
   return (
     <>
       <h1 className="sr-only">Profile</h1>
-      <Spinner />
+      <Spinner full />
       <Footer />
     </>
   )

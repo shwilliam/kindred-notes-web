@@ -5,7 +5,7 @@ import {useRouter} from 'next/router'
 import {useState} from 'react'
 import {withApollo} from '../apollo/client'
 import {AuthLayout, Field} from '../components'
-import {getErrorMessage} from '../lib/form'
+import {getErrorMessage} from '../lib'
 
 const SignIn = () => {
   const client = useApolloClient()
