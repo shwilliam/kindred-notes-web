@@ -1,14 +1,38 @@
-import {useQuery} from '@apollo/react-hooks'
+import {useQuery, useLazyQuery} from '@apollo/react-hooks'
 import {Tab, TabList, TabPanel, TabPanels, Tabs} from '@reach/tabs'
 import gql from 'graphql-tag'
 import Link from 'next/link'
 import {useRouter} from 'next/router'
 import {withApollo} from '../apollo/client'
-import {FadeIn, Footer, Header, Note, Spinner} from '../components'
+import {FadeIn, Footer, Header, Note, Spinner, Modal} from '../components'
+import {useEffect, useState} from 'react'
 
 const Index = () => {
   const router = useRouter()
+  const [openNote, setOpenNote] = useState()
   const {data, loading} = useQuery(ViewerQuery)
+  const [getNote] = useLazyQuery(NoteQuery, {
+    onCompleted: data => setOpenNote(data.note),
+    fetchPolicy: 'network-only',
+  })
+
+  const handleModalClose = () => {
+    setOpenNote()
+    router.back()
+  }
+
+  const handleKeyDown = e => {
+    if (router.query.note && 27 === e.keyCode) handleModalClose()
+  }
+
+  useEffect(() => {
+    if (router.query.note) getNote({variables: {id: router.query.note}})
+  }, [router.query])
+
+  useEffect(() => {
+    document.addEventListener('keydown', handleKeyDown)
+    return () => document.removeEventListener('keydown', handleKeyDown)
+  }, [router.query])
 
   if (
     loading === false &&
@@ -24,6 +48,23 @@ const Index = () => {
         <h1 className="sr-only">Kindred Notes</h1>
         <Header />
 
+        {router.query.note && (
+          <Modal onDismiss={handleModalClose}>
+            {openNote ? (
+              <Note
+                color={openNote.color}
+                style={openNote.style}
+                font={openNote.font}
+                full
+              >
+                {openNote.content}
+              </Note>
+            ) : (
+              <p>loading...</p>
+            )}
+          </Modal>
+        )}
+
         <FadeIn className="footer-pad">
           <Tabs>
             <TabList>
@@ -36,7 +77,7 @@ const Index = () => {
                   <ul className="note-grid">
                     {data.notes.map(({id, content, color, style, font}) => (
                       <li className="note-grid__cell" key={id}>
-                        <Link href={`/note/${id}`}>
+                        <Link href={`/?note=${id}`} as={`/note/${id}`}>
                           <a className="link -no-ul">
                             <Note color={color} style={style} font={font}>
                               {content}
@@ -126,6 +167,25 @@ const ViewerQuery = gql`
       color
       font
       style
+    }
+  }
+`
+
+const NoteQuery = gql`
+  query NoteQuery($id: String!) {
+    note(id: $id) {
+      id
+      author
+      content
+      color
+      style
+      font
+      replies {
+        id
+        content
+        author
+        avatar
+      }
     }
   }
 `

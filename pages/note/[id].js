@@ -4,13 +4,13 @@ import {useRouter} from 'next/router'
 import {useState} from 'react'
 import {withApollo} from '../../apollo/client'
 import {
-  Avatar,
   FadeIn,
   Field,
   Footer,
   Header,
-  IconBookmark,
   Note,
+  NoteBookmark,
+  ReplyList,
 } from '../../components'
 import {getErrorMessage} from '../../lib/form'
 
@@ -93,33 +93,15 @@ const NotePage = () => {
 
       <FadeIn className="footer-pad">
         <Note color={note.color} style={note.style} font={note.font} full>
-          <button
-            type="button"
-            className="button -floating note__bookmark"
+          <NoteBookmark
             onClick={isBookmarked ? onUnbookmark : onBookmark}
-          >
-            <span className="sr-only">{isBookmarked && 'un'}bookmark</span>
-            <IconBookmark
-              fill={isBookmarked}
-              bordered={note.style === 'BORDER'}
-            />
-          </button>
+            isBookmarked={isBookmarked}
+            bordered={note.style === 'BORDER'}
+          />
           {note.content}
         </Note>
 
-        {isOwn && note?.replies.length > 0 && (
-          <section className="wrapper">
-            <h2 className="title">Who appreciated your note</h2>
-            <ul className="reply__list">
-              {note.replies?.map(({id, content, avatar}) => (
-                <li className="reply" key={id}>
-                  <Avatar variant={avatar} small />
-                  <p className="reply__text">{content}</p>
-                </li>
-              ))}
-            </ul>
-          </section>
-        )}
+        {isOwn && <ReplyList replies={note?.replies} />}
 
         {!isOwn && (
           <form onSubmit={handleSubmit} className="wrapper">

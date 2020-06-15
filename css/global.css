@@ -42,7 +42,7 @@ body,
   bottom: 0;
   left: 0;
   background-color: var(--color__bg);
-  z-index: 999;
+  z-index: 2;
   overflow-x: hidden;
   padding: 0 var(--layout__rhythm);
 }
@@ -56,6 +56,25 @@ body,
 .offscreen.-show {
   height: 100%;
   transform: translateY(0vh);
+}
+
+.modal {
+  position: fixed;
+  background-color: rgba(0, 0, 0, 0.65);
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  z-index: 999;
+  padding: calc(var(--layout__rhythm) * 2.5);
+}
+
+.modal__content {
+  border-radius: 4px;
+  height: calc(100% - (var(--layout__rhythm) * 4));
+  overflow-y: scroll;
+  background-color: var(--color__bg);
 }
 
 .error {
@@ -89,7 +108,7 @@ body,
   background-color: var(--color__ui);
 }
 .layout.-fill * {
-  z-index: 999;
+  z-index: 3;
 }
 
 .bg {
