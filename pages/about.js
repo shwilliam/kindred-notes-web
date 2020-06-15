@@ -1,36 +1,56 @@
+import {useQuery} from '@apollo/react-hooks'
+import gql from 'graphql-tag'
+import Link from 'next/link'
+import {withApollo} from '../apollo/client'
 import {FadeIn, Footer, Header} from '../components'
 
-// FIXME: hide footer
-// TODO: link to sign up
-
 const About = () => {
+  const {data, loading} = useQuery(ViewerQuery)
+
   return (
-    <>
+    <main>
       <h1 className="sr-only">About</h1>
       <Header />
 
       <FadeIn>
-        <h2>Why KindredNotes?</h2>
+        <article className="wrapper">
+          <h2 className="title">Why KindredNotes?</h2>
 
-        <p>
-          Kindrednotes is a social enterprise dedicated to encouraging and
-          inspiring kindness and empathy through kind notes.
-        </p>
+          <p className="paragraph">
+            Kindrednotes is a social enterprise dedicated to encouraging and
+            inspiring kindness and empathy through kind notes.
+          </p>
 
-        <h2>What is a KindredNote?</h2>
+          <h2 className="title">What is a KindredNote?</h2>
 
-        <p>
-          A Kindrednote is just what it sounds like, a kind note. It could be a
-          simple note to say something kind or a quote that’s had a positive
-          impact. It could be a story, an experience or a thought. Our intention
-          is to spread kindness and increase empathy by demonstrating that
-          despite our many differences in perspectives, beliefs and values, that
-          at the core, we are all the same.
-        </p>
+          <p className="paragraph">
+            A Kindrednote is just what it sounds like, a kind note. It could be
+            a simple note to say something kind or a quote that’s had a positive
+            impact. It could be a story, an experience or a thought. Our
+            intention is to spread kindness and increase empathy by
+            demonstrating that despite our many differences in perspectives,
+            beliefs and values, that at the core, we are all the same.
+          </p>
+
+          {!loading && !data?.viewer && (
+            <Link href="/signup">
+              <a className="button -full">Get started</a>
+            </Link>
+          )}
+        </article>
       </FadeIn>
-      <Footer />
-    </>
+      {!loading && data?.viewer && <Footer />}
+    </main>
   )
 }
 
-export default About
+const ViewerQuery = gql`
+  query ViewerQuery {
+    viewer {
+      id
+      email
+    }
+  }
+`
+
+export default withApollo(About)
