@@ -5,14 +5,8 @@ import Head from 'next/head'
 
 let globalApolloClient = null
 
-/**
- * Creates and provides the apolloContext
- * to a next.js PageTree. Use it by wrapping
- * your PageComponent via HOC pattern.
- * @param {Function|Class} PageComponent
- * @param {Object} [config]
- * @param {Boolean} [config.ssr=true]
- */
+// create and provide the apollo context to next.js page tree
+// exposed by wrapping page component in HOC
 export const withApollo = (PageComponent, {ssr = true} = {}) => {
   const WithApollo = ({apolloClient, apolloState, ...pageProps}) => {
     const client = apolloClient || initApolloClient(undefined, apolloState)
@@ -23,7 +17,7 @@ export const withApollo = (PageComponent, {ssr = true} = {}) => {
     )
   }
 
-  // Set the correct displayName in development
+  // set the correct `displayName` in development
   if (process.env.NODE_ENV !== 'production') {
     const displayName =
       PageComponent.displayName || PageComponent.name || 'Component'
@@ -39,31 +33,29 @@ export const withApollo = (PageComponent, {ssr = true} = {}) => {
     WithApollo.getInitialProps = async ctx => {
       const {AppTree} = ctx
 
-      // Initialize ApolloClient, add it to the ctx object so
-      // we can use it in `PageComponent.getInitialProp`.
+      // init apollo client, add it to the ctx object so
+      // we can use it in `PageComponent.getInitialProp`
       const apolloClient = (ctx.apolloClient = initApolloClient({
         res: ctx.res,
         req: ctx.req,
       }))
 
-      // Run wrapped getInitialProps methods
+      // run wrapped `getInitialProps` methods
       let pageProps = {}
       if (PageComponent.getInitialProps) {
         pageProps = await PageComponent.getInitialProps(ctx)
       }
 
-      // Only on the server:
+      // server
       if (typeof window === 'undefined') {
-        // When redirecting, the response is finished.
-        // No point in continuing to render
+        // redirecting
         if (ctx.res && ctx.res.finished) {
           return pageProps
         }
 
-        // Only if ssr is enabled
         if (ssr) {
           try {
-            // Run all GraphQL queries
+            // run all gql queries
             const {getDataFromTree} = await import('@apollo/react-ssr')
             await getDataFromTree(
               <AppTree
@@ -74,8 +66,8 @@ export const withApollo = (PageComponent, {ssr = true} = {}) => {
               />,
             )
           } catch (error) {
-            // Prevent Apollo Client GraphQL errors from crashing SSR.
-            // Handle them in components via the data.error prop:
+            // prevent gql errors from crashing ssr
+            // handle them in components via the data.error prop
             // https://www.apollographql.com/docs/react/api/react-apollo.html#graphql-query-data-error
             console.error('Error while running `getDataFromTree`', error)
           }
@@ -86,7 +78,7 @@ export const withApollo = (PageComponent, {ssr = true} = {}) => {
         }
       }
 
-      // Extract query data from the Apollo store
+      // extract query data from the Apollo store
       const apolloState = apolloClient.cache.extract()
 
       return {
@@ -99,19 +91,15 @@ export const withApollo = (PageComponent, {ssr = true} = {}) => {
   return WithApollo
 }
 
-/**
- * Always creates a new apollo client on the server
- * Creates or reuses apollo client in the browser.
- * @param  {Object} initialState
- */
+// always creates a new apollo client on server
+// creates or reuses apollo client in browser
 const initApolloClient = (ctx, initialState) => {
-  // Make sure to create a new client for every server-side request so that data
-  // isn't shared between connections (which would be bad)
+  // ensure to create a new client for every server-side request so that data
+  // isn't shared between connections
   if (typeof window === 'undefined') {
     return createApolloClient(ctx, initialState)
   }
 
-  // Reuse client on the client-side
   if (!globalApolloClient) {
     globalApolloClient = createApolloClient(ctx, initialState)
   }
@@ -119,15 +107,10 @@ const initApolloClient = (ctx, initialState) => {
   return globalApolloClient
 }
 
-/**
- * Creates and configures the ApolloClient
- * @param  {Object} [initialState={}]
- */
 const createApolloClient = (ctx = {}, initialState = {}) => {
   const ssrMode = typeof window === 'undefined'
   const cache = new InMemoryCache().restore(initialState)
 
-  // Check out https://github.com/vercel/next.js/pull/4611 if you want to use the AWSAppSyncClient
   return new ApolloClient({
     ssrMode,
     link: createIsomorphLink(ctx),

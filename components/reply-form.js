@@ -1,6 +1,7 @@
 import {useMutation} from '@apollo/react-hooks'
+import gql from 'graphql-tag'
 import {useState} from 'react'
-import {CreateReplyMutation, getErrorMessage} from '../lib'
+import {getErrorMessage} from '../lib'
 import {Field} from './index'
 
 export const ReplyForm = ({id, avatar, onSubmit}) => {
@@ -52,3 +53,17 @@ export const ReplyForm = ({id, avatar, onSubmit}) => {
     </form>
   )
 }
+
+const CreateReplyMutation = gql`
+  mutation CreateReplyMutation(
+    $content: String!
+    $noteId: String!
+    $avatar: Int!
+  ) {
+    createReply(input: {content: $content, noteId: $noteId, avatar: $avatar}) {
+      reply {
+        content
+      }
+    }
+  }
+`
