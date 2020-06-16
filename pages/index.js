@@ -1,7 +1,5 @@
 import {useLazyQuery, useQuery} from '@apollo/react-hooks'
-import {Tab, TabList, TabPanel, TabPanels, Tabs} from '@reach/tabs'
 import gql from 'graphql-tag'
-import Link from 'next/link'
 import {useRouter} from 'next/router'
 import {useEffect, useState} from 'react'
 import {withApollo} from '../apollo/client'
@@ -9,10 +7,8 @@ import {
   FadeIn,
   Footer,
   Header,
-  Modal,
-  Note,
-  ReplyForm,
-  ReplyList,
+  NoteGrid,
+  NoteModal,
   Spinner,
 } from '../components'
 
@@ -22,7 +18,7 @@ const Index = () => {
   const {data, loading} = useQuery(ViewerQuery)
   const [getNote] = useLazyQuery(NoteQuery, {
     onCompleted: data => setOpenNote(data.note),
-    fetchPolicy: 'network-only',
+    // fetchPolicy: 'network-only',
   })
 
   const handleModalClose = () => {
@@ -51,119 +47,35 @@ const Index = () => {
     router.push('/signin')
   }
 
-  if (data && data.viewer) {
-    return (
-      <>
-        <h1 className="sr-only">Kindred Notes</h1>
-        <Header />
-
-        {router.query.note && (
-          <Modal onDismiss={handleModalClose}>
-            {openNote ? (
-              <>
-                <Note
-                  color={openNote.color}
-                  style={openNote.style}
-                  font={openNote.font}
-                  full
-                >
-                  {openNote.content}
-                </Note>
-                {openNote.author !== data.viewer.id && (
-                  <ReplyForm
-                    id={openNote.id}
-                    avatar={data.viewer.avatar}
-                    onSubmit={handleModalClose}
-                  />
-                )}
-                {openNote.author === data.viewer.id && (
-                  <ReplyList replies={openNote?.replies} />
-                )}
-              </>
-            ) : (
-              <Spinner />
-            )}
-          </Modal>
-        )}
-
-        <FadeIn className="footer-pad">
-          <Tabs>
-            <TabList>
-              <Tab>Received</Tab>
-              <Tab>Sent</Tab>
-            </TabList>
-            <TabPanels>
-              <TabPanel>
-                {data.notes?.length ? (
-                  <ul className="note-grid">
-                    {data.notes.map(({id, content, color, style, font}) => (
-                      <li className="note-grid__cell" key={id}>
-                        <Link href={`/?note=${id}`} as={`/note/${id}`}>
-                          <a className="link -no-ul">
-                            <Note color={color} style={style} font={font}>
-                              {content}
-                            </Note>
-                          </a>
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                ) : (
-                  <div className="info wrapper">
-                    <p className="info__text">
-                      Looks like no notes match your interests.
-                    </p>
-                    <p className="info__text">
-                      <Link href="/profile">
-                        <a>Click here</a>
-                      </Link>{' '}
-                      to add some.
-                    </p>
-                  </div>
-                )}
-              </TabPanel>
-              <TabPanel>
-                {data.sentNotes?.length ? (
-                  <ul className="note-grid">
-                    {data.sentNotes.map(({id, content, color, style, font}) => (
-                      <li className="note-grid__cell" key={id}>
-                        <Link href={`/?note=${id}`} as={`/note/${id}`}>
-                          <a className="link -no-ul">
-                            <Note color={color} style={style} font={font}>
-                              {content}
-                            </Note>
-                          </a>
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                ) : (
-                  <div className="info wrapper">
-                    <p className="info__text">
-                      Your sent notes will show up here.{' '}
-                    </p>
-                    <p className="info__text">
-                      <Link href="/new">
-                        <a>Click here</a>
-                      </Link>{' '}
-                      to send you first!
-                    </p>
-                  </div>
-                )}
-              </TabPanel>
-            </TabPanels>
-          </Tabs>
-        </FadeIn>
-        <Footer />
-      </>
-    )
-  }
-
   return (
     <>
       <h1 className="sr-only">Kindred Notes</h1>
       <Header />
-      <Spinner full />
+
+      {data && data.viewer ? (
+        <>
+          {router.query.note && (
+            <NoteModal
+              id={openNote?.id}
+              color={openNote?.color}
+              style={openNote?.style}
+              font={openNote?.font}
+              content={openNote?.content}
+              replies={openNote?.replies}
+              avatar={data.viewer?.avatar}
+              onDismiss={handleModalClose}
+              isOwn={openNote?.author === data.viewer?.id}
+              loading={!!openNote}
+            />
+          )}
+
+          <FadeIn className="footer-pad">
+            <NoteGrid inbox={data.notes} outbox={data.sentNotes} />
+          </FadeIn>
+        </>
+      ) : (
+        <Spinner full />
+      )}
       <Footer />
     </>
   )
