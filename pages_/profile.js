@@ -1,6 +1,7 @@
 import {useMutation, useQuery} from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import Link from 'next/link'
+import useTranslation from 'next-translate/useTranslation'
 import {useRouter} from 'next/router'
 import {withApollo} from '../apollo/client'
 import {
@@ -8,6 +9,7 @@ import {
   FadeIn,
   Footer,
   Head,
+  LanguageSelect,
   Note,
   Spinner,
   Tag,
@@ -16,6 +18,8 @@ import {
 
 const Profile = () => {
   const router = useRouter()
+  const {t} = useTranslation()
+  const textWelcome = t('common:welcome', {name: 'Jane'})
   const {data, loading} = useQuery(ViewerQuery)
   const [updateInterests] = useMutation(UpdateInterestsMutation)
 
@@ -45,6 +49,8 @@ const Profile = () => {
         <FadeIn className="footer-pad">
           <section className="main">
             <div className="wrapper">
+              <p className="title">{textWelcome}</p>
+              <LanguageSelect pathname="/profile" />
               <Avatar variant={data.viewer.avatar} />
               <p className="profile__title">{data.viewer.email}</p>
               <label>
