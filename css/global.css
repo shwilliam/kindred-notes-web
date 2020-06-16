@@ -375,6 +375,8 @@ a.button:disabled,
   text-align: center;
   padding: var(--layout__rhythm);
   border: 1px solid currentColor;
+  white-space: pre-wrap;
+  overflow: hidden;
 }
 
 .note.-full {
