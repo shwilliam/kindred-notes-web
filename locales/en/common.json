@@ -1,0 +1,5 @@
+{
+  "welcome": "Hello {{name}}",
+  "language-name-en": "English",
+  "language-name-sv": "Swedish"
+}

@@ -1,4 +1,4 @@
-import Link from 'next/link'
+import Link from 'next-translate/link'
 import {FadeIn, Head, Header} from '../components'
 
 const FourOhFour = () => (
