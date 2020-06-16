@@ -3,7 +3,16 @@ import gql from 'graphql-tag'
 import Link from 'next/link'
 import {useRouter} from 'next/router'
 import {withApollo} from '../apollo/client'
-import {Avatar, FadeIn, Footer, Note, Spinner, TagsInput} from '../components'
+import {
+  Avatar,
+  FadeIn,
+  Footer,
+  Head,
+  Note,
+  Spinner,
+  Tag,
+  TagsInput,
+} from '../components'
 
 const Profile = () => {
   const router = useRouter()
@@ -13,9 +22,9 @@ const Profile = () => {
   const handleInterestsChange = interests =>
     updateInterests({variables: {interests}}).then(router.reload)
 
-  const handleInterestClick = ({target}) => {
+  const handleInterestClick = idx => {
     const interests = [...data?.viewer?.interests]
-    interests.splice(target.dataset.idx, 1)
+    interests.splice(idx, 1)
     handleInterestsChange(interests)
   }
 
@@ -27,12 +36,14 @@ const Profile = () => {
     router.push('/signin')
   }
 
-  if (data && data.viewer) {
-    return (
-      <>
-        <h1 className="sr-only">Profile</h1>
+  return (
+    <main>
+      <Head title="Profile" />
+      <h1 className="sr-only">Profile</h1>
+
+      {data && data.viewer ? (
         <FadeIn className="footer-pad">
-          <main className="main">
+          <section className="main">
             <div className="wrapper">
               <Avatar variant={data.viewer.avatar} />
               <p className="profile__title">{data.viewer.email}</p>
@@ -42,19 +53,17 @@ const Profile = () => {
                   className="input"
                   value={data.viewer.interests}
                   onChange={handleInterestsChange}
-                  placeholder="Anxiety"
                 />
               </label>
 
               <ul className="tags">
                 {data.viewer.interests?.map((topic, idx) => (
-                  <li
-                    key={idx}
-                    data-idx={idx}
-                    className="tag"
-                    onClick={handleInterestClick}
-                  >
-                    {topic}&nbsp;&nbsp;&nbsp;✕
+                  <li key={idx}>
+                    <Tag
+                      idx={idx}
+                      topic={topic}
+                      onClick={handleInterestClick}
+                    />
                   </li>
                 ))}
               </ul>
@@ -82,19 +91,14 @@ const Profile = () => {
                 <a className="button -full">Sign out</a>
               </Link>
             </footer>
-          </main>
+          </section>
         </FadeIn>
-        <Footer />
-      </>
-    )
-  }
+      ) : (
+        <Spinner full />
+      )}
 
-  return (
-    <>
-      <h1 className="sr-only">Profile</h1>
-      <Spinner full />
       <Footer />
-    </>
+    </main>
   )
 }
 

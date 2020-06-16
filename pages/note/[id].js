@@ -5,6 +5,7 @@ import {withApollo} from '../../apollo/client'
 import {
   FadeIn,
   Footer,
+  Head,
   Header,
   Note,
   NoteBookmark,
@@ -38,7 +39,8 @@ const NotePage = () => {
   const {note, viewer} = data
   const isOwn = note.author === viewer.id
   return (
-    <>
+    <main>
+      <Head title="Kindred Notes" />
       <h1 className="sr-only">Note</h1>
       <Header />
 
@@ -63,7 +65,7 @@ const NotePage = () => {
         )}
       </FadeIn>
       <Footer />
-    </>
+    </main>
   )
 }
 

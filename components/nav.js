@@ -9,22 +9,31 @@ export const Nav = () => {
     <nav className="nav">
       <Link href="/">
         <a className="nav__link">
-          <span className="sr-only">notes</span>
-          <IconNote className="nav__icon" fill={router.pathname === '/'} />
+          <span className="sr-only">Notes</span>
+          <IconNote
+            className="nav__icon"
+            fill={router.pathname === '/'}
+            aria-hidden
+          />
         </a>
       </Link>
       <Link href="/new">
         <a className="nav__link">
-          <span className="sr-only">write</span>
-          <IconPen className="nav__icon" fill={router.pathname === '/new'} />
+          <span className="sr-only">Write</span>
+          <IconPen
+            className="nav__icon"
+            fill={router.pathname === '/new'}
+            aria-hidden
+          />
         </a>
       </Link>
       <Link href="/profile">
         <a className="nav__link">
-          <span className="sr-only">profile</span>
+          <span className="sr-only">Profile</span>
           <IconProfile
             className="nav__icon"
             fill={router.pathname === '/profile'}
+            aria-hidden
           />
         </a>
       </Link>

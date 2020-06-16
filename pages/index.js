@@ -6,6 +6,7 @@ import {withApollo} from '../apollo/client'
 import {
   FadeIn,
   Footer,
+  Head,
   Header,
   NoteGrid,
   NoteModal,
@@ -48,7 +49,9 @@ const Index = () => {
   }
 
   return (
-    <>
+    <main>
+      {/* FIXME */}
+      <Head title="Home" description="Kindred Notes" />
       <h1 className="sr-only">Kindred Notes</h1>
       <Header />
 
@@ -77,7 +80,7 @@ const Index = () => {
         <Spinner full />
       )}
       <Footer />
-    </>
+    </main>
   )
 }
 

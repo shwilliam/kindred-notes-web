@@ -7,12 +7,14 @@ import {
   FadeIn,
   Field,
   Footer,
+  Head,
   Header,
   IconFont,
   IconPalette,
   IconSquare,
   Note,
   TagsInput,
+  Tag,
 } from '../components'
 import {useArrayIterator} from '../hooks'
 import {getErrorMessage} from '../lib'
@@ -67,10 +69,10 @@ const New = () => {
     setIsSubmitting(false)
   }
 
-  const handleTagClick = ({target}) => {
+  const handleTagClick = idx => {
     setTopicsVal(s => {
       const topics = [...s]
-      topics.splice(target.dataset.idx, 1)
+      topics.splice(idx, 1)
       return topics
     })
   }
@@ -83,12 +85,13 @@ const New = () => {
     router.push('/signin')
   }
 
-  if (data && data.viewer) {
-    return (
-      <>
-        <h1 className="sr-only">New note</h1>
-        <Header />
+  return (
+    <main>
+      <Head title="New note" description="Write a kind notes" />
+      <h1 className="sr-only">New note</h1>
+      <Header />
 
+      {data && data.viewer && (
         <FadeIn className="footer-pad">
           <form onSubmit={handleSubmit}>
             <Note color={colorVal} style={styleVal} font={fontVal} full>
@@ -109,9 +112,15 @@ const New = () => {
                   onClick={nextColor}
                   type="button"
                 >
+                  {/*
+                   * FIXME: fix sr output
+                   * - announce value on change
+                   * - better toggle label
+                   */}
                   <span className="sr-only">{colorVal}</span>
                   <IconPalette
                     className={`icon -${colorVal.toLowerCase()} -${styleVal.toLowerCase()}`}
+                    aria-hidden
                   />
                 </button>
                 <button
@@ -123,6 +132,7 @@ const New = () => {
                   <IconSquare
                     className={`icon -${colorVal.toLowerCase()} -${styleVal.toLowerCase()}`}
                     fill={styleVal === 'FILL'}
+                    aria-hidden
                   />
                 </button>
                 <button
@@ -133,6 +143,7 @@ const New = () => {
                   <span className="sr-only">{fontVal}</span>
                   <IconFont
                     className={`icon -${colorVal.toLowerCase()} -${styleVal.toLowerCase()}`}
+                    aria-hidden
                   />
                 </button>
               </section>
@@ -145,19 +156,13 @@ const New = () => {
                   className="input note__input"
                   value={topicsVal}
                   onChange={setTopicsVal}
-                  placeholder="Anxiety"
                 />
               </label>
 
               <ul className="tags">
                 {topicsVal?.map((topic, idx) => (
-                  <li
-                    key={idx}
-                    data-idx={idx}
-                    className="tag"
-                    onClick={handleTagClick}
-                  >
-                    {topic}&nbsp;&nbsp;&nbsp;✕
+                  <li key={idx}>
+                    <Tag idx={idx} topic={topic} onClick={handleTagClick} />
                   </li>
                 ))}
               </ul>
@@ -174,17 +179,10 @@ const New = () => {
             </div>
           </form>
         </FadeIn>
-        <Footer />
-      </>
-    )
-  }
+      )}
 
-  return (
-    <>
-      <h1 className="sr-only">New note</h1>
-      <Header />
       <Footer />
-    </>
+    </main>
   )
 }
 

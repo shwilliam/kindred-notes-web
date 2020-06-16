@@ -1,7 +1,7 @@
 import {IconLogo, IconWaveDown, IconWaveUp} from './index'
 
 export const AuthLayout = ({open = true, children}) => (
-  <div className="layout -fill">
+  <main className="layout -fill">
     <IconWaveUp className={`wave -up ${open ? '' : '-closed'}`} />
 
     <IconLogo className="logo" />
@@ -11,5 +11,5 @@ export const AuthLayout = ({open = true, children}) => (
     <div className={`wave__content ${open ? '' : '-closed'}`}>{children}</div>
 
     <IconWaveDown className={`wave -down ${open ? '' : '-closed'}`} />
-  </div>
+  </main>
 )

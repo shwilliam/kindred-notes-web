@@ -8,6 +8,8 @@ import {
   AuthLayout,
   AvatarSelect,
   Field,
+  Head,
+  Tag,
   TagsInput,
   TermsAndConditions,
 } from '../components'
@@ -45,6 +47,7 @@ const SignUp = () => {
   const handleKeyPress = event => {
     event.persist()
 
+    // TODO: focus visible input on view transition/fix keyboard nav
     if (event.key === 'Enter') {
       switch (step) {
         case 'INITIAL':
@@ -79,6 +82,7 @@ const SignUp = () => {
     ) {
       setIsSubmitting(true)
       try {
+        // TODO: ensure unique email
         await signUp({
           variables: {
             email: emailElement.value,
@@ -99,16 +103,17 @@ const SignUp = () => {
     }
   }
 
-  const handleInterestClick = ({target}) => {
+  const handleInterestClick = idx => {
     setInterests(s => {
       const interests = [...s]
-      interests.splice(target.dataset.idx, 1)
+      interests.splice(idx, 1)
       return interests
     })
   }
 
   return (
     <AuthLayout>
+      <Head title="Sign up" description="Sign up for a Kindred Notes account" />
       <h2 className="sr-only">Sign Up</h2>
       <form onSubmit={handleSubmit} onKeyPress={handleKeyPress}>
         <section aria-hidden={step !== 'INITIAL'}>
@@ -128,6 +133,7 @@ const SignUp = () => {
             required
             label="Password"
           />
+          {/* TODO: confirm password field */}
 
           <button
             onClick={toggleDetails}
@@ -154,19 +160,13 @@ const SignUp = () => {
               className="input note__input"
               value={interests}
               onChange={setInterests}
-              placeholder="Anxiety, stress..."
             />
           </label>
 
           <ul className="tags">
             {interests?.map((topic, idx) => (
-              <li
-                key={idx}
-                data-idx={idx}
-                className="tag"
-                onClick={handleInterestClick}
-              >
-                {topic}&nbsp;&nbsp;&nbsp;✕
+              <li key={idx}>
+                <Tag idx={idx} topic={topic} onClick={handleInterestClick} />
               </li>
             ))}
           </ul>

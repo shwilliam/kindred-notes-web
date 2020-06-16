@@ -4,7 +4,7 @@ import Link from 'next/link'
 import {useRouter} from 'next/router'
 import {useState} from 'react'
 import {withApollo} from '../apollo/client'
-import {AuthLayout, Field} from '../components'
+import {AuthLayout, Field, Head} from '../components'
 import {getErrorMessage} from '../lib'
 
 const SignIn = () => {
@@ -42,6 +42,7 @@ const SignIn = () => {
 
   return (
     <AuthLayout open={wavesOpen}>
+      <Head title="Sign in" description="Sign in to Kindred Notes" />
       <h2 className="sr-only">Sign In</h2>
       <form onSubmit={handleSubmit}>
         <Field

@@ -5,7 +5,7 @@ const formatTagInput = tag => tag.trim()
 export const TagsInput = ({
   value,
   onChange,
-  placeholder,
+  placeholder = 'Anxiety, stress...',
   name = 'tags',
   ...props
 }) => {
