@@ -1,4 +1,4 @@
-export * from './connect'
 export * from './models'
-export * from './mutations'
-export * from './queries'
+export * from './resolvers'
+export * from './store'
+export * from './type-defs'

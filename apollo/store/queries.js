@@ -1,5 +1,5 @@
 import {ApolloError} from 'apollo-client'
-import {firestore} from './index'
+import {firestore} from '../index'
 
 export const getUserById = async id => {
   try {
