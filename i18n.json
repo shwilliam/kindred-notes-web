@@ -1,5 +1,5 @@
 {
-  "allLanguages": ["en", "sv"],
+  "allLanguages": ["en"],
   "defaultLanguage": "en",
   "currentPagesDir": "pages_",
   "finalPagesDir": "pages",
