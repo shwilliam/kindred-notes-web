@@ -1,6 +1,6 @@
 import {useMutation} from '@apollo/react-hooks'
 import gql from 'graphql-tag'
-import Link from 'next-translate/link'
+import Link from 'next-translate/Link'
 import {useRouter} from 'next/router'
 import {useState} from 'react'
 import {withApollo} from '../apollo/client'

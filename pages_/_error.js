@@ -1,4 +1,4 @@
-import Link from 'next-translate/link'
+import Link from 'next-translate/Link'
 import {FadeIn, Head, Header} from '../components'
 
 const Error = ({statusCode}) => (

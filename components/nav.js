@@ -1,4 +1,4 @@
-import Link from 'next/link'
+import Link from 'next-translate/Link'
 import {useRouter} from 'next/router'
 import {IconNote, IconPen, IconProfile} from './index'
 

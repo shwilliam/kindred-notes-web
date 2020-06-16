@@ -1,6 +1,6 @@
 import {useQuery} from '@apollo/react-hooks'
 import gql from 'graphql-tag'
-import Link from 'next-translate/link'
+import Link from 'next-translate/Link'
 import {withApollo} from '../apollo/client'
 import {FadeIn, Footer, Head, Header} from '../components'
 

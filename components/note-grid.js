@@ -1,5 +1,5 @@
 import {Tab, TabList, TabPanel, TabPanels, Tabs} from '@reach/tabs'
-import Link from 'next/link'
+import Link from 'next-translate/Link'
 import {Note} from './index'
 
 export const NoteGrid = ({inbox, outbox}) => (
