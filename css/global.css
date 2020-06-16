@@ -519,7 +519,7 @@ ul.tags,
 
 .spinner {
   margin-top: calc(var(--layout__rhythm) * 6);
-  height: 80px;
+  height: 50px;
   display: flex;
   justify-content: center;
   transform: translateX(-40px);
