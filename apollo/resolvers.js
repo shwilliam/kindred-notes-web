@@ -18,7 +18,7 @@ import {
   getUserById,
   removeBookmark,
   updateInterests,
-} from './store'
+} from './index'
 
 const {JWT_SECRET} = getConfig().serverRuntimeConfig
 
