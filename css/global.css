@@ -81,6 +81,25 @@ body,
   background-color: var(--color__bg);
 }
 
+.dropdown-combobox__dropdown {
+  max-height: 180px;
+  overflow-y: auto;
+  width: 100%;
+  margin: 0;
+  border-top: 0;
+  background-color: white;
+  position: absolute;
+  top: 0;
+  z-index: 1000;
+  list-style-type: none;
+  padding: 0;
+  left: 0;
+}
+
+.dropdown-combobox__dropdown-container {
+  position: relative;
+}
+
 .error {
   color: #f54962;
 }
