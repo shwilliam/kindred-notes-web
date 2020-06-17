@@ -7,13 +7,19 @@ import {withApollo} from '../apollo/client'
 import {
   AuthLayout,
   AvatarSelect,
+  DropdownCombobox,
   Field,
   Head,
   Tag,
   TagsInput,
   TermsAndConditions,
 } from '../components'
-import {getErrorMessage} from '../lib'
+import {useCitiesSearch, useCountriesSearch} from '../hooks'
+import {
+  formatCitiesSelectItems,
+  formatCountriesSelectItems,
+  getErrorMessage,
+} from '../lib'
 
 const SignUp = () => {
   const router = useRouter()
@@ -23,6 +29,15 @@ const SignUp = () => {
   const [step, setStep] = useState('INITIAL')
   const [interests, setInterests] = useState([])
   const [avatar, setAvatar] = useState(1)
+  const [city, setCity] = useState()
+  const [cityQuery, setCitiesQuery] = useState('')
+  const {
+    country,
+    setCountry,
+    countryResults,
+    handleCountryInputChange,
+  } = useCountriesSearch()
+  const citiesSearchResults = useCitiesSearch(cityQuery, country) // this can be huge
   const [hasAgreedToTerms, setHasAgreedToTerms] = useState(false)
 
   const toggleDetails = event => {
@@ -152,6 +167,21 @@ const SignUp = () => {
         >
           <div className="title -small -center">Select your Avatar</div>
           <AvatarSelect value={avatar} onChange={setAvatar} />
+
+          <DropdownCombobox
+            label="Country"
+            items={formatCountriesSelectItems(countryResults)}
+            onChange={handleCountryInputChange}
+            onSelect={setCountry}
+          />
+
+          <DropdownCombobox
+            label="City"
+            items={formatCitiesSelectItems(citiesSearchResults)}
+            onChange={setCitiesQuery}
+            onSelect={setCity}
+            disabled={!country}
+          />
 
           <label>
             <div className="title -small -center">Topics of Interest</div>

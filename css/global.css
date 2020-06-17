@@ -208,6 +208,7 @@ body,
 }
 
 .title.-center {
+  display: block;
   text-align: center;
 }
 
