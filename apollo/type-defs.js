@@ -7,6 +7,9 @@ export const typeDefs = gql`
     interests: [String]!
     bookmarks: [String]
     avatar: Int!
+    country: String!
+    city: String!
+    coords: [String]!
   }
 
   type Reply {
@@ -40,6 +43,9 @@ export const typeDefs = gql`
     interests: [String]!
     password: String!
     avatar: Int!
+    country: String!
+    city: String!
+    coords: [String]!
   }
 
   input SignInInput {

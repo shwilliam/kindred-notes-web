@@ -89,8 +89,10 @@ const SignUp = () => {
     const emailElement = event.currentTarget.elements.email
     const passwordElement = event.currentTarget.elements.password
 
-    if (!interests.length) {
-      setErrorMsg('Add at least one interest') && console.log('ok??')
+    if (!city) {
+      setErrorMsg('Please add some location information')
+    } else if (!interests.length) {
+      setErrorMsg('Add at least one interest')
     } else if (
       emailElement.value.trim().length &&
       passwordElement.value.trim().length
@@ -104,6 +106,9 @@ const SignUp = () => {
             interests,
             password: passwordElement.value,
             avatar,
+            country,
+            city: city.name,
+            coords: [city.coords.lat, city.coords.lng],
           },
         })
 
@@ -254,6 +259,9 @@ const SignUpMutation = gql`
     $interests: [String]!
     $password: String!
     $avatar: Int!
+    $country: String!
+    $city: String!
+    $coords: [String]!
   ) {
     signUp(
       input: {
@@ -261,6 +269,9 @@ const SignUpMutation = gql`
         interests: $interests
         password: $password
         avatar: $avatar
+        country: $country
+        city: $city
+        coords: $coords
       }
     ) {
       user {

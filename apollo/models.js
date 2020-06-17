@@ -10,6 +10,9 @@ export const createUser = data => {
     hashedPassword: bcrypt.hashSync(data.password, salt),
     interests: data.interests,
     avatar: data.avatar,
+    country: data.country,
+    city: data.city,
+    coords: data.coords,
   }
 }
 
