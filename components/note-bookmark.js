@@ -20,7 +20,7 @@ export const NoteBookmark = ({id, bordered, bookmarks}) => {
 
   const isBookmarked =
     typeof isBookmarkedLocally === 'undefined'
-      ? bookmarks.includes(id)
+      ? bookmarks?.includes(id)
       : isBookmarkedLocally
 
   return (
