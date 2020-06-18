@@ -2,6 +2,8 @@ const firebase = require('@firebase/app').default
 import {ApolloError} from 'apollo-server-micro'
 import {createReply, firestore} from '../index'
 
+// TODO: clean up
+
 export const addUser = async user => {
   try {
     const newUser = await firestore.collection('users').add(user)
@@ -89,6 +91,26 @@ export const removeBookmark = async (id, input) => {
   } catch (error) {
     console.error(error)
     throw new ApolloError('Error removing bookmark')
+  }
+}
+
+export const viewNote = async (id, input) => {
+  try {
+    const notesSnapshot = await firestore
+      .collection('notes')
+      .where('id', '==', input.noteId)
+      .get()
+    let noteDoc
+    notesSnapshot.forEach(doc => (noteDoc = doc))
+
+    noteDoc.ref.update({
+      viewedBy: firebase.firestore.FieldValue.arrayUnion(id),
+    })
+
+    return {isViewed: true}
+  } catch (error) {
+    console.error(error)
+    throw new ApolloError('Error marking note as viewed')
   }
 }
 

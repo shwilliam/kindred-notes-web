@@ -18,6 +18,7 @@ import {
   getUserById,
   removeBookmark,
   updateInterests,
+  viewNote,
 } from './index'
 
 const {JWT_SECRET} = getConfig().serverRuntimeConfig
@@ -178,6 +179,15 @@ export const resolvers = {
         const id = await validateUser(context.req.headers)
         const isBookmarked = removeBookmark(id, args.input)
         return isBookmarked
+      } catch {
+        return null
+      }
+    },
+    async viewNote(_parent, args, context, _info) {
+      try {
+        const id = await validateUser(context.req.headers)
+        const isViewed = await viewNote(id, args.input)
+        return isViewed
       } catch {
         return null
       }
