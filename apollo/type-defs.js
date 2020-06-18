@@ -26,6 +26,7 @@ export const typeDefs = gql`
     color: String!
     style: String!
     font: String!
+    viewedBy: [String]
   }
 
   type NoteWithReplies {
@@ -71,6 +72,10 @@ export const typeDefs = gql`
     noteId: String!
   }
 
+  input ViewNoteInput {
+    noteId: String!
+  }
+
   input UpdateInterestsInput {
     interests: [String]!
   }
@@ -95,6 +100,10 @@ export const typeDefs = gql`
     isBookmarked: Boolean!
   }
 
+  type ViewNotePayload {
+    isViewed: Boolean!
+  }
+
   type UpdateInterestsPayload {
     interests: [String]!
   }
@@ -117,6 +126,7 @@ export const typeDefs = gql`
     createReply(input: CreateReplyInput!): CreateReplyPayload!
     bookmarkNote(input: BookmarkNoteInput!): BookmarkNotePayload!
     unbookmarkNote(input: BookmarkNoteInput!): BookmarkNotePayload!
+    viewNote(input: ViewNoteInput!): ViewNotePayload!
     updateInterests(input: UpdateInterestsInput!): UpdateInterestsPayload!
   }
 `

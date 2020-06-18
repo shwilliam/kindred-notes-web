@@ -1,6 +1,7 @@
-import {useQuery} from '@apollo/react-hooks'
+import {useMutation, useQuery} from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import {useRouter} from 'next/router'
+import {useEffect} from 'react'
 import {withApollo} from '../../apollo/client'
 import {
   FadeIn,
@@ -12,11 +13,17 @@ import {
   ReplyForm,
   ReplyList,
 } from '../../components'
+import {ViewNoteMutation} from '../../lib'
 
 const NotePage = () => {
   const router = useRouter()
   const {id} = router.query
   const {loading, error, data} = useQuery(NoteQuery, {variables: {id}})
+  const [viewNote] = useMutation(ViewNoteMutation)
+
+  useEffect(() => {
+    viewNote({variables: {noteId: id}})
+  }, [])
 
   if (error)
     return (
