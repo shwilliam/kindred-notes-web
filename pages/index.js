@@ -1,4 +1,4 @@
-import {useLazyQuery, useQuery} from '@apollo/react-hooks'
+import {useLazyQuery, useQuery, useMutation} from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import {useRouter} from 'next/router'
 import {useEffect, useState} from 'react'
@@ -12,11 +12,13 @@ import {
   NoteModal,
   Spinner,
 } from '../components'
+import {ViewNoteMutation} from '../lib'
 
 const Index = () => {
   const router = useRouter()
   const [openNote, setOpenNote] = useState()
   const {data, loading} = useQuery(ViewerQuery)
+  const [viewNote] = useMutation(ViewNoteMutation)
   const [getNote] = useLazyQuery(NoteQuery, {
     onCompleted: data => setOpenNote(data.note),
     // fetchPolicy: 'network-only',
@@ -32,7 +34,10 @@ const Index = () => {
   }
 
   useEffect(() => {
-    if (router.query.note) getNote({variables: {id: router.query.note}})
+    if (router.query.note) {
+      getNote({variables: {id: router.query.note}})
+      viewNote({variables: {noteId: router.query.note}})
+    }
   }, [router.query])
 
   useEffect(() => {
@@ -73,7 +78,11 @@ const Index = () => {
           )}
 
           <FadeIn className="footer-pad">
-            <NoteGrid inbox={data.notes} outbox={data.sentNotes} />
+            <NoteGrid
+              inbox={data.notes}
+              outbox={data.sentNotes}
+              viewerId={data?.viewer.id}
+            />
           </FadeIn>
         </>
       ) : (
@@ -97,6 +106,7 @@ const ViewerQuery = gql`
       color
       font
       style
+      viewedBy
     }
     sentNotes {
       id
