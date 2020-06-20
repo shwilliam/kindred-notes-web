@@ -1,4 +1,4 @@
-import {useLazyQuery, useQuery, useMutation} from '@apollo/react-hooks'
+import {useLazyQuery, useMutation, useQuery} from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import {useRouter} from 'next/router'
 import {useEffect, useState} from 'react'

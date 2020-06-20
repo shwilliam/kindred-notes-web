@@ -19,15 +19,15 @@ export const getUserById = async id => {
 }
 
 export const getUserByEmail = async email => {
-  let user
-  try {
-    const usersSnapshot = await firestore
-      .collection('users')
-      .where('email', '==', email)
-      .get()
+  const usersSnapshot = await firestore
+    .collection('users')
+    .where('email', '==', email)
+    .limit(1)
+    .get()
 
-    usersSnapshot.forEach(doc => (user = doc.data()))
-  } catch {}
+  let user
+  usersSnapshot.forEach(doc => (user = doc.data()))
+
   return user
 }
 
@@ -35,22 +35,24 @@ export const getBookmarks = async user => {
   try {
     const bookmarks = []
 
-    await Promise.all(
-      user.bookmarks.map(async noteId => {
-        const noteSnapshot = await firestore
-          .collection('notes')
-          .where('id', '==', noteId)
-          .get()
+    if (user?.bookmarks) {
+      await Promise.all(
+        user.bookmarks.map(async noteId => {
+          const noteSnapshot = await firestore
+            .collection('notes')
+            .where('id', '==', noteId)
+            .get()
 
-        let noteDoc
-        noteSnapshot.forEach(doc => {
-          noteDoc = doc
-        })
+          let noteDoc
+          noteSnapshot.forEach(doc => {
+            noteDoc = doc
+          })
 
-        const note = noteDoc.data()
-        bookmarks.push(note)
-      }),
-    )
+          const note = noteDoc.data()
+          bookmarks.push(note)
+        }),
+      )
+    }
 
     return bookmarks
   } catch (error) {

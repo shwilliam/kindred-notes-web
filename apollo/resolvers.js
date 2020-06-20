@@ -52,6 +52,16 @@ export const resolvers = {
         return null
       }
     },
+    async userExists(_parent, args, _context, _info) {
+      try {
+        const user = await getUserByEmail(args.email)
+        return {exists: !!user}
+      } catch {
+        // if unexpected error assume email is available
+        // email is validated again on sign up
+        return {exists: false}
+      }
+    },
     async bookmarks(_parent, _args, context, _info) {
       try {
         const id = await validateUser(context.req.headers)
@@ -100,11 +110,21 @@ export const resolvers = {
   Mutation: {
     async signUp(_parent, args, _context, _info) {
       const user = createUser(args.input)
-      addUser(user)
+      const existingUser = await getUserByEmail(args.input.email)
+
+      if (existingUser)
+        throw new UserInputError('Signup failed', {
+          validationErrors: {
+            email: 'A user with that email already exists',
+          },
+        })
+
+      await addUser(user)
       return {user}
     },
     async signIn(_parent, args, context, _info) {
       const user = await getUserByEmail(args.input.email)
+      const existingUser = await getUserByEmail(args.input.email)
 
       if (user && isValidPassword(user, args.input.password)) {
         const token = jwt.sign(

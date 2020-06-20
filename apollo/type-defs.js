@@ -49,9 +49,17 @@ export const typeDefs = gql`
     coords: [String]!
   }
 
+  type SignUpPayload {
+    user: User
+  }
+
   input SignInInput {
     email: String!
     password: String!
+  }
+
+  type SignInPayload {
+    user: User!
   }
 
   input CreateNoteInput {
@@ -62,56 +70,51 @@ export const typeDefs = gql`
     font: String!
   }
 
+  type CreateNotePayload {
+    note: Note!
+  }
+
   input CreateReplyInput {
     content: String!
     noteId: String!
     avatar: Int!
   }
 
-  input BookmarkNoteInput {
-    noteId: String!
-  }
-
-  input ViewNoteInput {
-    noteId: String!
-  }
-
-  input UpdateInterestsInput {
-    interests: [String]!
-  }
-
-  type SignUpPayload {
-    user: User!
-  }
-
-  type SignInPayload {
-    user: User!
-  }
-
-  type CreateNotePayload {
-    note: Note!
-  }
-
   type CreateReplyPayload {
     reply: Reply!
+  }
+
+  input BookmarkNoteInput {
+    noteId: String!
   }
 
   type BookmarkNotePayload {
     isBookmarked: Boolean!
   }
 
+  input ViewNoteInput {
+    noteId: String!
+  }
+
   type ViewNotePayload {
     isViewed: Boolean!
+  }
+
+  input UpdateInterestsInput {
+    interests: [String]!
   }
 
   type UpdateInterestsPayload {
     interests: [String]!
   }
 
+  type UserExistsPayload {
+    exists: Boolean!
+  }
+
   type Query {
-    user(id: ID!): User!
-    users: [User]!
     viewer: User
+    userExists(email: String!): UserExistsPayload!
     bookmarks: [Note]
     notes: [Note]
     sentNotes: [Note]

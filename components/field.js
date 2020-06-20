@@ -8,9 +8,11 @@ export const Field = ({
   center = false,
   invert = false,
   floating = false,
-  ...props
+  className,
+  value,
+  onChange
 }) => (
-  <div {...props}>
+  <div className={className}>
     <label
       id={[name, 'label'].join('-')}
       htmlFor={[name, 'input'].join('-')}
@@ -19,13 +21,17 @@ export const Field = ({
       {label} {required ? <span title="Required">*</span> : undefined}
     </label>
     <input
-      className={`input ${floating ? '-floating' : ''} ${center ? '-center' : ''} ${invert ? '-invert' : ''}`}
+      className={`input ${floating ? '-floating' : ''} ${
+        center ? '-center' : ''
+      } ${invert ? '-invert' : ''}`}
       autoComplete={autoComplete}
       id={[name, 'input'].join('-')}
       name={name}
       required={required}
       type={type}
       placeholder={placeholder}
+      value={value}
+      onChange={onChange}
     />
   </div>
 )

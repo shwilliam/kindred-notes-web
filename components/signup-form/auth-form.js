@@ -1,20 +1,37 @@
+import {useLazyQuery} from '@apollo/react-hooks'
+import gql from 'graphql-tag'
 import {useState} from 'react'
 import {Field} from '../../components'
 
 export const SignupAuthForm = ({onSubmit}) => {
+  const [inputValues, setInputValues] = useState({email: '', password: ''})
+  const [loading, setLoading] = useState(false)
   const [errorMsg, setErrorMsg] = useState()
-  const handleSubmit = event => {
-    event.preventDefault()
-    const emailElement = event.currentTarget.elements.email
-    const passwordElement = event.currentTarget.elements.password
-    const email = emailElement.value.trim()
-    const password = passwordElement.value.trim()
+  const [checkUserExists] = useLazyQuery(UserExistsQuery, {
+    onCompleted: async data => {
+      if (data.userExists?.exists) {
+        setErrorMsg('A user with that email already exists')
+      } else {
+        const {email, password} = inputValues
+        await onSubmit({email, password})
+      }
+      setLoading(false)
+    },
+  })
 
+  const handleSubmit = async event => {
+    event.preventDefault()
+    setErrorMsg()
+
+    let {email, password} = inputValues
+    email = email.trim()
+    password = password.trim()
+
+    // TODO: normalize html5 and manual input validation
     if (!email.length) {
       setErrorMsg('Please provide an email')
       return
     }
-    // TODO: check if user with exists
 
     if (!password.length) {
       setErrorMsg('Please enter a password')
@@ -22,7 +39,13 @@ export const SignupAuthForm = ({onSubmit}) => {
     }
     // TODO: confirm password field
 
-    onSubmit({email, password})
+    setLoading(true)
+    checkUserExists({variables: {email}})
+  }
+
+  const handleInput = event => {
+    event.persist()
+    setInputValues(s => ({...s, [event.target.name]: event.target.value}))
   }
 
   return (
@@ -34,6 +57,8 @@ export const SignupAuthForm = ({onSubmit}) => {
         placeholder="Email"
         required
         label="Email"
+        value={inputValues.email}
+        onChange={handleInput}
       />
       <Field
         name="password"
@@ -42,13 +67,23 @@ export const SignupAuthForm = ({onSubmit}) => {
         placeholder="Password"
         required
         label="Password"
+        value={inputValues.password}
+        onChange={handleInput}
       />
 
       {errorMsg && <p className="error">{errorMsg}</p>}
 
-      <button className="button -full" type="submit">
+      <button disabled={loading} className="button -full" type="submit">
         Create account
       </button>
     </form>
   )
 }
+
+const UserExistsQuery = gql`
+  query UserExistsQuery($email: String!) {
+    userExists(email: $email) {
+      exists
+    }
+  }
+`
