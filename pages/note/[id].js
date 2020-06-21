@@ -68,6 +68,7 @@ const NotePage = () => {
             id={id}
             avatar={data?.viewer?.avatar}
             onSubmit={router.reload}
+            viewerLocation={data?.viewer?.coords}
           />
         )}
       </FadeIn>
@@ -82,6 +83,7 @@ const NoteQuery = gql`
       id
       bookmarks
       avatar
+      coords
     }
     note(id: $id) {
       id

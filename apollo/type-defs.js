@@ -17,6 +17,7 @@ export const typeDefs = gql`
     content: String!
     author: String!
     avatar: Int!
+    coords: [String]!
   }
 
   type Note {
@@ -78,6 +79,7 @@ export const typeDefs = gql`
     content: String!
     noteId: String!
     avatar: Int!
+    coords: [String]!
   }
 
   type CreateReplyPayload {

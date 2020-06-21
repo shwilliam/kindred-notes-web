@@ -31,7 +31,7 @@ export const SignupForm = () => {
           avatar,
           country,
           city: city.name,
-          coords: [city.coords.lat, city.coords.lng],
+          coords: [city.coords.lng, city.coords.lat],
         },
       })
 

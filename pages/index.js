@@ -74,6 +74,7 @@ const Index = () => {
               onDismiss={handleModalClose}
               isOwn={openNote?.author === data.viewer?.id}
               loading={!!openNote}
+              viewerLocation={data.viewer?.coords}
             />
           )}
 
@@ -97,6 +98,8 @@ const ViewerQuery = gql`
   query ViewerQuery {
     viewer {
       id
+      avatar
+      coords
     }
     notes {
       id
