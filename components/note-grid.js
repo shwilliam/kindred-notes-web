@@ -1,6 +1,6 @@
 import {Tab, TabList, TabPanel, TabPanels, Tabs} from '@reach/tabs'
 import Link from 'next/link'
-import {Note} from './index'
+import {IconEnvelope, Note} from './index'
 
 export const NoteGrid = ({inbox, outbox, viewerId}) => (
   <Tabs>
@@ -12,17 +12,11 @@ export const NoteGrid = ({inbox, outbox, viewerId}) => (
       <TabPanel>
         {inbox?.length ? (
           <ul className="note-grid">
-            {inbox.map(({id, content, color, style, font, viewedBy}) => (
+            {inbox.map(({id, viewedBy}) => (
               <li className="note-grid__cell" key={id}>
                 <Link href={`/?note=${id}`} as={`/note/${id}`}>
                   <a className="link -no-ul">
-                    {viewedBy?.includes(viewerId) ? (
-                      <Note color={color} style={style} font={font}>
-                        {content}
-                      </Note>
-                    ) : (
-                      <p>NEW</p>
-                    )}
+                    <IconEnvelope open={viewedBy?.includes(viewerId)} />
                   </a>
                 </Link>
               </li>

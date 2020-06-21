@@ -1,4 +1,5 @@
 export * from './bookmark'
+export * from './envelope'
 export * from './font'
 export * from './logo'
 export * from './note'

@@ -97,15 +97,9 @@ const ViewerQuery = gql`
   query ViewerQuery {
     viewer {
       id
-      email
-      avatar
     }
     notes {
       id
-      content
-      color
-      font
-      style
       viewedBy
     }
     sentNotes {
