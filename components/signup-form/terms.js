@@ -10,6 +10,7 @@ export const SignupTerms = ({onAccept}) => {
       <TermsAndConditions />
 
       <button
+        title="Accept terms and conditions"
         onClick={handleAcceptTerms}
         className="button -full wave-pad"
         type="button"

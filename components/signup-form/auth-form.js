@@ -73,7 +73,12 @@ export const SignupAuthForm = ({onSubmit}) => {
 
       {errorMsg && <p className="error">{errorMsg}</p>}
 
-      <button disabled={loading} className="button -full" type="submit">
+      <button
+        disabled={loading}
+        className="button -full"
+        type="submit"
+        title="Create account"
+      >
         Create account
       </button>
     </form>

@@ -58,6 +58,7 @@ export const SignupDetailsForm = ({
 
       <DropdownCombobox
         label="Country"
+        name="country"
         items={formatCountriesSelectItems(countryResults)}
         onChange={handleCountryInputChange}
         onSelect={setCountry}
@@ -65,6 +66,7 @@ export const SignupDetailsForm = ({
 
       <DropdownCombobox
         label="City"
+        name="city"
         items={formatCitiesSelectItems(citiesSearchResults)}
         onChange={setCitiesQuery}
         onSelect={setCity}
@@ -94,11 +96,11 @@ export const SignupDetailsForm = ({
       )}
 
       {hasAgreedToTerms ? (
-        <button disabled={isSubmitting} className="button -full" type="submit">
+        <button title="Sign up" disabled={isSubmitting} className="button -full" type="submit">
           Sign up
         </button>
       ) : (
-        <button className="button -full -secondary" type="submit">
+        <button title="Terms and conditions" className="button -full -secondary" type="submit">
           Terms and conditions
         </button>
       )}

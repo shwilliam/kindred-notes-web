@@ -2,6 +2,7 @@ import {useCombobox} from 'downshift'
 
 export const DropdownCombobox = ({
   label = 'Select',
+  name = 'select',
   items,
   onChange,
   onSelect,
@@ -33,6 +34,7 @@ export const DropdownCombobox = ({
           {...getInputProps()}
           className="input -center"
           disabled={disabled}
+          name={name}
         />
         <button
           {...getToggleButtonProps()}

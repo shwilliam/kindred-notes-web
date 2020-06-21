@@ -64,7 +64,12 @@ const SignIn = () => {
 
         {errorMsg && <p className="error">{errorMsg}</p>}
 
-        <button disabled={isSubmitting} className="button -full" type="submit">
+        <button
+          title="Log in"
+          disabled={isSubmitting}
+          className="button -full"
+          type="submit"
+        >
           Log in
         </button>
         <p className="wave-pad -small">
