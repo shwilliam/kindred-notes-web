@@ -1,15 +1,15 @@
 # dependencies
-/node_modules
+node_modules/
 
 # next.js
-/.next/
-/out/
+.next/
+out/
 
 # production
-/build
+build/
 
-# misc
-.DS_Store
+# tests
+tests/screenshots/
 
 # debug
 npm-debug.log*
@@ -17,3 +17,6 @@ npm-debug.log*
 # local env files
 .env*
 !.env.example
+
+# misc
+.DS_Store
