@@ -7,7 +7,7 @@ const mockPassword = 'password'
 describe('sign in', () => {
   before(() => {
     // ensure mock user account exists
-    cy.visit('http://localhost:3000/signup')
+    cy.visit('/signup')
 
     cy.get('[name="email"]').type(mockEmail).should('have.value', mockEmail)
     cy.get('[name="password"]')
@@ -20,7 +20,7 @@ describe('sign in', () => {
       .should('contain', 'email')
       .should('contain', 'exists')
 
-    cy.visit('http://localhost:3000/signin')
+    cy.visit('/signin')
   })
 
   it('can sign in', () => {
@@ -33,7 +33,7 @@ describe('sign in', () => {
   it('can sign out', () => {
     doSignIn(mockEmail, mockPassword)
 
-    cy.visit('http://localhost:3000/profile')
+    cy.visit('/profile')
 
     cy.get('[title="Sign out"]').click()
 

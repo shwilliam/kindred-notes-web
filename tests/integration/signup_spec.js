@@ -5,7 +5,7 @@ const mockPassword = 'password'
 
 describe('sign up', () => {
   beforeEach(() => {
-    cy.visit('http://localhost:3000/signup')
+    cy.visit('/signup')
   })
 
   it('can sign up', () => {
