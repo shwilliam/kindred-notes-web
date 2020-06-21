@@ -88,7 +88,9 @@ const Profile = () => {
             ) : null}
             <footer className="wrapper">
               <Link href="/signout">
-                <a className="button -full">Sign out</a>
+                <a title="Sign out" className="button -full">
+                  Sign out
+                </a>
               </Link>
             </footer>
           </section>
