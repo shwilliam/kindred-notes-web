@@ -33,8 +33,6 @@ const MapPage = () => {
     type: 'FeatureCollection',
     features: note?.replies?.reduce(reduceReplyToFeature, []),
   }
-  console.log(note.replies)
-  console.log(repliesGeoJson)
 
   return (
     <main>
