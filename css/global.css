@@ -373,21 +373,6 @@ a.button:disabled,
   height: 60px;
 }
 
-[data-reach-tab-list],
-[data-reach-tab] {
-  background-color: var(--color__ui);
-  color: var(--color__accent--blue);
-}
-
-[data-reach-tab-list] {
-  display: flex;
-}
-
-[data-reach-tab] {
-  width: 50%;
-  padding: calc(var(--layout__rhythm) / 2);
-}
-
 .note-grid {
   display: grid;
   height: 100%;
@@ -541,6 +526,41 @@ ul.tags,
   color: var(--color__accent--blue);
   margin: 0 var(--layout__rhythm) calc(var(--layout__rhythm) * 1.5)
     var(--layout__rhythm);
+}
+
+.map {
+  height: 300px;
+}
+
+.map__marker {
+  background-color: pink;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.map__popup {
+  max-width: 200px;
+}
+
+.map__popup-content {
+  text-align: center;
+}
+
+[data-reach-tab-list],
+[data-reach-tab] {
+  background-color: var(--color__ui);
+  color: var(--color__accent--blue);
+}
+
+[data-reach-tab-list] {
+  display: flex;
+}
+
+[data-reach-tab] {
+  width: 50%;
+  padding: calc(var(--layout__rhythm) / 2);
 }
 
 .spinner {

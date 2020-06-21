@@ -1,5 +1,6 @@
 import {useMutation, useQuery} from '@apollo/react-hooks'
 import gql from 'graphql-tag'
+import Link from 'next/link'
 import {useRouter} from 'next/router'
 import {useEffect} from 'react'
 import {withApollo} from '../../apollo/client'
@@ -63,11 +64,18 @@ const NotePage = () => {
 
         {isOwn && <ReplyList replies={note?.replies} />}
 
+        {isOwn && (
+          <Link href={`/note/map/${note.id}`}>
+            <a>Map</a>
+          </Link>
+        )}
+
         {!isOwn && (
           <ReplyForm
             id={id}
             avatar={data?.viewer?.avatar}
             onSubmit={router.reload}
+            viewerLocation={data?.viewer?.coords}
           />
         )}
       </FadeIn>
@@ -82,6 +90,7 @@ const NoteQuery = gql`
       id
       bookmarks
       avatar
+      coords
     }
     note(id: $id) {
       id

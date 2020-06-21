@@ -34,5 +34,6 @@ export const createReply = data => {
     content: data.content,
     author: data.author,
     avatar: data.avatar,
+    coords: data.coords,
   }
 }

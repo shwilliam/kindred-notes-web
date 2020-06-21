@@ -11,6 +11,7 @@ export const NoteModal = ({
   onDismiss,
   isOwn = false,
   loading = false,
+  viewerLocation,
 }) => {
   return (
     <Modal onDismiss={onDismiss}>
@@ -23,7 +24,12 @@ export const NoteModal = ({
             {isOwn ? (
               <ReplyList replies={replies} />
             ) : (
-              <ReplyForm id={id} avatar={avatar} onSubmit={onDismiss} />
+              <ReplyForm
+                id={id}
+                avatar={avatar}
+                onSubmit={onDismiss}
+                viewerLocation={viewerLocation}
+              />
             )}
           </FadeIn>
         ) : (

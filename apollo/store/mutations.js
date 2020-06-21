@@ -51,8 +51,7 @@ export const addReply = async (id, input) => {
     await batch.commit()
 
     return {reply}
-  } catch (error) {
-    console.error(error)
+  } catch {
     throw new ApolloError('Error sending reply')
   }
 }
