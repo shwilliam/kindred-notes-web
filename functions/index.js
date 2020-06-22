@@ -44,3 +44,44 @@ exports.calculateAggregateNoteData = functions.firestore
     console.log('Aggregate note data updated.')
     return null
   })
+
+exports.calculateAggregateUserData = functions.firestore
+  .document('users/{userId}')
+  .onUpdate(async (snap, context) => {
+    let usersSnapshot
+    try {
+      usersSnapshot = await admin.firestore().collection('users').get()
+    } catch (error) {
+      console.error(
+        'Unable to fetch users while calculating aggregate user data.',
+      )
+      return null
+    }
+
+    const users = []
+    usersSnapshot.forEach(doc => {
+      const user = doc.data()
+      users.push(user)
+    })
+
+    const totalUsers = users.length
+    const totalCountries = users.reduce((uniqueCountries, user) => {
+      if (!uniqueCountries.includes(user.country))
+        return [...uniqueCountries, user.country]
+      return uniqueCountries
+    }, []).length
+
+    try {
+      await admin
+        .firestore()
+        .collection('admin')
+        .doc('users')
+        .set({totalUsers, totalCountries})
+    } catch (error) {
+      console.error('Error calculating aggregate user data')
+      return null
+    }
+
+    console.log('Aggregate user data updated.')
+    return null
+  })
