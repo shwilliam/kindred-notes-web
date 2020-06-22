@@ -1,5 +1,6 @@
 import gql from 'graphql-tag'
 
+// TODO: DRY up notes queries
 export const typeDefs = gql`
   scalar DateTime
 
@@ -123,6 +124,7 @@ export const typeDefs = gql`
     viewer: User
     userExists(email: String!): UserExistsPayload!
     bookmarks: [Note]
+    recentNotes: [Note]
     notes: [Note]
     sentNotes: [Note]
     note(id: String!): NoteWithReplies!

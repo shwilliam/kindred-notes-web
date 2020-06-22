@@ -15,6 +15,7 @@ import {
   getNote,
   getNotesInbox,
   getNotesOutbox,
+  getRecentNotes,
   getUserByEmail,
   getUserById,
   removeBookmark,
@@ -71,6 +72,15 @@ export const resolvers = {
         const bookmarks = await getBookmarks(user)
 
         return bookmarks
+      } catch {
+        return []
+      }
+    },
+    async recentNotes(_parent, _args, _context, _info) {
+      try {
+        const notes = await getRecentNotes()
+
+        return notes
       } catch {
         return []
       }

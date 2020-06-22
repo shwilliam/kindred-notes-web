@@ -61,6 +61,22 @@ export const getBookmarks = async user => {
   }
 }
 
+export const getRecentNotes = async () => {
+  try {
+    const notesSnapshot = await firestore.collection('notes').get()
+    const notes = []
+    notesSnapshot.forEach(doc => {
+      const note = doc.data()
+      notes.push(note)
+    })
+
+    return notes
+  } catch (error) {
+    console.error(error)
+    throw new ApolloError('Error fetching recent notes')
+  }
+}
+
 export const getNotesInbox = async user => {
   try {
     const notesSnapshot = await firestore.collection('notes').get()
