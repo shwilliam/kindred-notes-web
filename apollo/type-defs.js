@@ -12,6 +12,7 @@ export const typeDefs = gql`
     country: String!
     city: String!
     coords: [String]!
+    createdAt: DateTime!
   }
 
   type Reply {
@@ -20,6 +21,7 @@ export const typeDefs = gql`
     author: String!
     avatar: Int!
     coords: [String]!
+    createdAt: DateTime!
   }
 
   type Note {
@@ -30,6 +32,7 @@ export const typeDefs = gql`
     style: String!
     font: String!
     viewedBy: [String]
+    createdAt: DateTime!
   }
 
   type NoteWithReplies {
