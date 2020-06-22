@@ -60,7 +60,7 @@ const New = () => {
             font: fontVal,
           },
         })
-        router.push('/')
+        router.push('/notes')
       } catch (error) {
         setErrorMsg(getErrorMessage(error))
       }
