@@ -19,7 +19,7 @@ const Index = () => {
           <ul className="note-grid">
             {data?.recentNotes.map(({id, content, color, style, font}) => (
               <li className="note-grid__cell" key={id}>
-                <Link href={`/?note=${id}`}>
+                <Link href={`/note/${id}`}>
                   <a className="link -no-ul">
                     <Note color={color} style={style} font={font}>
                       {content}

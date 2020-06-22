@@ -14,7 +14,7 @@ export const NoteGrid = ({inbox, outbox, viewerId}) => (
           <ul className="note-grid">
             {inbox.map(({id, viewedBy}) => (
               <li className="note-grid__cell" key={id}>
-                <Link href={`/?note=${id}`} as={`/note/${id}`}>
+                <Link href={`/notes?note=${id}`} as={`/note/${id}`}>
                   <a className="link -no-ul">
                     <IconEnvelope open={viewedBy?.includes(viewerId)} />
                   </a>
@@ -41,7 +41,7 @@ export const NoteGrid = ({inbox, outbox, viewerId}) => (
           <ul className="note-grid">
             {outbox.map(({id, content, color, style, font}) => (
               <li className="note-grid__cell" key={id}>
-                <Link href={`/?note=${id}`} as={`/note/${id}`}>
+                <Link href={`/notes?note=${id}`} as={`/note/${id}`}>
                   <a className="link -no-ul">
                     <Note color={color} style={style} font={font}>
                       {content}
