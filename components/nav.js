@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import {useRouter} from 'next/router'
-import {IconNote, IconPen, IconProfile} from './index'
+import {IconHome, IconNote, IconPen, IconProfile} from './index'
 
 export const Nav = () => {
   const router = useRouter()
@@ -9,10 +9,20 @@ export const Nav = () => {
     <nav className="nav">
       <Link href="/">
         <a className="nav__link">
+          <span className="sr-only">Home</span>
+          <IconHome
+            className="nav__icon"
+            fill={router.pathname === '/'}
+            aria-hidden
+          />
+        </a>
+      </Link>
+      <Link href="/notes">
+        <a className="nav__link">
           <span className="sr-only">Notes</span>
           <IconNote
             className="nav__icon"
-            fill={router.pathname === '/'}
+            fill={router.pathname === '/notes'}
             aria-hidden
           />
         </a>
