@@ -37,16 +37,20 @@ npm i
 
 #### 4. Configure environment variables
 
-- Copy `.env.example` to a new file, `.env.local`, and `.firebaserc.example` to
-  `.firebaserc`
-- Replace the placeholder values in these new files with those listed in your
+- Copy `.env.example` to a new file named `.env.local`
+- Replace the placeholder values in `.env.local` with those listed in your
   [Firebase console](https://console.firebase.google.com/) and
   [Mapbox dashboard](https://account.mapbox.com/access-tokens/)
+- Copy `.firebaserc.example` to `.firebaserc`
+- Run `firebase use --add` and follow the prompts to create a Firebase project alias
+- Deploy the cloud functions by running `firebase deploy --only functions --project <ALIAS>`
 
 ### Testing
 
 #### End-to-end
 
 ```bash
+npm run dev
+
 npm run test:e2e
 ```
