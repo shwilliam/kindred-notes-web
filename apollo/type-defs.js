@@ -1,6 +1,8 @@
 import gql from 'graphql-tag'
 
 export const typeDefs = gql`
+  scalar DateTime
+
   type User {
     id: ID!
     email: String!

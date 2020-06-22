@@ -1,6 +1,7 @@
 import {UserInputError} from 'apollo-server-micro'
 import bcrypt from 'bcrypt'
 import cookie from 'cookie'
+import {GraphQLDateTime} from 'graphql-iso-date'
 import jwt from 'jsonwebtoken'
 import getConfig from 'next/config'
 import {
@@ -41,6 +42,7 @@ const validateUser = async headers => {
 }
 
 export const resolvers = {
+  DateTime: GraphQLDateTime,
   Query: {
     async viewer(_parent, _args, context, _info) {
       try {
