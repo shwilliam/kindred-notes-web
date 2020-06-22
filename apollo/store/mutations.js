@@ -102,6 +102,8 @@ export const viewNote = async (id, input) => {
     let noteDoc
     notesSnapshot.forEach(doc => (noteDoc = doc))
 
+    if (noteDoc.data().author === id) return {isViewed: false}
+
     noteDoc.ref.update({
       viewedBy: firebase.firestore.FieldValue.arrayUnion(id),
     })
