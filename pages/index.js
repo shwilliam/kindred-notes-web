@@ -15,20 +15,54 @@ const Index = () => {
 
       {!loading && data ? (
         <FadeIn className="footer-pad">
-          <h2 className="title -center">Recent Notes</h2>
-          <ul className="note-grid">
-            {data?.recentNotes.map(({id, content, color, style, font}) => (
-              <li className="note-grid__cell" key={id}>
-                <Link href={`/note/${id}`}>
-                  <a className="link -no-ul">
-                    <Note color={color} style={style} font={font}>
-                      {content}
-                    </Note>
-                  </a>
-                </Link>
-              </li>
-            ))}
-          </ul>
+          <>
+            <section className="wrapper">
+              <h2 className="sr-only">Overview</h2>
+              <ul className="overview-stats">
+                <li>
+                  <p className="overview-stats__item">
+                    <span className="overview-stats__data">
+                      {data.aggregateStatistics.totalUsers}
+                    </span>
+                    <span className="overview-stats__label">Users</span>
+                  </p>
+                </li>
+                <li>
+                  <p className="overview-stats__item">
+                    <span className="overview-stats__data">
+                      {data.aggregateStatistics.totalCountries}
+                    </span>
+                    <span className="overview-stats__label">Countries</span>
+                  </p>
+                </li>
+                <li>
+                  <p className="overview-stats__item">
+                    <span className="overview-stats__data">
+                      {data.aggregateStatistics.totalOpenedNotes}
+                    </span>
+                    <span className="overview-stats__label">Connections</span>
+                  </p>
+                </li>
+              </ul>
+            </section>
+
+            <section>
+              <h2 className="title -center">Recent Notes</h2>
+              <ul className="note-grid">
+                {data.recentNotes?.map(({id, content, color, style, font}) => (
+                  <li className="note-grid__cell" key={id}>
+                    <Link href={`/note/${id}`}>
+                      <a className="link -no-ul">
+                        <Note color={color} style={style} font={font}>
+                          {content}
+                        </Note>
+                      </a>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          </>
         </FadeIn>
       ) : (
         <Spinner full />
@@ -46,6 +80,11 @@ const HomeQuery = gql`
       color
       font
       style
+    }
+    aggregateStatistics {
+      totalUsers
+      totalCountries
+      totalOpenedNotes
     }
   }
 `

@@ -501,6 +501,25 @@ a.button:disabled,
   color: var(--color__bg);
 }
 
+.overview-stats {
+  display: flex;
+  justify-content: space-around;
+}
+
+.overview-stats__item {
+  width: 100px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.overview-stats__data {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--color__accent--blue);
+}
+
 ul.tags,
 .tags {
   display: flex;
