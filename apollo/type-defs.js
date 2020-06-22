@@ -1,6 +1,9 @@
 import gql from 'graphql-tag'
 
+// TODO: DRY up notes queries
 export const typeDefs = gql`
+  scalar DateTime
+
   type User {
     id: ID!
     email: String!
@@ -10,6 +13,7 @@ export const typeDefs = gql`
     country: String!
     city: String!
     coords: [String]!
+    createdAt: DateTime!
   }
 
   type Reply {
@@ -18,6 +22,7 @@ export const typeDefs = gql`
     author: String!
     avatar: Int!
     coords: [String]!
+    createdAt: DateTime!
   }
 
   type Note {
@@ -28,6 +33,7 @@ export const typeDefs = gql`
     style: String!
     font: String!
     viewedBy: [String]
+    createdAt: DateTime!
   }
 
   type NoteWithReplies {
@@ -118,6 +124,7 @@ export const typeDefs = gql`
     viewer: User
     userExists(email: String!): UserExistsPayload!
     bookmarks: [Note]
+    recentNotes: [Note]
     notes: [Note]
     sentNotes: [Note]
     note(id: String!): NoteWithReplies!

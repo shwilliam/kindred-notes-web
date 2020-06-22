@@ -13,6 +13,7 @@ export const createUser = data => {
     country: data.country,
     city: data.city,
     coords: data.coords,
+    createdAt: new Date(),
   }
 }
 
@@ -25,6 +26,7 @@ export const createNote = data => {
     color: data.color,
     style: data.style,
     font: data.font,
+    createdAt: new Date(),
   }
 }
 
@@ -35,5 +37,6 @@ export const createReply = data => {
     author: data.author,
     avatar: data.avatar,
     coords: data.coords,
+    createdAt: new Date(),
   }
 }

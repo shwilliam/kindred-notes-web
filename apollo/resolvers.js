@@ -1,6 +1,7 @@
 import {UserInputError} from 'apollo-server-micro'
 import bcrypt from 'bcrypt'
 import cookie from 'cookie'
+import {GraphQLDateTime} from 'graphql-iso-date'
 import jwt from 'jsonwebtoken'
 import getConfig from 'next/config'
 import {
@@ -14,6 +15,7 @@ import {
   getNote,
   getNotesInbox,
   getNotesOutbox,
+  getRecentNotes,
   getUserByEmail,
   getUserById,
   removeBookmark,
@@ -41,6 +43,7 @@ const validateUser = async headers => {
 }
 
 export const resolvers = {
+  DateTime: GraphQLDateTime,
   Query: {
     async viewer(_parent, _args, context, _info) {
       try {
@@ -69,6 +72,15 @@ export const resolvers = {
         const bookmarks = await getBookmarks(user)
 
         return bookmarks
+      } catch {
+        return []
+      }
+    },
+    async recentNotes(_parent, _args, _context, _info) {
+      try {
+        const notes = await getRecentNotes()
+
+        return notes
       } catch {
         return []
       }

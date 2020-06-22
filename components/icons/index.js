@@ -1,6 +1,7 @@
 export * from './bookmark'
 export * from './envelope'
 export * from './font'
+export * from './home'
 export * from './logo'
 export * from './note'
 export * from './palette'
