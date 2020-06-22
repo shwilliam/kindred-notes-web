@@ -1,6 +1,20 @@
 import {ApolloError} from 'apollo-client'
 import {firestore} from '../index'
 
+export const getAggregateStatistics = async () => {
+  try {
+    const dataSnapshot = await firestore.collection('admin').get()
+
+    let data = {}
+    dataSnapshot.forEach(doc => (data = {...data, ...doc.data()}))
+
+    return data
+  } catch (error) {
+    console.error(error)
+    throw new ApolloError('Error fetching aggregate statistics')
+  }
+}
+
 export const getUserById = async id => {
   try {
     const usersSnapshot = await firestore

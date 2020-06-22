@@ -11,6 +11,7 @@ import {
   addUser,
   createNote,
   createUser,
+  getAggregateStatistics,
   getBookmarks,
   getNote,
   getNotesInbox,
@@ -45,6 +46,13 @@ const validateUser = async headers => {
 export const resolvers = {
   DateTime: GraphQLDateTime,
   Query: {
+    async aggregateStatistics(_parent, _args, _context, _info) {
+      try {
+        return await getAggregateStatistics()
+      } catch {
+        return null
+      }
+    },
     async viewer(_parent, _args, context, _info) {
       try {
         const id = await validateUser(context.req.headers)

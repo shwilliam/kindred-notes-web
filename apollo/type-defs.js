@@ -120,7 +120,15 @@ export const typeDefs = gql`
     exists: Boolean!
   }
 
+  type AggregateStatisticsPayload {
+    totalUsers: Int!
+    totalCountries: Int!
+    totalNotes: Int!
+    totalOpenedNotes: Int!
+  }
+
   type Query {
+    aggregateStatistics: AggregateStatisticsPayload!
     viewer: User
     userExists(email: String!): UserExistsPayload!
     bookmarks: [Note]
