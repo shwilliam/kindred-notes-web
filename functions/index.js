@@ -45,6 +45,7 @@ exports.calculateAggregateNoteData = functions.firestore
     return null
   })
 
+// TODO: trigger on user create
 exports.calculateAggregateUserData = functions.firestore
   .document('users/{userId}')
   .onUpdate(async (snap, context) => {
@@ -65,18 +66,40 @@ exports.calculateAggregateUserData = functions.firestore
     })
 
     const totalUsers = users.length
-    const totalCountries = users.reduce((uniqueCountries, user) => {
+    // TODO: clean up (use `Set`?)
+    const uniqueCountries = users.reduce((uniqueCountries, user) => {
       if (!uniqueCountries.includes(user.country))
         return [...uniqueCountries, user.country]
       return uniqueCountries
-    }, []).length
+    }, [])
+    const totalCountries = uniqueCountries.length
+    const interestsCount = users.reduce(
+      (interestsCount, user) =>
+        user.interests
+          ? user.interests.reduce(
+              (updatedInterestsCount, interest) =>
+                updatedInterestsCount[interest]
+                  ? {
+                      ...updatedInterestsCount,
+                      [interest]: updatedInterestsCount[interest] + 1,
+                    }
+                  : {...updatedInterestsCount, [interest]: 1},
+              {...interestsCount},
+            )
+          : interestsCount,
+      {},
+    )
+    const interestsByPopularity = Object.entries(interestsCount)
+      .sort((interestA, interestB) => interestB[1] - interestA[1])
+      .map(([interest]) => interest)
+    const mostPopularInterests = interestsByPopularity.slice(0, 20)
 
     try {
-      await admin
-        .firestore()
-        .collection('admin')
-        .doc('users')
-        .set({totalUsers, totalCountries})
+      await admin.firestore().collection('admin').doc('users').set({
+        totalUsers,
+        totalCountries,
+        popularInterests: mostPopularInterests,
+      })
     } catch (error) {
       console.error('Error calculating aggregate user data')
       return null
