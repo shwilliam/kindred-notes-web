@@ -77,7 +77,11 @@ export const getBookmarks = async user => {
 
 export const getRecentNotes = async () => {
   try {
-    const notesSnapshot = await firestore.collection('notes').get()
+    const notesSnapshot = await firestore
+      .collection('notes')
+      .orderBy('createdAt', 'desc')
+      // TODO: `.limit()`
+      .get()
     const notes = []
     notesSnapshot.forEach(doc => {
       const note = doc.data()
@@ -93,7 +97,10 @@ export const getRecentNotes = async () => {
 
 export const getNotesInbox = async user => {
   try {
-    const notesSnapshot = await firestore.collection('notes').get()
+    const notesSnapshot = await firestore
+      .collection('notes')
+      .orderBy('createdAt', 'desc')
+      .get()
     const notes = []
     notesSnapshot.forEach(doc => {
       const note = doc.data()
@@ -114,7 +121,10 @@ export const getNotesInbox = async user => {
 
 export const getNotesOutbox = async user => {
   try {
-    const notesSnapshot = await firestore.collection('notes').get()
+    const notesSnapshot = await firestore
+      .collection('notes')
+      .orderBy('createdAt', 'desc')
+      .get()
     const notes = []
     notesSnapshot.forEach(doc => {
       const note = doc.data()
