@@ -24,17 +24,17 @@ export const addNote = async note => {
 
 export const addReply = async (id, input) => {
   try {
-    const noteDoc = await firestore.collection('notes').doc(input.noteId).get()
+    const noteRef = await firestore.collection('notes').doc(input.noteId)
 
     const reply = createReply({...input, author: id})
 
     const batch = firestore.batch()
 
     // add reply to subcollection
-    batch.set(noteDoc.collection('replies').doc(reply.id), reply)
+    batch.set(noteRef.collection('replies').doc(reply.id), reply)
 
     // add reply doc id to note replies field
-    batch.update(noteDoc, {
+    batch.update(noteRef, {
       replies: firebase.firestore.FieldValue.arrayUnion(reply.id),
     })
 

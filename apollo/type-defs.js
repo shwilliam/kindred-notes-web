@@ -21,6 +21,7 @@ export const typeDefs = gql`
     id: ID!
     content: String!
     author: String!
+    nickname: String
     avatar: Int!
     coords: [String]!
     createdAt: DateTime!
@@ -86,6 +87,7 @@ export const typeDefs = gql`
   input CreateReplyInput {
     content: String!
     noteId: String!
+    nickname: String
     avatar: Int!
     coords: [String]!
   }

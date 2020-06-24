@@ -71,6 +71,7 @@ const Notes = () => {
               content={openNote?.content}
               replies={openNote?.replies}
               avatar={data.viewer?.avatar}
+              nickname={data.viewer?.nickname}
               onDismiss={handleModalClose}
               isOwn={openNote?.author === data.viewer?.id}
               loading={!!openNote}
@@ -99,6 +100,7 @@ const ViewerQuery = gql`
     viewer {
       id
       avatar
+      nickname
       coords
     }
     notes {

@@ -74,6 +74,7 @@ const NotePage = () => {
           <ReplyForm
             id={id}
             avatar={data?.viewer?.avatar}
+            nickname={data?.viewer?.nickname || 'anon'}
             onSubmit={router.reload}
             viewerLocation={data?.viewer?.coords}
           />
@@ -90,6 +91,7 @@ const NoteQuery = gql`
       id
       bookmarks
       avatar
+      nickname
       coords
     }
     note(id: $id) {

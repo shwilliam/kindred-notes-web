@@ -8,6 +8,7 @@ export const NoteModal = ({
   content,
   replies = null,
   avatar,
+  nickname,
   onDismiss,
   isOwn = false,
   loading = false,
@@ -27,6 +28,7 @@ export const NoteModal = ({
               <ReplyForm
                 id={id}
                 avatar={avatar}
+                nickname={nickname}
                 onSubmit={onDismiss}
                 viewerLocation={viewerLocation}
               />

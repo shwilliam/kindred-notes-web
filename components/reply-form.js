@@ -4,7 +4,7 @@ import {useState} from 'react'
 import {getErrorMessage} from '../lib'
 import {Field} from './index'
 
-export const ReplyForm = ({id, viewerLocation, avatar, onSubmit}) => {
+export const ReplyForm = ({id, viewerLocation, avatar, nickname, onSubmit}) => {
   const [errorMsg, setErrorMsg] = useState()
   const [isSubmitting, setIsSubmitting] = useState()
   const [createReply] = useMutation(CreateReplyMutation)
@@ -25,6 +25,7 @@ export const ReplyForm = ({id, viewerLocation, avatar, onSubmit}) => {
             content: contentValue,
             noteId: id,
             avatar,
+            nickname,
             coords: viewerLocation,
           },
         })
@@ -59,6 +60,7 @@ const CreateReplyMutation = gql`
   mutation CreateReplyMutation(
     $content: String!
     $noteId: String!
+    $nickname: String
     $avatar: Int!
     $coords: [String]!
   ) {
@@ -66,6 +68,7 @@ const CreateReplyMutation = gql`
       input: {
         content: $content
         noteId: $noteId
+        nickname: $nickname
         avatar: $avatar
         coords: $coords
       }
