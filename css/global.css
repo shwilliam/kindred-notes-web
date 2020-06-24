@@ -98,15 +98,24 @@ body,
 }
 
 .header {
+  --header-height: 100px;
   min-height: 100px;
   background-color: var(--color__ui);
   text-align: center;
+  position: relative;
 }
 
 .header__logo {
   width: 65px;
   height: 65px;
   margin: var(--layout__rhythm);
+}
+
+.header__action {
+  position: absolute;
+  top: calc(var(--header-height) / 2);
+  right: calc(var(--layout__rhythm) * 2);
+  transform: translateY(-50%);
 }
 
 .title {
