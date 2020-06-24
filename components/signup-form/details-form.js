@@ -1,5 +1,11 @@
 import {useState} from 'react'
-import {AvatarSelect, DropdownCombobox, Tag, TagsInput} from '../../components'
+import {
+  AvatarSelect,
+  DropdownCombobox,
+  Field,
+  Tag,
+  TagsInput,
+} from '../../components'
 import {useCitiesSearch, useCountriesSearch} from '../../hooks'
 import {formatCitiesSelectItems, formatCountriesSelectItems} from '../../lib'
 
@@ -9,11 +15,13 @@ export const SignupDetailsForm = ({
   onToggleTerms,
   hasAgreedToTerms = false,
   formError,
-  className=''
+  className = '',
 }) => {
+  // TODO: use a reducer
   const [errorMsg, setErrorMsg] = useState()
   const [interests, setInterests] = useState([])
   const [avatar, setAvatar] = useState(1)
+  const [nickname, setNickname] = useState('')
   const [city, setCity] = useState()
   const [cityQuery, setCitiesQuery] = useState('')
   const {
@@ -23,6 +31,7 @@ export const SignupDetailsForm = ({
     handleCountryInputChange,
   } = useCountriesSearch()
   const citiesSearchResults = useCitiesSearch(cityQuery, country)
+  const handleNicknameChange = e => setNickname(e.target.value)
 
   const handleInterestClick = idx => {
     setInterests(s => {
@@ -45,7 +54,7 @@ export const SignupDetailsForm = ({
         return
       }
 
-      onSubmit({avatar, city, country, interests})
+      onSubmit({avatar, city, country, interests, nickname})
     } else {
       onToggleTerms()
     }
@@ -55,6 +64,14 @@ export const SignupDetailsForm = ({
     <form onSubmit={handleSubmit} className={className}>
       <div className="title -small -center">Select your Avatar</div>
       <AvatarSelect value={avatar} onChange={setAvatar} />
+
+      <Field
+        value={nickname}
+        onChange={handleNicknameChange}
+        name="nickname"
+        placeholder="rainbowsurfer"
+        label="Nickname"
+      />
 
       <DropdownCombobox
         label="Country"
@@ -96,11 +113,20 @@ export const SignupDetailsForm = ({
       )}
 
       {hasAgreedToTerms ? (
-        <button title="Sign up" disabled={isSubmitting} className="button -full" type="submit">
+        <button
+          title="Sign up"
+          disabled={isSubmitting}
+          className="button -full"
+          type="submit"
+        >
           Sign up
         </button>
       ) : (
-        <button title="Terms and conditions" className="button -full -secondary" type="submit">
+        <button
+          title="Terms and conditions"
+          className="button -full -secondary"
+          type="submit"
+        >
           Terms and conditions
         </button>
       )}

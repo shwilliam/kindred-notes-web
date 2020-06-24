@@ -7,6 +7,7 @@ export const createUser = data => {
   return {
     id: v4(),
     email: data.email,
+    nickname: data.nickname,
     hashedPassword: bcrypt.hashSync(data.password, salt),
     interests: data.interests,
     avatar: data.avatar,
@@ -36,6 +37,7 @@ export const createReply = data => {
     content: data.content,
     author: data.author,
     avatar: data.avatar,
+    nickname: data.nickname,
     coords: data.coords,
     createdAt: new Date(),
   }

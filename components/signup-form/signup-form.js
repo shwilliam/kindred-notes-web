@@ -17,7 +17,7 @@ export const SignupForm = () => {
 
   // TODO: focus visible input on view transition/fix keyboard nav
 
-  const handleSubmit = async ({avatar, city, country, interests}) => {
+  const handleSubmit = async ({nickname, avatar, city, country, interests}) => {
     event.preventDefault()
 
     setIsSubmitting(true)
@@ -28,6 +28,7 @@ export const SignupForm = () => {
           email: formValues.email,
           password: formValues.password,
           interests,
+          nickname,
           avatar,
           country,
           city: city.name,
@@ -102,6 +103,7 @@ const SignUpMutation = gql`
     $email: String!
     $interests: [String]!
     $password: String!
+    $nickname: String
     $avatar: Int!
     $country: String!
     $city: String!
@@ -112,6 +114,7 @@ const SignUpMutation = gql`
         email: $email
         interests: $interests
         password: $password
+        nickname: $nickname
         avatar: $avatar
         country: $country
         city: $city
