@@ -26,11 +26,14 @@ export const getUserById = async id => {
 }
 
 export const getUserByEmail = async email => {
-  const user = await firestore
+  const usersSnapshot = await firestore
     .collection('users')
     .where('email', '==', email)
     .limit(1)
     .get()
+
+  let user
+  usersSnapshot.forEach(doc => (user = doc.data()))
 
   return user
 }
