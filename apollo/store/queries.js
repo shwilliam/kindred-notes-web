@@ -172,7 +172,11 @@ export const getNote = async (user, id) => {
       )
     }
 
-    return {...note, replies}
+    const chronologicalReplies = replies.sort(
+      (replyA, replyB) => replyB.createdAt - replyA.createdAt,
+    )
+
+    return {...note, replies: chronologicalReplies}
   } catch (error) {
     console.error(error)
     throw new ApolloError('Error fetching note')
