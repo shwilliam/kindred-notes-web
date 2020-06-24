@@ -2,11 +2,9 @@ const firebase = require('@firebase/app').default
 import {ApolloError} from 'apollo-server-micro'
 import {createReply, firestore} from '../index'
 
-// TODO: clean up
-
 export const addUser = async user => {
   try {
-    const newUser = await firestore.collection('users').add(user)
+    const newUser = await firestore.collection('users').doc(user.id).set(user)
     return newUser
   } catch (error) {
     console.error(error)
@@ -16,7 +14,7 @@ export const addUser = async user => {
 
 export const addNote = async note => {
   try {
-    const newNote = await firestore.collection('notes').add(note)
+    const newNote = await firestore.collection('notes').doc(note.id).set(note)
     return newNote
   } catch (error) {
     console.error(error)
@@ -26,25 +24,17 @@ export const addNote = async note => {
 
 export const addReply = async (id, input) => {
   try {
-    const noteSnapshot = await firestore
-      .collection('notes')
-      .where('id', '==', input.noteId)
-      .get()
+    const noteDoc = await firestore.collection('notes').doc(input.noteId).get()
 
     const reply = createReply({...input, author: id})
 
     const batch = firestore.batch()
 
-    let noteRef
-    noteSnapshot.forEach(async doc => {
-      noteRef = doc.ref
-    })
-
     // add reply to subcollection
-    batch.set(noteRef.collection('replies').doc(reply.id), reply)
+    batch.set(noteDoc.collection('replies').doc(reply.id), reply)
 
     // add reply doc id to note replies field
-    batch.update(noteRef, {
+    batch.update(noteDoc, {
       replies: firebase.firestore.FieldValue.arrayUnion(reply.id),
     })
 
@@ -58,12 +48,7 @@ export const addReply = async (id, input) => {
 
 export const addBookmark = async (id, input) => {
   try {
-    const usersSnapshot = await firestore
-      .collection('users')
-      .where('id', '==', id)
-      .get()
-    let userDoc
-    usersSnapshot.forEach(doc => (userDoc = doc))
+    const userDoc = await firestore.collection('users').doc(id).get()
     userDoc.ref.update({
       bookmarks: firebase.firestore.FieldValue.arrayUnion(input.noteId),
     })
@@ -77,12 +62,7 @@ export const addBookmark = async (id, input) => {
 
 export const removeBookmark = async (id, input) => {
   try {
-    let userDoc
-    const usersSnapshot = await firestore
-      .collection('users')
-      .where('id', '==', id)
-      .get()
-    usersSnapshot.forEach(doc => (userDoc = doc))
+    const userDoc = await firestore.collection('users').doc(id).get()
     userDoc.ref.update({
       bookmarks: firebase.firestore.FieldValue.arrayRemove(input.noteId),
     })
@@ -95,12 +75,7 @@ export const removeBookmark = async (id, input) => {
 
 export const viewNote = async (id, input) => {
   try {
-    const notesSnapshot = await firestore
-      .collection('notes')
-      .where('id', '==', input.noteId)
-      .get()
-    let noteDoc
-    notesSnapshot.forEach(doc => (noteDoc = doc))
+    const noteDoc = await firestore.collection('notes').doc(input.noteId).get()
 
     if (noteDoc.data().author === id) return {isViewed: false}
 
@@ -117,12 +92,7 @@ export const viewNote = async (id, input) => {
 
 export const updateInterests = async (id, input) => {
   try {
-    const usersSnapshot = await firestore
-      .collection('users')
-      .where('id', '==', id)
-      .get()
-    let userDoc
-    usersSnapshot.forEach(doc => (userDoc = doc))
+    const userDoc = await firestore.collection('users').doc(id).get()
     userDoc.ref.update({
       interests: input.interests,
     })

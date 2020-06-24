@@ -17,15 +17,8 @@ export const getAggregateStatistics = async () => {
 
 export const getUserById = async id => {
   try {
-    const usersSnapshot = await firestore
-      .collection('users')
-      .where('id', '==', id)
-      .get()
-
-    let user
-    usersSnapshot.forEach(doc => (user = doc.data()))
-
-    return user
+    const user = await firestore.collection('users').doc(id).get()
+    return user.data()
   } catch (error) {
     console.error(error)
     throw new ApolloError('Error fetching active user')
@@ -33,14 +26,11 @@ export const getUserById = async id => {
 }
 
 export const getUserByEmail = async email => {
-  const usersSnapshot = await firestore
+  const user = await firestore
     .collection('users')
     .where('email', '==', email)
     .limit(1)
     .get()
-
-  let user
-  usersSnapshot.forEach(doc => (user = doc.data()))
 
   return user
 }
@@ -52,15 +42,7 @@ export const getBookmarks = async user => {
     if (user?.bookmarks) {
       await Promise.all(
         user.bookmarks.map(async noteId => {
-          const noteSnapshot = await firestore
-            .collection('notes')
-            .where('id', '==', noteId)
-            .get()
-
-          let noteDoc
-          noteSnapshot.forEach(doc => {
-            noteDoc = doc
-          })
+          const noteDoc = await firestore.collection('notes').doc(noteId).get()
 
           const note = noteDoc.data()
           bookmarks.push(note)
@@ -143,20 +125,10 @@ export const getNotesOutbox = async user => {
 
 export const getNote = async (user, id) => {
   try {
-    const noteSnapshot = await firestore
-      .collection('notes')
-      .where('id', '==', id)
-      .get()
-
-    let noteDoc
-    noteSnapshot.forEach(doc => {
-      noteDoc = doc
-    })
-
+    const noteDoc = await firestore.collection('notes').doc(id).get()
     const note = noteDoc.data()
 
     const replies = []
-
     if (note.replies && note.author === user.id) {
       await Promise.all(
         note.replies.map(async replyId => {
