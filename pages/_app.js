@@ -5,12 +5,10 @@ import '../css/global.css'
 import {AnimatePresence} from 'framer-motion'
 import {Layout} from '../components'
 
-const MyApp = ({Component, pageProps}) => (
+export default ({Component, pageProps}) => (
   <Layout>
     <AnimatePresence exitBeforeEnter>
       <Component {...pageProps} />
     </AnimatePresence>
   </Layout>
 )
-
-export default MyApp
