@@ -44,3 +44,26 @@ npm run dev
 
 npm run test:e2e
 ```
+
+### Deployment
+
+#### Vercel
+
+With it's GitHub integration, [Vercel](https://vercel.com) makes deploying your
+app including previews as easy as pushing your changes to GitHub. However, the
+free (hobby) plan allows you to deploy a Next.js application with a maximum of
+12 serverless functions. This means that to deploy this app on Vercel you would
+need to upgrade to a paid account. Alternatively, you can deploy your app using
+an alternate service such as Heroku.
+
+#### Heroku
+
+- Install [Heroku CLI](https://devcenter.heroku.com/articles/heroku-cli)
+- Create Heroku app by running `heroku create <APP_NAME>`
+- Deploy to Heroku from the command-line
+
+```bash
+git add .
+git commit -m 'deploy to heroku'
+git push heroku master
+```
