@@ -1,26 +1,50 @@
-import {useMutation} from '@apollo/react-hooks'
-import gql from 'graphql-tag'
 import {useState} from 'react'
+import {useMutation} from 'react-query'
 import {IconBookmark} from './index'
 
-export const NoteBookmark = ({id, bordered, bookmarks}) => {
-  const [bookmarkNote] = useMutation(BookmarkNoteMutation)
-  const [unbookmarkNote] = useMutation(UnbookmarkNoteMutation)
-  const [isBookmarkedLocally, setIsBookmarkedLocally] = useState(undefined)
+const bookmarkNoteRequest = async data => {
+  const response = await fetch('/api/notes/bookmark', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  })
+  const responseJson = await response.json()
 
+  return responseJson.user
+}
+
+const removeBookmarkNoteRequest = async data => {
+  const response = await fetch('/api/notes/bookmark', {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  })
+  const responseJson = await response.json()
+
+  return responseJson.user
+}
+
+export const NoteBookmark = ({id, bordered, bookmarks}) => {
+  const [bookmarkNote] = useMutation(bookmarkNoteRequest)
+  const [unbookmarkNote] = useMutation(removeBookmarkNoteRequest)
+  const [isBookmarkedLocally, setIsBookmarkedLocally] = useState(undefined)
   const onBookmark = () => {
     setIsBookmarkedLocally(true)
-    bookmarkNote({variables: {noteId: id}})
+    bookmarkNote({id})
   }
 
   const onUnbookmark = () => {
     setIsBookmarkedLocally(false)
-    unbookmarkNote({variables: {noteId: id}})
+    unbookmarkNote({id})
   }
 
   const isBookmarked =
     typeof isBookmarkedLocally === 'undefined'
-      ? bookmarks?.includes(id)
+      ? bookmarks?.some(bookmark => bookmark.id === id)
       : isBookmarkedLocally
 
   return (
@@ -36,19 +60,3 @@ export const NoteBookmark = ({id, bordered, bookmarks}) => {
     </button>
   )
 }
-
-const BookmarkNoteMutation = gql`
-  mutation BookmarkNoteMutation($noteId: String!) {
-    bookmarkNote(input: {noteId: $noteId}) {
-      isBookmarked
-    }
-  }
-`
-
-const UnbookmarkNoteMutation = gql`
-  mutation UnbookmarkNoteMutation($noteId: String!) {
-    unbookmarkNote(input: {noteId: $noteId}) {
-      isBookmarked
-    }
-  }
-`

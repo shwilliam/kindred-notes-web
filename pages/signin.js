@@ -1,16 +1,27 @@
-import {useApolloClient, useMutation} from '@apollo/react-hooks'
-import gql from 'graphql-tag'
 import Link from 'next/link'
 import {useRouter} from 'next/router'
 import {useState} from 'react'
-import {withApollo} from '../apollo/client'
+import {useMutation} from 'react-query'
 import {AuthLayout, Field, Head} from '../components'
 import {getErrorMessage} from '../lib'
 
-const SignIn = () => {
-  const client = useApolloClient()
+const signInRequest = async data => {
+  const response = await fetch('/api/users/signin', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  })
+  if (!response) throw new Error('Error authenticating user')
+
+  const responseJson = await response.json()
+  return responseJson.user
+}
+
+export default () => {
   const router = useRouter()
-  const [signIn] = useMutation(SignInMutation)
+  const [signIn] = useMutation(signInRequest)
   const [errorMsg, setErrorMsg] = useState()
   const [wavesOpen, setWavesOpen] = useState(true)
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -23,17 +34,12 @@ const SignIn = () => {
 
     try {
       setIsSubmitting(true)
-      await client.resetStore()
-      const {data} = await signIn({
-        variables: {
-          email: emailElement.value,
-          password: passwordElement.value,
-        },
+      await signIn({
+        email: emailElement.value,
+        password: passwordElement.value,
       })
-      if (data.signIn.user) {
-        setWavesOpen(false)
-        setTimeout(() => router.push('/'), 650)
-      }
+      setWavesOpen(false)
+      setTimeout(() => router.push('/'), 650)
     } catch (error) {
       setErrorMsg(getErrorMessage(error))
     }
@@ -82,16 +88,3 @@ const SignIn = () => {
     </AuthLayout>
   )
 }
-
-const SignInMutation = gql`
-  mutation SignInMutation($email: String!, $password: String!) {
-    signIn(input: {email: $email, password: $password}) {
-      user {
-        id
-        email
-      }
-    }
-  }
-`
-
-export default withApollo(SignIn)

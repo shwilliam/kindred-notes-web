@@ -1,12 +1,10 @@
-import {useQuery} from '@apollo/react-hooks'
-import gql from 'graphql-tag'
 import Link from 'next/link'
-import {withApollo} from '../apollo/client'
 import {FadeIn, Footer, Head, Header} from '../components'
+import {useViewer} from '../hooks'
 
-const About = () => {
-  const {data, loading} = useQuery(ViewerQuery)
-  const isAuthenticated = !loading && !!data?.viewer
+export default () => {
+  const viewer = useViewer()
+  const isAuthenticated = !viewer.loading && !!viewer.data
 
   return (
     <main>
@@ -34,7 +32,7 @@ const About = () => {
             beliefs and values, that at the core, we are all the same.
           </p>
 
-          {!isAuthenticated && (
+          {!viewer.loading && !viewer.data && (
             <Link href="/signup">
               <a className="button -full">Get started</a>
             </Link>
@@ -45,14 +43,3 @@ const About = () => {
     </main>
   )
 }
-
-const ViewerQuery = gql`
-  query ViewerQuery {
-    viewer {
-      id
-      email
-    }
-  }
-`
-
-export default withApollo(About)

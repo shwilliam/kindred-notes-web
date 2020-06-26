@@ -1,16 +1,21 @@
-import {useQuery} from '@apollo/react-hooks'
-import gql from 'graphql-tag'
 import {useRouter} from 'next/router'
-import {withApollo} from '../../../apollo/client'
-import {FadeIn, Footer, Head, Header, MapView} from '../../../components'
+import {
+  FadeIn,
+  Footer,
+  Head,
+  Header,
+  MapView,
+  Spinner,
+} from '../../../components'
+import {useNote} from '../../../hooks'
 import {reduceReplyToFeature} from '../../../lib'
 
-const MapPage = () => {
+export default () => {
   const router = useRouter()
   const {id} = router.query
-  const {loading, error, data} = useQuery(NoteQuery, {variables: {id}})
+  const note = useNote(id)
 
-  if (error)
+  if (!note.loading && note.error)
     return (
       <>
         <h1 className="sr-only">Note Map</h1>
@@ -19,19 +24,19 @@ const MapPage = () => {
       </>
     )
 
-  if (loading)
+  if (note.loading)
     return (
       <>
         <h1 className="sr-only">Note Map</h1>
         <Header />
+        <Spinner full />
         <Footer />
       </>
     )
 
-  const {note} = data
   const repliesGeoJson = {
     type: 'FeatureCollection',
-    features: note?.replies?.reduce(reduceReplyToFeature, []),
+    features: note.data.note?.viewers?.reduce(reduceReplyToFeature, []),
   }
 
   return (
@@ -47,18 +52,3 @@ const MapPage = () => {
     </main>
   )
 }
-
-const NoteQuery = gql`
-  query NoteQuery($id: String!) {
-    note(id: $id) {
-      replies {
-        id
-        content
-        avatar
-        coords
-      }
-    }
-  }
-`
-
-export default withApollo(MapPage)

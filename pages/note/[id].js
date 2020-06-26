@@ -1,9 +1,6 @@
-import {useMutation, useQuery} from '@apollo/react-hooks'
-import gql from 'graphql-tag'
 import Link from 'next/link'
 import {useRouter} from 'next/router'
 import {useEffect} from 'react'
-import {withApollo} from '../../apollo/client'
 import {
   FadeIn,
   Footer,
@@ -14,19 +11,21 @@ import {
   ReplyForm,
   ReplyList,
 } from '../../components'
-import {ViewNoteMutation} from '../../lib'
+import {useNote, useProfile, useViewer, useViewNote} from '../../hooks'
 
-const NotePage = () => {
+export default () => {
   const router = useRouter()
   const {id} = router.query
-  const {loading, error, data} = useQuery(NoteQuery, {variables: {id}})
-  const [viewNote] = useMutation(ViewNoteMutation)
+  const viewer = useViewer()
+  const profile = useProfile()
+  const note = useNote(id)
+  const viewNote = useViewNote()
 
   useEffect(() => {
-    viewNote({variables: {noteId: id}})
-  }, [])
+    if (id) viewNote({id})
+  }, [id])
 
-  if (error)
+  if (note?.error)
     return (
       <>
         <h1 className="sr-only">Note</h1>
@@ -35,17 +34,25 @@ const NotePage = () => {
       </>
     )
 
-  if (loading)
+  if (viewer.loading || note.loading)
     return (
       <>
         <h1 className="sr-only">Note</h1>
         <Header />
-        <Footer />
       </>
     )
 
-  const {note, viewer} = data
-  const isOwn = note.author === viewer.id
+  const {
+    id: noteId,
+    content,
+    authorId,
+    color,
+    font,
+    style,
+    replies,
+  } = note.data.note
+  const {id: viewerId} = viewer.data
+  const isOwn = authorId === viewerId
   return (
     <main>
       <Head title="Kindred Notes" />
@@ -53,62 +60,30 @@ const NotePage = () => {
       <Header />
 
       <FadeIn className="footer-pad">
-        <Note color={note.color} style={note.style} font={note.font} full>
-          <NoteBookmark
-            id={note.id}
-            bordered={note.style === 'BORDER'}
-            bookmarks={viewer.bookmarks}
-          />
-          {note.content}
+        <Note color={color} style={style} font={font} full>
+          {!profile.loading && (
+            <NoteBookmark
+              id={noteId}
+              bordered={style === 'BORDER'}
+              bookmarks={profile?.data.user?.bookmarks}
+            />
+          )}
+          {content}
         </Note>
 
-        {isOwn && <ReplyList replies={note?.replies} />}
+        {viewerId && isOwn && <ReplyList replies={replies || []} />}
 
-        {isOwn && (
-          <Link href={`/note/map/${note.id}`}>
+        {viewerId && isOwn && (
+          <Link href={`/note/map/${noteId}`}>
             <a>Map</a>
           </Link>
         )}
 
-        {!isOwn && (
-          <ReplyForm
-            id={id}
-            avatar={data?.viewer?.avatar}
-            nickname={data?.viewer?.nickname || 'anon'}
-            onSubmit={router.reload}
-            viewerLocation={data?.viewer?.coords}
-          />
+        {viewerId && !isOwn && (
+          <ReplyForm id={noteId} onSubmit={router.reload} />
         )}
       </FadeIn>
-      <Footer />
+      {viewerId && <Footer />}
     </main>
   )
 }
-
-const NoteQuery = gql`
-  query NoteQuery($id: String!) {
-    viewer {
-      id
-      bookmarks
-      avatar
-      nickname
-      coords
-    }
-    note(id: $id) {
-      id
-      author
-      content
-      color
-      style
-      font
-      replies {
-        id
-        content
-        author
-        avatar
-      }
-    }
-  }
-`
-
-export default withApollo(NotePage)

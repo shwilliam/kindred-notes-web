@@ -1,37 +1,27 @@
 import {FadeIn, Modal, Note, ReplyForm, ReplyList, Spinner} from '../components'
+import {useNote, useViewer} from '../hooks'
 
-export const NoteModal = ({
-  id,
-  color,
-  style,
-  font,
-  content,
-  replies = null,
-  avatar,
-  nickname,
-  onDismiss,
-  isOwn = false,
-  loading = false,
-  viewerLocation,
-}) => {
+export const NoteModal = ({id, onDismiss}) => {
+  const viewer = useViewer()
+  const note = useNote(id)
+
   return (
     <Modal onDismiss={onDismiss}>
       <FadeIn>
-        {loading ? (
+        {!note.loading && note.data ? (
           <FadeIn>
-            <Note color={color} style={style} font={font} full>
-              {content}
+            <Note
+              color={note.data.note.color}
+              style={note.data.note.style}
+              font={note.data.note.font}
+              full
+            >
+              {note.data.note.content}
             </Note>
-            {isOwn ? (
-              <ReplyList replies={replies} />
+            {!viewer.loading && viewer.data.id === note.data.note.authorId ? (
+              <ReplyList replies={note.data.note?.replies} />
             ) : (
-              <ReplyForm
-                id={id}
-                avatar={avatar}
-                nickname={nickname}
-                onSubmit={onDismiss}
-                viewerLocation={viewerLocation}
-              />
+              <ReplyForm id={id} onSubmit={onDismiss} />
             )}
           </FadeIn>
         ) : (

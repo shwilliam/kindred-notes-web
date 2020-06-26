@@ -1,8 +1,6 @@
-import {useMutation, useQuery} from '@apollo/react-hooks'
-import gql from 'graphql-tag'
 import {useRouter} from 'next/router'
 import {useState} from 'react'
-import {withApollo} from '../apollo/client'
+import {useMutation} from 'react-query'
 import {
   FadeIn,
   Field,
@@ -13,10 +11,10 @@ import {
   IconPalette,
   IconSquare,
   Note,
-  TagsInput,
   Tag,
+  TagsInput,
 } from '../components'
-import {useArrayIterator} from '../hooks'
+import {useArrayIterator, useViewer} from '../hooks'
 import {getErrorMessage} from '../lib'
 
 const NOTE_OPTIONS = {
@@ -25,10 +23,23 @@ const NOTE_OPTIONS = {
   font: ['SANS', 'HAND', 'MONO'],
 }
 
-const New = () => {
+const createNoteRequest = async data => {
+  const response = await fetch('/api/notes/create', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  })
+  const responseJson = await response.json()
+
+  return responseJson.note
+}
+
+export default () => {
   const router = useRouter()
-  const [createNote] = useMutation(CreateNoteMutation)
-  const {data, loading} = useQuery(ViewerQuery)
+  const [createNote] = useMutation(createNoteRequest)
+  const viewer = useViewer()
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [colorVal, nextColor] = useArrayIterator(NOTE_OPTIONS.color)
   const [styleVal, nextStyle] = useArrayIterator(NOTE_OPTIONS.style)
@@ -52,15 +63,13 @@ const New = () => {
 
       try {
         await createNote({
-          variables: {
-            content: contentValue,
-            tags: topicsVal,
-            color: colorVal,
-            style: styleVal,
-            font: fontVal,
-          },
+          content: contentValue,
+          tags: topicsVal,
+          color: colorVal,
+          style: styleVal,
+          font: fontVal,
         })
-        router.push('/notes')
+        router.push('/')
       } catch (error) {
         setErrorMsg(getErrorMessage(error))
       }
@@ -77,11 +86,7 @@ const New = () => {
     })
   }
 
-  if (
-    loading === false &&
-    data.viewer === null &&
-    typeof window !== 'undefined'
-  ) {
+  if (!viewer.loading && !viewer.data && typeof window !== 'undefined') {
     router.push('/signin')
   }
 
@@ -91,7 +96,7 @@ const New = () => {
       <h1 className="sr-only">New note</h1>
       <Header />
 
-      {data && data.viewer && (
+      {!viewer.loading && viewer.data && (
         <FadeIn className="footer-pad">
           <form onSubmit={handleSubmit}>
             <Note color={colorVal} style={styleVal} font={fontVal} full>
@@ -185,38 +190,3 @@ const New = () => {
     </main>
   )
 }
-
-const CreateNoteMutation = gql`
-  mutation CreateNoteMutation(
-    $content: String!
-    $tags: [String]!
-    $color: String!
-    $style: String!
-    $font: String!
-  ) {
-    createNote(
-      input: {
-        content: $content
-        tags: $tags
-        color: $color
-        style: $style
-        font: $font
-      }
-    ) {
-      note {
-        id
-      }
-    }
-  }
-`
-
-const ViewerQuery = gql`
-  query ViewerQuery {
-    viewer {
-      id
-      email
-    }
-  }
-`
-
-export default withApollo(New)

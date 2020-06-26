@@ -1,13 +1,25 @@
-import {useMutation} from '@apollo/react-hooks'
-import gql from 'graphql-tag'
+import {useMutation} from 'react-query'
 import {useState} from 'react'
 import {getErrorMessage} from '../lib'
 import {Field} from './index'
 
-export const ReplyForm = ({id, viewerLocation, avatar, nickname, onSubmit}) => {
+const createReplyRequest = async data => {
+  const response = await fetch('/api/notes/reply', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  })
+  const responseJson = await response.json()
+
+  return responseJson.note
+}
+
+export const ReplyForm = ({id, onSubmit}) => {
   const [errorMsg, setErrorMsg] = useState()
   const [isSubmitting, setIsSubmitting] = useState()
-  const [createReply] = useMutation(CreateReplyMutation)
+  const [createReply] = useMutation(createReplyRequest)
 
   const handleSubmit = async event => {
     setIsSubmitting(true)
@@ -21,13 +33,8 @@ export const ReplyForm = ({id, viewerLocation, avatar, nickname, onSubmit}) => {
       try {
         setErrorMsg()
         await createReply({
-          variables: {
-            content: contentValue,
-            noteId: id,
-            avatar,
-            nickname,
-            coords: viewerLocation,
-          },
+          content: contentValue,
+          noteId: id,
         })
 
         onSubmit()
@@ -55,27 +62,3 @@ export const ReplyForm = ({id, viewerLocation, avatar, nickname, onSubmit}) => {
     </form>
   )
 }
-
-const CreateReplyMutation = gql`
-  mutation CreateReplyMutation(
-    $content: String!
-    $noteId: String!
-    $nickname: String
-    $avatar: Int!
-    $coords: [String]!
-  ) {
-    createReply(
-      input: {
-        content: $content
-        noteId: $noteId
-        nickname: $nickname
-        avatar: $avatar
-        coords: $coords
-      }
-    ) {
-      reply {
-        content
-      }
-    }
-  }
-`
