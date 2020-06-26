@@ -1,8 +1,6 @@
-import {useMutation, useQuery} from '@apollo/react-hooks'
-import gql from 'graphql-tag'
 import Link from 'next/link'
 import {useRouter} from 'next/router'
-import {withApollo} from '../apollo/client'
+import {useMutation} from 'react-query'
 import {
   Avatar,
   FadeIn,
@@ -13,27 +11,50 @@ import {
   Tag,
   TagsInput,
 } from '../components'
+import {useProfile, useViewer} from '../hooks'
 
-const Profile = () => {
+const deleteInterestRequest = async data => {
+  const response = await fetch('/api/users/interests', {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  })
+  const responseJson = await response.json()
+
+  return responseJson.user
+}
+
+const addInterestRequest = async data => {
+  const response = await fetch('/api/users/interests', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  })
+  const responseJson = await response.json()
+
+  return responseJson.user
+}
+
+export default () => {
   const router = useRouter()
-  const {data, loading} = useQuery(ViewerQuery)
-  const [updateInterests] = useMutation(UpdateInterestsMutation)
+  const viewer = useViewer()
+  const profile = useProfile()
+  const [deleteInterest] = useMutation(deleteInterestRequest)
+  const [addInterest] = useMutation(addInterestRequest)
 
   const handleInterestsChange = interests =>
-    updateInterests({variables: {interests}}).then(router.reload)
+    addInterest({title: interests[0]}).then(router.reload)
 
-  const handleInterestClick = idx => {
-    const interests = [...data?.viewer?.interests]
-    interests.splice(idx, 1)
-    handleInterestsChange(interests)
-  }
+  const handleInterestClick = title =>
+    deleteInterest({title}).then(router.reload)
 
-  if (
-    loading === false &&
-    data.viewer === null &&
-    typeof window !== 'undefined'
-  ) {
+  if (!viewer.loading && !viewer.data && typeof window !== 'undefined') {
     router.push('/signin')
+    return null
   }
 
   return (
@@ -41,51 +62,53 @@ const Profile = () => {
       <Head title="Profile" />
       <h1 className="sr-only">Profile</h1>
 
-      {data && data.viewer ? (
+      {!profile.loading ? (
         <FadeIn className="footer-pad">
           <section className="main">
             <div className="wrapper">
-              <Avatar variant={data.viewer.avatar} />
-              <p className="profile__title">{data.viewer.email}</p>
+              <Avatar variant={profile.data.user.avatar} />
+              <p className="profile__title">{profile.data.user.email}</p>
               <label>
                 <p className="title -small -center">Topics of Interest</p>
                 <TagsInput
                   className="input"
-                  value={data.viewer.interests}
+                  value={profile.data.user?.interests}
                   onChange={handleInterestsChange}
                 />
               </label>
-
               <ul className="tags">
-                {data.viewer.interests?.map((topic, idx) => (
+                {profile.data.user?.interests.map(({title}, idx) => (
                   <li key={idx}>
                     <Tag
                       idx={idx}
-                      topic={topic}
+                      topic={title}
                       onClick={handleInterestClick}
                     />
                   </li>
                 ))}
               </ul>
+
+              {profile.data.user?.bookmarks?.length ? (
+                <div className="wrapper -no-pad">
+                  <h2 className="title -small -center">Favourite Notes</h2>
+                  <ul className="note-grid">
+                    {profile.data.user?.bookmarks?.map(
+                      ({id, content, color, style, font}) => (
+                        <li className="note-grid__cell" key={id}>
+                          <Link href={`/note/${id}`}>
+                            <a className="link -no-ul">
+                              <Note color={color} style={style} font={font}>
+                                {content}
+                              </Note>
+                            </a>
+                          </Link>
+                        </li>
+                      ),
+                    )}
+                  </ul>
+                </div>
+              ) : null}
             </div>
-            {data.bookmarks?.length ? (
-              <div className="wrapper -no-pad">
-                <h2 className="title -small -center">Favourite Notes</h2>
-                <ul className="note-grid">
-                  {data.bookmarks?.map(({id, content, color, style, font}) => (
-                    <li className="note-grid__cell" key={id}>
-                      <Link href={`/note/${id}`}>
-                        <a className="link -no-ul">
-                          <Note color={color} style={style} font={font}>
-                            {content}
-                          </Note>
-                        </a>
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ) : null}
             <footer className="wrapper">
               <Link href="/signout">
                 <a title="Sign out" className="button -full">
@@ -103,31 +126,3 @@ const Profile = () => {
     </main>
   )
 }
-
-const ViewerQuery = gql`
-  query ViewerQuery {
-    viewer {
-      id
-      email
-      interests
-      avatar
-    }
-    bookmarks {
-      id
-      content
-      color
-      font
-      style
-    }
-  }
-`
-
-const UpdateInterestsMutation = gql`
-  mutation UpdateInterestsMutation($interests: [String]!) {
-    updateInterests(input: {interests: $interests}) {
-      interests
-    }
-  }
-`
-
-export default withApollo(Profile)

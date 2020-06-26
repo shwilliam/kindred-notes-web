@@ -1,5 +1,5 @@
 export const Tag = ({idx, topic, onClick, children}) => {
-  const handleClick = () => onClick(idx)
+  const handleClick = () => onClick(topic)
 
   return (
     <button className="button tag" type="button" onClick={handleClick}>

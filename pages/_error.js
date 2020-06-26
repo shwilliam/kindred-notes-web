@@ -1,5 +1,5 @@
-import {FadeIn, Head, Header} from '../components'
 import Link from 'next/link'
+import {FadeIn, Head, Header} from '../components'
 
 const Error = ({statusCode}) => (
   <main>

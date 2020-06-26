@@ -1,23 +1,24 @@
-import {useLazyQuery} from '@apollo/react-hooks'
-import gql from 'graphql-tag'
 import {useState} from 'react'
 import {Field} from '../../components'
+
+// TODO: move to `lib/`
+const emailExistsRequest = async data => {
+  const response = await fetch('/api/users/email', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  })
+  const responseJson = await response.json()
+
+  return responseJson.emailExists
+}
 
 export const SignupAuthForm = ({onSubmit}) => {
   const [inputValues, setInputValues] = useState({email: '', password: ''})
   const [loading, setLoading] = useState(false)
   const [errorMsg, setErrorMsg] = useState()
-  const [checkUserExists] = useLazyQuery(UserExistsQuery, {
-    onCompleted: async data => {
-      if (data.userExists?.exists) {
-        setErrorMsg('A user with that email already exists')
-      } else {
-        const {email, password} = inputValues
-        await onSubmit({email, password})
-      }
-      setLoading(false)
-    },
-  })
 
   const handleSubmit = async event => {
     event.preventDefault()
@@ -40,7 +41,15 @@ export const SignupAuthForm = ({onSubmit}) => {
     // TODO: confirm password field
 
     setLoading(true)
-    checkUserExists({variables: {email}})
+    const emailExists = await emailExistsRequest({email})
+
+    if (emailExists) {
+      setErrorMsg('A user with that email already exists')
+    } else {
+      const {email, password} = inputValues
+      await onSubmit({email, password})
+    }
+    setLoading(false)
   }
 
   const handleInput = event => {
@@ -84,11 +93,3 @@ export const SignupAuthForm = ({onSubmit}) => {
     </form>
   )
 }
-
-const UserExistsQuery = gql`
-  query UserExistsQuery($email: String!) {
-    userExists(email: $email) {
-      exists
-    }
-  }
-`

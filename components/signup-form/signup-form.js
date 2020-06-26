@@ -1,14 +1,25 @@
-import {useMutation} from '@apollo/react-hooks'
-import gql from 'graphql-tag'
 import Link from 'next/link'
 import {useRouter} from 'next/router'
 import {useState} from 'react'
+import {useMutation} from 'react-query'
 import {getErrorMessage} from '../../lib'
 import {SignupAuthForm, SignupDetailsForm, SignupTerms} from './index'
 
+const signUpRequest = async data => {
+  const response = await fetch('/api/users/signup', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  })
+  const responseJson = await response.json()
+  return responseJson.user
+}
+
 export const SignupForm = () => {
   const router = useRouter()
-  const [signUp] = useMutation(SignUpMutation)
+  const [signUp] = useMutation(signUpRequest)
   const [formValues, setFormValues] = useState()
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [errorMsg, setErrorMsg] = useState()
@@ -24,16 +35,14 @@ export const SignupForm = () => {
 
     try {
       await signUp({
-        variables: {
-          email: formValues.email,
-          password: formValues.password,
-          interests,
-          nickname,
-          avatar,
-          country,
-          city: city.name,
-          coords: [city.coords.lng, city.coords.lat],
-        },
+        email: formValues.email,
+        password: formValues.password,
+        interests,
+        nickname,
+        avatar,
+        country,
+        city: city.name,
+        coords: [city.coords.lng, city.coords.lat],
       })
 
       setActiveStep(0)
@@ -97,34 +106,3 @@ export const SignupForm = () => {
     </>
   )
 }
-
-const SignUpMutation = gql`
-  mutation SignUpMutation(
-    $email: String!
-    $interests: [String]!
-    $password: String!
-    $nickname: String
-    $avatar: Int!
-    $country: String!
-    $city: String!
-    $coords: [String]!
-  ) {
-    signUp(
-      input: {
-        email: $email
-        interests: $interests
-        password: $password
-        nickname: $nickname
-        avatar: $avatar
-        country: $country
-        city: $city
-        coords: $coords
-      }
-    ) {
-      user {
-        id
-        email
-      }
-    }
-  }
-`

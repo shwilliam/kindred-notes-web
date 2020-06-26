@@ -1,8 +1,5 @@
-import {useLazyQuery, useMutation, useQuery} from '@apollo/react-hooks'
-import gql from 'graphql-tag'
 import {useRouter} from 'next/router'
-import {useEffect, useState} from 'react'
-import {withApollo} from '../apollo/client'
+import {useEffect} from 'react'
 import {
   FadeIn,
   Footer,
@@ -12,20 +9,16 @@ import {
   NoteModal,
   Spinner,
 } from '../components'
-import {ViewNoteMutation} from '../lib'
+import {useNotesInbox, useNotesOutbox, useViewer, useViewNote} from '../hooks'
 
-const Notes = () => {
+export default () => {
   const router = useRouter()
-  const [openNote, setOpenNote] = useState()
-  const {data, loading} = useQuery(ViewerQuery)
-  const [viewNote] = useMutation(ViewNoteMutation)
-  const [getNote] = useLazyQuery(NoteQuery, {
-    onCompleted: data => setOpenNote(data.note),
-    // fetchPolicy: 'network-only',
-  })
+  const viewer = useViewer()
+  const notesInbox = useNotesInbox()
+  const notesOutbox = useNotesOutbox()
+  const viewNote = useViewNote()
 
   const handleModalClose = () => {
-    setOpenNote()
     router.back()
   }
 
@@ -34,10 +27,7 @@ const Notes = () => {
   }
 
   useEffect(() => {
-    if (router.query.note) {
-      getNote({variables: {id: router.query.note}})
-      viewNote({variables: {noteId: router.query.note}})
-    }
+    if (router.query.note) viewNote({id: router.query.note})
   }, [router.query])
 
   useEffect(() => {
@@ -45,95 +35,37 @@ const Notes = () => {
     return () => document.removeEventListener('keydown', handleKeyDown)
   }, [router.query])
 
-  if (
-    loading === false &&
-    data.viewer === null &&
-    typeof window !== 'undefined'
-  ) {
+  if (!viewer.loading && !viewer.data && typeof window !== 'undefined') {
     router.push('/signin')
   }
 
   return (
     <main>
-      {/* FIXME */}
-      <Head title="Home" description="Kindred Notes" />
+      <Head title="My notes" description="Kindred Notes" />
       <h1 className="sr-only">Kindred Notes</h1>
       <Header />
 
-      {data && data.viewer ? (
+      {!viewer.loading && viewer.data ? (
         <>
           {router.query.note && (
-            <NoteModal
-              id={openNote?.id}
-              color={openNote?.color}
-              style={openNote?.style}
-              font={openNote?.font}
-              content={openNote?.content}
-              replies={openNote?.replies}
-              avatar={data.viewer?.avatar}
-              nickname={data.viewer?.nickname}
-              onDismiss={handleModalClose}
-              isOwn={openNote?.author === data.viewer?.id}
-              loading={!!openNote}
-              viewerLocation={data.viewer?.coords}
-            />
+            <NoteModal id={router.query.note} onDismiss={handleModalClose} />
           )}
 
           <FadeIn className="footer-pad">
-            <NoteGrid
-              inbox={data.notes}
-              outbox={data.sentNotes}
-              viewerId={data?.viewer.id}
-            />
+            {!notesInbox.loading && !notesOutbox.loading && (
+              <NoteGrid
+                inbox={notesInbox.data.notes}
+                outbox={notesOutbox.data.notes}
+                viewerId={viewer.data.id}
+              />
+            )}
           </FadeIn>
         </>
       ) : (
         <Spinner full />
       )}
+
       <Footer />
     </main>
   )
 }
-
-const ViewerQuery = gql`
-  query ViewerQuery {
-    viewer {
-      id
-      avatar
-      nickname
-      coords
-    }
-    notes {
-      id
-      viewedBy
-    }
-    sentNotes {
-      id
-      content
-      color
-      font
-      style
-    }
-  }
-`
-
-const NoteQuery = gql`
-  query NoteQuery($id: String!) {
-    note(id: $id) {
-      id
-      author
-      content
-      color
-      style
-      font
-      replies {
-        id
-        content
-        author
-        avatar
-      }
-    }
-  }
-`
-
-export default withApollo(Notes)
