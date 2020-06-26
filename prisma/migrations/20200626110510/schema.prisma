@@ -1,0 +1,56 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url = "***"
+}
+
+model Note {
+  author       User      @relation("WrittenNotes", fields: [authorId], references: [id])
+  authorId     Int
+  color        String
+  content      String
+  createdAt    DateTime  @default(now())
+  font         String
+  id           Int       @default(autoincrement()) @id
+  style        String
+  replies      Reply[]
+  tags         Tag[]     @relation(references: [title])
+
+  viewers      User[]    @relation("OpenedNotes", references: [id])
+}
+
+
+model Reply {
+  author       User      @relation(fields: [authorId], references: [id])
+  authorId     Int
+  content      String
+  createdAt    DateTime  @default(now())
+  id           Int       @default(autoincrement()) @id
+  noteId       Int
+  note         Note      @relation(fields: [noteId], references: [id])
+}
+
+model Tag {
+  title        String  @id
+  notes        Note[]
+  users        User[]
+}
+
+model User {
+  avatar       Int
+  bookmarks    Note[]    @relation("PinnedNotes")
+  city         String
+  coords       String[]
+  country      String
+  createdAt    DateTime  @default(now())
+  email        String    @unique
+  id           Int       @default(autoincrement()) @id
+  nickname     String
+  notes        Note[]    @relation("WrittenNotes")
+  password     String
+  interests    Tag[]     @relation(references: [title])
+  openedNotes  Note[]    @relation("OpenedNotes")
+}
