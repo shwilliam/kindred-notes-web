@@ -56,8 +56,8 @@ export default () => {
           )}
 
           <FadeIn className="footer-pad">
-            {!['loading', 'error'].includes(notesInbox.status) &&
-              !['loading', 'error'].includes(notesOutbox.status) && (
+            {notesInbox.status === 'success' &&
+              notesOutbox.status === 'success' && (
                 <NoteGrid
                   inbox={notesInbox.data.notes}
                   outbox={notesOutbox.data.notes}

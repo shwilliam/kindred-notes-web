@@ -11,7 +11,7 @@ export default () => {
       <Head title="Kindred Notes" description="Kindred Notes" />
       <h1 className="sr-only">Kindred Notes</h1>
       <Header>
-        {!['error', 'loading'].includes(viewer.status) && !viewer.data && (
+        {viewer.status === 'success' && !viewer.data && (
           <Link href="/signin">
             <a className="link -no-ul">Sign in</a>
           </Link>
@@ -71,15 +71,13 @@ export default () => {
         </section>
       </FadeIn>
 
-      {!['error', 'loading'].includes(viewer.status) && !viewer.data.id && (
+      {viewer.status === 'success' && !viewer.data.id && (
         <Link href="/signup">
           <a className="button -full">Sign in</a>
         </Link>
       )}
 
-      {!['error', 'loading'].includes(viewer.status) && !!viewer.data.id && (
-        <Footer />
-      )}
+      {viewer.status === 'success' && !!viewer.data.id && <Footer />}
     </main>
   )
 }

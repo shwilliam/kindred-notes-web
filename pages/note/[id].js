@@ -65,7 +65,7 @@ export default () => {
 
       <FadeIn className="footer-pad">
         <Note color={color} style={style} font={font} full>
-          {!['loading', 'error'].includes(profile.status) && (
+          {profile.status === 'success' && (
             <NoteBookmark
               id={noteId}
               bordered={style === 'BORDER'}

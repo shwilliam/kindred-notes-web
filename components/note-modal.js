@@ -24,7 +24,7 @@ export const NoteModal = ({id, onDismiss}) => {
             >
               {note.data.note.content}
             </Note>
-            {!['loading', 'error'].includes(viewer.status) &&
+            {viewer.status === 'success' &&
             viewer.data.id === note.data.note.authorId ? (
               <ReplyList replies={note.data.note?.replies} />
             ) : (
