@@ -7,9 +7,4 @@ const recentNotesRequest = async () => {
   return responseJson
 }
 
-export const useRecentNotes = () => {
-  const notesResponse = useQuery('recentNotes', recentNotesRequest)
-  const {status, data, error, isFetching} = notesResponse
-
-  return {loading: isFetching, data}
-}
+export const useRecentNotes = () => useQuery('recentNotes', recentNotesRequest)

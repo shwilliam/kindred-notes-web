@@ -7,9 +7,4 @@ const notesInboxRequest = async () => {
   return responseJson
 }
 
-export const useNotesInbox = () => {
-  const notesResponse = useQuery('notesInbox', notesInboxRequest)
-  const {status, data, error, isFetching} = notesResponse
-
-  return {loading: isFetching, data}
-}
+export const useNotesInbox = () => useQuery('notesInbox', notesInboxRequest)

@@ -8,7 +8,13 @@ export const NoteModal = ({id, onDismiss}) => {
   return (
     <Modal onDismiss={onDismiss}>
       <FadeIn>
-        {!note.loading && note.data ? (
+        {note.status === 'loading' ? (
+          <Spinner />
+        ) : note.status === 'error' ? (
+          <p className="error">
+            An unexpected error occurred. Please refresh the page to try again.
+          </p>
+        ) : (
           <FadeIn>
             <Note
               color={note.data.note.color}
@@ -18,14 +24,13 @@ export const NoteModal = ({id, onDismiss}) => {
             >
               {note.data.note.content}
             </Note>
-            {!viewer.loading && viewer.data.id === note.data.note.authorId ? (
+            {!['loading', 'error'].includes(viewer.status) &&
+            viewer.data.id === note.data.note.authorId ? (
               <ReplyList replies={note.data.note?.replies} />
             ) : (
               <ReplyForm id={id} onSubmit={onDismiss} />
             )}
           </FadeIn>
-        ) : (
-          <Spinner />
         )}
       </FadeIn>
     </Modal>

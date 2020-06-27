@@ -1,6 +1,6 @@
 import {useRouter} from 'next/router'
 import {useState} from 'react'
-import {useMutation} from 'react-query'
+import {queryCache, useMutation} from 'react-query'
 import {
   FadeIn,
   Field,
@@ -13,6 +13,7 @@ import {
   Note,
   Tag,
   TagsInput,
+  Spinner,
 } from '../components'
 import {useArrayIterator, useViewer} from '../hooks'
 import {getErrorMessage, protectRoute} from '../lib'
@@ -38,7 +39,11 @@ const createNoteRequest = async data => {
 
 export default () => {
   const router = useRouter()
-  const [createNote] = useMutation(createNoteRequest)
+  const [createNote] = useMutation(createNoteRequest, {
+    onSuccess: () => {
+      queryCache.invalidateQueries('notesOutbox')
+    },
+  })
   const viewer = useViewer()
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [colorVal, nextColor] = useArrayIterator(NOTE_OPTIONS.color)
@@ -86,17 +91,19 @@ export default () => {
     })
   }
 
-  if (!viewer.loading && !viewer.data && typeof window !== 'undefined') {
-    router.push('/signin')
-  }
-
   return (
     <main>
       <Head title="New note" description="Write a kind notes" />
       <h1 className="sr-only">New note</h1>
       <Header />
 
-      {!viewer.loading && viewer.data && (
+      {viewer.status === 'loading' ? (
+        <Spinner full />
+      ) : viewer.status === 'error' ? (
+        <p className="error">
+          An unexpected error occurred. Please refresh the page to try again.
+        </p>
+      ) : (
         <FadeIn className="footer-pad">
           <form onSubmit={handleSubmit}>
             <Note color={colorVal} style={styleVal} font={fontVal} full>

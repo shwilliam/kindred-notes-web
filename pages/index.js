@@ -11,7 +11,7 @@ export default () => {
       <Head title="Kindred Notes" description="Kindred Notes" />
       <h1 className="sr-only">Kindred Notes</h1>
       <Header>
-        {!viewer.loading && !viewer.data && (
+        {!['error', 'loading'].includes(viewer.status) && (
           <Link href="/signin">
             <a className="link -no-ul">Sign in</a>
           </Link>
@@ -46,8 +46,12 @@ export default () => {
         <section>
           <h2 className="title -center">Recent Notes</h2>
           <ul className="note-grid">
-            {recentNotes.loading ? (
+            {recentNotes.status === 'loading' ? (
               <Spinner full />
+            ) : recentNotes.status === 'error' ? (
+              <p className="error">
+                An unexpected error occurred. Refresh the page to try again.
+              </p>
             ) : (
               recentNotes.data?.notes?.map(
                 ({id, content, color, style, font}) => (
@@ -67,13 +71,15 @@ export default () => {
         </section>
       </FadeIn>
 
-      {!viewer.loading && !viewer.data.id && (
+      {!['error', 'loading'].includes(viewer.status) && !viewer.data.id && (
         <Link href="/signup">
-          <a className="button -full">Create an account</a>
+          <a className="button -full">Sign in</a>
         </Link>
       )}
 
-      {!viewer.loading && !!viewer.data.id && <Footer />}
+      {!['error', 'loading'].includes(viewer.status) && !!viewer.data.id && (
+        <Footer />
+      )}
     </main>
   )
 }

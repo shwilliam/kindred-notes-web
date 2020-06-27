@@ -7,9 +7,4 @@ const notesOutboxRequest = async () => {
   return responseJson
 }
 
-export const useNotesOutbox = () => {
-  const notesResponse = useQuery('notesOutbox', notesOutboxRequest)
-  const {status, data, error, isFetching} = notesResponse
-
-  return {loading: isFetching, data}
-}
+export const useNotesOutbox = () => useQuery('notesOutbox', notesOutboxRequest)

@@ -15,22 +15,24 @@ export default () => {
   const {id} = router.query
   const note = useNote(id)
 
-  if (!note.loading && note.error)
-    return (
-      <>
-        <h1 className="sr-only">Note Map</h1>
-        <Header />
-        <p>Uh oh.. Something went wrong.</p>
-      </>
-    )
-
-  if (note.loading)
+  if (note.status === 'loading')
     return (
       <>
         <h1 className="sr-only">Note Map</h1>
         <Header />
         <Spinner full />
         <Footer />
+      </>
+    )
+
+  if (note.status === 'error')
+    return (
+      <>
+        <h1 className="sr-only">Note Map</h1>
+        <Header />
+        <p className="error">
+          An unexpected error occurred. Please refresh the page to try again.
+        </p>
       </>
     )
 

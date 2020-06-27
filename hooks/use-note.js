@@ -9,8 +9,5 @@ const makeNoteRequest = id => async () => {
 
 export const useNote = id => {
   const noteRequest = makeNoteRequest(id)
-  const noteResponse = useQuery(`note-${id}`, noteRequest)
-  const {status, data, error, isFetching} = noteResponse
-
-  return {loading: isFetching, error, status, data}
+  return useQuery(`note-${id}`, noteRequest)
 }

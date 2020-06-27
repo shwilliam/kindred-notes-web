@@ -28,6 +28,7 @@ export default () => {
   }
 
   useEffect(() => {
+    // TODO: avoid calling if already viewed
     if (router.query.note) viewNote({id: router.query.note})
   }, [router.query])
 
@@ -36,34 +37,35 @@ export default () => {
     return () => document.removeEventListener('keydown', handleKeyDown)
   }, [router.query])
 
-  if (!viewer.loading && !viewer.data && typeof window !== 'undefined') {
-    router.push('/signin')
-  }
-
   return (
     <main>
       <Head title="My notes" description="Kindred Notes" />
       <h1 className="sr-only">Kindred Notes</h1>
       <Header />
 
-      {!viewer.loading && viewer.data ? (
+      {viewer.status === 'loading' ? (
+        <Spinner full />
+      ) : viewer.status === 'error' ? (
+        <p className="error">
+          An unexpected error occurred. Please refresh the page to try again.
+        </p>
+      ) : (
         <>
           {router.query.note && (
             <NoteModal id={router.query.note} onDismiss={handleModalClose} />
           )}
 
           <FadeIn className="footer-pad">
-            {!notesInbox.loading && !notesOutbox.loading && (
-              <NoteGrid
-                inbox={notesInbox.data.notes}
-                outbox={notesOutbox.data.notes}
-                viewerId={viewer.data.id}
-              />
-            )}
+            {!['loading', 'error'].includes(notesInbox.status) &&
+              !['loading', 'error'].includes(notesOutbox.status) && (
+                <NoteGrid
+                  inbox={notesInbox.data.notes}
+                  outbox={notesOutbox.data.notes}
+                  viewerId={viewer.data.id}
+                />
+              )}
           </FadeIn>
         </>
-      ) : (
-        <Spinner full />
       )}
 
       <Footer />

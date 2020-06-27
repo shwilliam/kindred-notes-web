@@ -7,9 +7,4 @@ const profileRequest = async () => {
   return responseJson
 }
 
-export const useProfile = () => {
-  const profileResponse = useQuery('user', profileRequest) // TODO: cache by user id
-  const {status, data, error, isFetching} = profileResponse
-
-  return {loading: isFetching, error, status, data}
-}
+export const useProfile = () => useQuery('user', profileRequest) // TODO: cache by user id

@@ -10,6 +10,7 @@ import {
   NoteBookmark,
   ReplyForm,
   ReplyList,
+  Spinner,
 } from '../../components'
 import {useNote, useProfile, useViewer, useViewNote} from '../../hooks'
 import {protectRoute} from '../../lib'
@@ -23,23 +24,25 @@ export default () => {
   const viewNote = useViewNote()
 
   useEffect(() => {
+    // TODO: avoid calling if already viewed
     if (id) viewNote({id})
   }, [id])
 
-  if (note?.error)
+  if (viewer.status === 'loading' || note.status === 'loading')
+    return (
+      <>
+        <h1 className="sr-only">Note</h1>
+        <Header />
+        <Spinner />
+      </>
+    )
+
+  if (note.status === 'error')
     return (
       <>
         <h1 className="sr-only">Note</h1>
         <Header />
         <p>Uh oh.. Something went wrong.</p>
-      </>
-    )
-
-  if (viewer.loading || note.loading)
-    return (
-      <>
-        <h1 className="sr-only">Note</h1>
-        <Header />
       </>
     )
 
@@ -62,11 +65,11 @@ export default () => {
 
       <FadeIn className="footer-pad">
         <Note color={color} style={style} font={font} full>
-          {!profile.loading && (
+          {!['loading', 'error'].includes(profile.status) && (
             <NoteBookmark
               id={noteId}
               bordered={style === 'BORDER'}
-              bookmarks={profile?.data.user?.bookmarks}
+              bookmarks={profile.data.user?.bookmarks}
             />
           )}
           {content}

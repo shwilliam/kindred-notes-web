@@ -4,7 +4,8 @@ import {useViewer} from '../hooks'
 
 export default () => {
   const viewer = useViewer()
-  const isAuthenticated = !viewer.loading && !!viewer.data
+  const isAuthenticated =
+    !['loading', 'error'].includes(viewer.status) && !!viewer.data
 
   return (
     <main>
@@ -32,7 +33,7 @@ export default () => {
             beliefs and values, that at the core, we are all the same.
           </p>
 
-          {!viewer.loading && !viewer.data && (
+          {!isAuthenticated && (
             <Link href="/signup">
               <a className="button -full">Get started</a>
             </Link>

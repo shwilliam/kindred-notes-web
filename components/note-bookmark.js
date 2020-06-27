@@ -1,5 +1,5 @@
 import {useState} from 'react'
-import {useMutation} from 'react-query'
+import {queryCache, useMutation} from 'react-query'
 import {IconBookmark} from './index'
 
 const bookmarkNoteRequest = async data => {
@@ -29,8 +29,16 @@ const removeBookmarkNoteRequest = async data => {
 }
 
 export const NoteBookmark = ({id, bordered, bookmarks}) => {
-  const [bookmarkNote] = useMutation(bookmarkNoteRequest)
-  const [unbookmarkNote] = useMutation(removeBookmarkNoteRequest)
+  const [bookmarkNote] = useMutation(bookmarkNoteRequest, {
+    onSuccess: () => {
+      queryCache.invalidateQueries('notesInbox')
+    },
+  })
+  const [unbookmarkNote] = useMutation(removeBookmarkNoteRequest, {
+    onSuccess: () => {
+      queryCache.invalidateQueries('notesInbox')
+    },
+  })
   const [isBookmarkedLocally, setIsBookmarkedLocally] = useState(undefined)
   const onBookmark = () => {
     setIsBookmarkedLocally(true)
