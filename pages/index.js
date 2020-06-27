@@ -1,10 +1,19 @@
 import Link from 'next/link'
 import {FadeIn, Footer, Head, Header, Note, Spinner} from '../components'
-import {useRecentNotes, useViewer} from '../hooks'
+import {
+  useConnectionsCount,
+  useCountriesCount,
+  useNotesCount,
+  useRecentNotes,
+  useViewer,
+} from '../hooks'
 
 export default () => {
   const viewer = useViewer()
   const recentNotes = useRecentNotes()
+  const notesCount = useNotesCount()
+  const countriesCount = useCountriesCount()
+  const connectionsCount = useConnectionsCount()
 
   return (
     <main>
@@ -24,19 +33,37 @@ export default () => {
           <ul className="overview-stats">
             <li>
               <p className="overview-stats__item">
-                <span className="overview-stats__data">??</span>
-                <span className="overview-stats__label">Users</span>
+                <span className="overview-stats__data">
+                  {notesCount.status === 'loading'
+                    ? '...'
+                    : notesCount.status === 'error'
+                    ? '?'
+                    : notesCount.data.notes}
+                </span>
+                <span className="overview-stats__label">Notes</span>
               </p>
             </li>
             <li>
               <p className="overview-stats__item">
-                <span className="overview-stats__data">??</span>
+                <span className="overview-stats__data">
+                  {countriesCount.status === 'loading'
+                    ? '...'
+                    : countriesCount.status === 'error'
+                    ? '?'
+                    : countriesCount.data.countries}
+                </span>
                 <span className="overview-stats__label">Countries</span>
               </p>
             </li>
             <li>
               <p className="overview-stats__item">
-                <span className="overview-stats__data">??</span>
+                <span className="overview-stats__data">
+                  {connectionsCount.status === 'loading'
+                    ? '...'
+                    : connectionsCount.status === 'error'
+                    ? '?'
+                    : connectionsCount.data.connections}
+                </span>
                 <span className="overview-stats__label">Connections</span>
               </p>
             </li>
