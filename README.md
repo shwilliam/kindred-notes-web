@@ -49,7 +49,7 @@ npm run test:e2e
 
 #### Vercel
 
-With it's GitHub integration, [Vercel](https://vercel.com) makes deploying your
+With its GitHub integration, [Vercel](https://vercel.com) makes deploying your
 app including previews as easy as pushing your changes to GitHub. However, the
 free (hobby) plan allows you to deploy a Next.js application with a maximum of
 12 serverless functions. This means that to deploy this app on Vercel you would
