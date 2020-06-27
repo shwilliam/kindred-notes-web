@@ -37,11 +37,13 @@ export default () => {
         password: passwordElement.value,
       })
 
-      if (!response.error) {
+      if (!response) {
+        setErrorMsg('Unable to connect to server')
+      } else if (response.error) {
+        setErrorMsg(response.error?.message ?? 'Error signing in')
+      } else {
         setWavesOpen(false)
         setTimeout(() => router.push('/'), 650)
-      } else {
-        setErrorMsg('Error signing in')
       }
     } catch (error) {
       setErrorMsg(error.message)
