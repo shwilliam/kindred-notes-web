@@ -31,10 +31,17 @@ export const SignupAuthForm = ({onSubmit}) => {
     // TODO: confirm password field
 
     setLoading(true)
-    const emailExists = await emailExistsRequest({email})
+
+    let emailExists
+    try {
+      emailExists = await emailExistsRequest({email})
+    } catch (_) {
+      // assume email is available
+      emailExists = false
+    }
 
     if (emailExists) {
-      setErrorMsg('A user with that email already exists')
+      setErrorMsg('A user with this email already exists')
     } else {
       const {email, password} = inputValues
       await onSubmit({email, password})
