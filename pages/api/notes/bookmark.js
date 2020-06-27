@@ -44,7 +44,7 @@ export default async (req, res) => {
     res.json({user: updatedUser})
   } catch (error) {
     res.status(500)
-    res.json(error)
+    res.json({error})
   } finally {
     await Prisma.disconnect()
   }

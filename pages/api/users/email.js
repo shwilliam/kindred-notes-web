@@ -14,7 +14,7 @@ export default async (req, res) => {
     res.json({emailExists: !!user})
   } catch (error) {
     res.status(500)
-    res.json({error: 'Unable to check email availability'})
+    res.json({error})
   } finally {
     await Prisma.disconnect()
   }

@@ -3,7 +3,6 @@ import {useRouter} from 'next/router'
 import {useState} from 'react'
 import {useMutation} from 'react-query'
 import {AuthLayout, Field, Head} from '../components'
-import {getErrorMessage} from '../lib'
 
 const signInRequest = async data => {
   const response = await fetch('/api/users/signin', {
@@ -13,7 +12,7 @@ const signInRequest = async data => {
     },
     body: JSON.stringify(data),
   })
-  if (!response) throw new Error('Error authenticating user')
+  if (!response) throw new Error({message: 'Error authenticating user'})
 
   const responseJson = await response.json()
   return responseJson.user
@@ -41,7 +40,7 @@ export default () => {
       setWavesOpen(false)
       setTimeout(() => router.push('/'), 650)
     } catch (error) {
-      setErrorMsg(getErrorMessage(error))
+      setErrorMsg(error.message)
     }
     setIsSubmitting(false)
   }

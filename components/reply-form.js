@@ -1,6 +1,5 @@
 import {useMutation} from 'react-query'
 import {useState} from 'react'
-import {getErrorMessage} from '../lib'
 import {Field} from './index'
 
 const createReplyRequest = async data => {
@@ -39,7 +38,7 @@ export const ReplyForm = ({id, onSubmit}) => {
 
         onSubmit()
       } catch (error) {
-        setErrorMsg(getErrorMessage(error))
+        setErrorMsg(error.message)
       }
     }
 

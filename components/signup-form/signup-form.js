@@ -2,7 +2,6 @@ import Link from 'next/link'
 import {useRouter} from 'next/router'
 import {useState} from 'react'
 import {useMutation} from 'react-query'
-import {getErrorMessage} from '../../lib'
 import {SignupAuthForm, SignupDetailsForm, SignupTerms} from './index'
 
 const signUpRequest = async data => {
@@ -50,8 +49,7 @@ export const SignupForm = () => {
         router.push('/signin')
       }, 250)
     } catch (error) {
-      setErrorMsg(getErrorMessage(error))
-      // setErrorMsg('Unable to create account. Please try again.')
+      setErrorMsg(error.message)
     }
 
     setIsSubmitting(false)

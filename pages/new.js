@@ -16,7 +16,7 @@ import {
   Spinner,
 } from '../components'
 import {useArrayIterator, useViewer} from '../hooks'
-import {getErrorMessage, protectRoute} from '../lib'
+import {protectRoute} from '../lib'
 
 const NOTE_OPTIONS = {
   color: ['BLUE', 'GREEN', 'YELLOW'],
@@ -76,7 +76,7 @@ export default () => {
         })
         router.push('/')
       } catch (error) {
-        setErrorMsg(getErrorMessage(error))
+        setErrorMsg(error.message)
       }
     }
 

@@ -33,7 +33,7 @@ export default async (req, res) => {
     res.json({note})
   } catch (error) {
     res.status(500)
-    res.json({error: 'Error publishing note'})
+    res.json({error})
   } finally {
     await Prisma.disconnect()
   }

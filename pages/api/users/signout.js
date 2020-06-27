@@ -6,6 +6,6 @@ export default async (_req, res) => {
     res.send({user: null})
   } catch (error) {
     res.status(500)
-    res.json({error: 'Error signing out'})
+    res.json({error})
   }
 }

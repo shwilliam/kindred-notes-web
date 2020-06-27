@@ -14,7 +14,7 @@ export default async (_req, res) => {
     res.json({notes})
   } catch (error) {
     res.status(500)
-    res.json({error: 'Error fetching notes'})
+    res.json({error})
   } finally {
     await Prisma.disconnect()
   }

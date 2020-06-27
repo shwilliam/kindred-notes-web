@@ -52,7 +52,7 @@ export default async (req, res) => {
     res.json({notes})
   } catch (error) {
     res.status(500)
-    res.json(error)
+    res.json({error})
   } finally {
     await Prisma.disconnect()
   }

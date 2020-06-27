@@ -42,7 +42,7 @@ export default async (req, res) => {
     res.json({user})
   } catch (error) {
     res.status(500)
-    res.json({error: 'Error creating new user'})
+    res.json({error})
   } finally {
     await Prisma.disconnect()
   }
