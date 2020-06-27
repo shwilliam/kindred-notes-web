@@ -15,7 +15,7 @@ import {
   TagsInput,
 } from '../components'
 import {useArrayIterator, useViewer} from '../hooks'
-import {getErrorMessage} from '../lib'
+import {getErrorMessage, protectRoute} from '../lib'
 
 const NOTE_OPTIONS = {
   color: ['BLUE', 'GREEN', 'YELLOW'],
@@ -189,4 +189,9 @@ export default () => {
       <Footer />
     </main>
   )
+}
+
+export const getServerSideProps = ctx => {
+  protectRoute(ctx)
+  return {props: {}}
 }

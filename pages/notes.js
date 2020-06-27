@@ -10,6 +10,7 @@ import {
   Spinner,
 } from '../components'
 import {useNotesInbox, useNotesOutbox, useViewer, useViewNote} from '../hooks'
+import {protectRoute} from '../lib'
 
 export default () => {
   const router = useRouter()
@@ -68,4 +69,9 @@ export default () => {
       <Footer />
     </main>
   )
+}
+
+export const getServerSideProps = ctx => {
+  protectRoute(ctx)
+  return {props: {}}
 }

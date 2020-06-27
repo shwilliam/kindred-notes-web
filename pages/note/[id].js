@@ -12,6 +12,7 @@ import {
   ReplyList,
 } from '../../components'
 import {useNote, useProfile, useViewer, useViewNote} from '../../hooks'
+import {protectRoute} from '../../lib'
 
 export default () => {
   const router = useRouter()
@@ -86,4 +87,9 @@ export default () => {
       {viewerId && <Footer />}
     </main>
   )
+}
+
+export const getServerSideProps = ctx => {
+  protectRoute(ctx)
+  return {props: {}}
 }

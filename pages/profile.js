@@ -12,6 +12,7 @@ import {
   TagsInput,
 } from '../components'
 import {useProfile, useViewer} from '../hooks'
+import {protectRoute} from '../lib'
 
 const deleteInterestRequest = async data => {
   const response = await fetch('/api/users/interests', {
@@ -125,4 +126,9 @@ export default () => {
       <Footer />
     </main>
   )
+}
+
+export const getServerSideProps = ctx => {
+  protectRoute(ctx)
+  return {props: {}}
 }
