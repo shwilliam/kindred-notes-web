@@ -5,32 +5,54 @@ export default async (req, res) => {
   const Prisma = new PrismaClient({log: ['query']})
   const {id} = validateHeaderToken(req.headers)
 
-  if (!id) {
-    res.status(500)
-    res.json({error: 'Error fetching notes'})
-    return
-  }
-
   try {
-    const notes = await Prisma.note.findMany({
+    if (!id) throw new Error({message: 'Error authenticating user'})
+
+    const user = await Prisma.user.findOne({
       where: {
-        authorId: {
-          not: id,
-        },
-      },
-      orderBy: {
-        createdAt: 'desc',
+        id,
       },
       include: {
-        viewers: true,
+        interests: true,
       },
-      // take: 20,
     })
+
+    if (!user) throw new Error({message: 'User not found'})
+
+    const notes = user.interests?.length
+      ? await Prisma.note.findMany({
+          where: {
+            AND: [
+              {
+                authorId: {
+                  not: id,
+                },
+              },
+              {
+                tags: {
+                  some: {
+                    title: {
+                      in: user.interests.map(({title}) => title),
+                    },
+                  },
+                },
+              },
+            ],
+          },
+          orderBy: {
+            createdAt: 'desc',
+          },
+          include: {
+            viewers: true,
+          },
+          // take: 20,
+        })
+      : []
 
     res.json({notes})
   } catch (error) {
     res.status(500)
-    res.json({error: 'Error fetching notes'})
+    res.json(error)
   } finally {
     await Prisma.disconnect()
   }
