@@ -1,6 +1,4 @@
 import Link from 'next/link'
-import {useRouter} from 'next/router'
-import {useMutation} from 'react-query'
 import {
   Avatar,
   FadeIn,
@@ -11,64 +9,33 @@ import {
   Tag,
   TagsInput,
 } from '../components'
-import {useProfile, useViewer} from '../hooks'
+import {useAddInterest, useDeleteInterest, useProfile} from '../hooks'
 import {protectRoute} from '../lib'
 
-const deleteInterestRequest = async data => {
-  const response = await fetch('/api/users/interests', {
-    method: 'DELETE',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(data),
-  })
-  const responseJson = await response.json()
-
-  return responseJson.user
-}
-
-const addInterestRequest = async data => {
-  const response = await fetch('/api/users/interests', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(data),
-  })
-  const responseJson = await response.json()
-
-  return responseJson.user
-}
-
 export default () => {
-  const router = useRouter()
-  const viewer = useViewer()
   const profile = useProfile()
-  const [deleteInterest] = useMutation(deleteInterestRequest)
-  const [addInterest] = useMutation(addInterestRequest)
+  const [deleteInterest] = useDeleteInterest()
+  const [addInterest] = useAddInterest()
 
-  const handleInterestsChange = interests =>
-    addInterest({title: interests[0]}).then(router.reload)
+  const handleInterestsChange = interests => addInterest({title: interests[0]})
 
-  const handleInterestClick = title =>
-    deleteInterest({title}).then(router.reload)
-
-  if (!viewer.loading && !viewer.data && typeof window !== 'undefined') {
-    router.push('/signin')
-    return null
-  }
+  const handleInterestClick = title => deleteInterest({title})
 
   return (
     <main>
       <Head title="Profile" />
       <h1 className="sr-only">Profile</h1>
 
-      {!profile.loading ? (
+      {profile.status === 'loading' ? (
+        <Spinner full />
+      ) : profile.status === 'error' ? (
+        <p className="error">Something unexpected happened...</p>
+      ) : (
         <FadeIn className="footer-pad">
           <section className="main">
             <div className="wrapper">
-              <Avatar variant={profile.data.user.avatar} />
-              <p className="profile__title">{profile.data.user.email}</p>
+              <Avatar variant={profile.data.user?.avatar} />
+              <p className="profile__title">{profile.data.user?.email}</p>
               <label>
                 <p className="title -small -center">Topics of Interest</p>
                 <TagsInput
@@ -119,8 +86,6 @@ export default () => {
             </footer>
           </section>
         </FadeIn>
-      ) : (
-        <Spinner full />
       )}
 
       <Footer />
