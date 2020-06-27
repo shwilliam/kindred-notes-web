@@ -8,7 +8,7 @@ import {
   Spinner,
 } from '../../../components'
 import {useNote} from '../../../hooks'
-import {protectRoute, reduceReplyToFeature} from '../../../lib'
+import {protectRoute, reduceViewerToFeature} from '../../../lib'
 
 export default () => {
   const router = useRouter()
@@ -36,7 +36,7 @@ export default () => {
 
   const repliesGeoJson = {
     type: 'FeatureCollection',
-    features: note.data.note?.viewers?.reduce(reduceReplyToFeature, []),
+    features: note.data.note?.viewers?.reduce(reduceViewerToFeature, []),
   }
 
   return (
