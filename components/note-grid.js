@@ -12,11 +12,13 @@ export const NoteGrid = ({inbox, outbox, viewerId}) => (
       <TabPanel>
         {inbox?.length ? (
           <ul className="note-grid">
-            {inbox.map(({id, viewedBy}) => (
+            {inbox.map(({id, viewers}) => (
               <li className="note-grid__cell" key={id}>
                 <Link href={`/notes?note=${id}`} as={`/note/${id}`}>
                   <a className="link -no-ul">
-                    <IconEnvelope open={viewedBy?.includes(viewerId)} />
+                    <IconEnvelope
+                      open={viewers?.some(({id}) => id === viewerId)}
+                    />
                   </a>
                 </Link>
               </li>

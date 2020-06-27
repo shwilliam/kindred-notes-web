@@ -21,6 +21,9 @@ export default async (req, res) => {
       orderBy: {
         createdAt: 'desc',
       },
+      include: {
+        viewers: true,
+      },
       // take: 20,
     })
 
