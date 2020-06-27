@@ -1,5 +1,13 @@
 import Link from 'next/link'
-import {FadeIn, Footer, Head, Header, Note, Spinner} from '../components'
+import {
+  FadeIn,
+  Footer,
+  Head,
+  Header,
+  Note,
+  NotesSearch,
+  Spinner,
+} from '../components'
 import {
   useConnectionsCount,
   useCountriesCount,
@@ -20,10 +28,12 @@ export default () => {
       <Head title="Kindred Notes" description="Kindred Notes" />
       <h1 className="sr-only">Kindred Notes</h1>
       <Header>
-        {viewer.status === 'success' && !viewer.data && (
+        {viewer.status === 'success' && !viewer.data ? (
           <Link href="/signin">
             <a className="link -no-ul">Sign in</a>
           </Link>
+        ) : (
+          <NotesSearch />
         )}
       </Header>
 
