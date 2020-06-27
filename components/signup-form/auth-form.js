@@ -28,16 +28,6 @@ export const SignupAuthForm = ({onSubmit}) => {
     email = email.trim()
     password = password.trim()
 
-    // TODO: normalize html5 and manual input validation
-    if (!email.length) {
-      setErrorMsg('Please provide an email')
-      return
-    }
-
-    if (!password.length) {
-      setErrorMsg('Please enter a password')
-      return
-    }
     // TODO: confirm password field
 
     setLoading(true)
