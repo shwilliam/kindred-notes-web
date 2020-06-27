@@ -11,7 +11,7 @@ export default () => {
       <Head title="Kindred Notes" description="Kindred Notes" />
       <h1 className="sr-only">Kindred Notes</h1>
       <Header>
-        {!['error', 'loading'].includes(viewer.status) && (
+        {!['error', 'loading'].includes(viewer.status) && !viewer.data && (
           <Link href="/signin">
             <a className="link -no-ul">Sign in</a>
           </Link>
