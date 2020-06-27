@@ -9,7 +9,7 @@ export const ReplyList = ({replies}) =>
           <li className="reply" key={id}>
             <Avatar variant={author.avatar} small />
             <div>
-              <p className="reply__name">{author.nickname}</p>
+              <p className="reply__name">{author.nickname ?? 'Anonymous'}</p>
               <p className="reply__text">{content}</p>
             </div>
           </li>
