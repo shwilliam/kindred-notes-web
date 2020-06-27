@@ -21,7 +21,10 @@ export default async (req, res) => {
       },
     })
 
-    if (isValidPassword(user.password, password)) {
+    if (!user) {
+      res.status(401)
+      res.json({error: {message: 'No user with this email was found'}})
+    } else if (isValidPassword(user.password, password)) {
       const token = jwt.sign(
         {email: user.email, id: user.id, time: new Date()},
         JWT_SECRET,
@@ -40,9 +43,12 @@ export default async (req, res) => {
           secure: process.env.NODE_ENV === 'production',
         }),
       )
-    }
 
-    res.json({user})
+      res.json({user})
+    } else {
+      res.status(401)
+      res.json({error: {message: 'Incorrect email and password combination'}})
+    }
   } catch (error) {
     res.status(500)
     res.json({error})

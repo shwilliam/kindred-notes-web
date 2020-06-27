@@ -12,10 +12,8 @@ const signInRequest = async data => {
     },
     body: JSON.stringify(data),
   })
-  if (!response) throw new Error({message: 'Error authenticating user'})
 
-  const responseJson = await response.json()
-  return responseJson.user
+  return await response.json()
 }
 
 export default () => {
@@ -33,12 +31,18 @@ export default () => {
 
     try {
       setIsSubmitting(true)
-      await signIn({
+
+      const response = await signIn({
         email: emailElement.value,
         password: passwordElement.value,
       })
-      setWavesOpen(false)
-      setTimeout(() => router.push('/'), 650)
+
+      if (!response.error) {
+        setWavesOpen(false)
+        setTimeout(() => router.push('/'), 650)
+      } else {
+        setErrorMsg('Error signing in')
+      }
     } catch (error) {
       setErrorMsg(error.message)
     }
