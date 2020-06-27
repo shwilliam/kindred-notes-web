@@ -9,7 +9,16 @@ export default async (req, res) => {
     } = req
     const note = await Prisma.note.findOne({
       where: {id: Number(id)},
-      include: {viewers: true},
+      include: {
+        viewers: true,
+        replies: {
+          select: {
+            id: true,
+            content: true,
+            author: {select: {nickname: true, avatar: true}},
+          },
+        },
+      },
     })
 
     if (note) {

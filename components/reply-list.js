@@ -5,10 +5,13 @@ export const ReplyList = ({replies}) =>
     <section className="wrapper">
       <h2 className="title">Who appreciated your note</h2>
       <ul className="reply__list">
-        {replies.map(({id, content, avatar}) => (
+        {replies.map(({id, content, author}) => (
           <li className="reply" key={id}>
-            <Avatar variant={avatar} small />
-            <p className="reply__text">{content}</p>
+            <Avatar variant={author.avatar} small />
+            <div>
+              <p className="reply__name">{author.nickname}</p>
+              <p className="reply__text">{content}</p>
+            </div>
           </li>
         ))}
       </ul>

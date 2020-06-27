@@ -486,8 +486,13 @@ a.button:disabled,
   padding: calc(var(--layout__rhythm) / 2) 0;
 }
 
-.reply__text {
+.reply__text,
+.reply__name {
   padding: 0 calc(var(--layout__rhythm) / 2);
+}
+
+.reply__name {
+  font-weight: 600;
 }
 
 .icon {
