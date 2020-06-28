@@ -43,13 +43,13 @@ body,
 
 /* layout */
 .wrapper {
-  width: 75%;
   max-width: 600px;
+  padding: 0 var(--layout__rhythm);
   margin: 0 auto var(--layout__rhythm) auto;
 }
 
 .wrapper.-no-pad {
-  width: auto;
+  padding: 0;
 }
 
 .fill {
@@ -120,8 +120,6 @@ body,
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  /* top: calc(var(--header-height) / 2); */
-  /* right: calc(var(--layout__rhythm) * 2); */
 }
 
 .notes-search {
@@ -221,13 +219,21 @@ body,
 }
 
 .link {
+  cursor: pointer;
+  border: none;
+  background-color: transparent;
+  padding: 0;
   height: 100%;
   white-space: nowrap;
 }
 
 .link.-no-ul {
-  font-weight: 600;
   text-decoration: none;
+  font-weight: 600;
+}
+
+.link.-blue {
+  color: var(--color__accent--blue);
 }
 
 .nav {

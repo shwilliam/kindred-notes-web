@@ -5,9 +5,9 @@ import {
   Footer,
   Head,
   Header,
-  NoteGrid,
   NoteModal,
   Spinner,
+  InboxOutboxTabs,
 } from '../components'
 import {useNotesInbox, useNotesOutbox, useViewer, useViewNote} from '../hooks'
 import {protectRoute} from '../lib'
@@ -58,7 +58,7 @@ export default () => {
           <FadeIn className="footer-pad">
             {notesInbox.status === 'success' &&
               notesOutbox.status === 'success' && (
-                <NoteGrid
+                <InboxOutboxTabs
                   inbox={notesInbox.data.notes}
                   outbox={notesOutbox.data.notes}
                   viewerId={viewer.data.id}
