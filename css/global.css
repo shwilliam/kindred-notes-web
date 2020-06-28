@@ -113,15 +113,66 @@ body,
 
 .header__action {
   position: absolute;
-  top: calc(var(--header-height) / 2);
-  right: calc(var(--layout__rhythm) * 2);
-  transform: translateY(-50%);
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  /* top: calc(var(--header-height) / 2); */
+  /* right: calc(var(--layout__rhythm) * 2); */
 }
 
 .notes-search {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  overflow: hidden;
+}
+
+.notes-search__form {
+  background-color: var(--color__ui);
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
+  transform: translateX(100vw);
+  opacity: 0;
+  transition: opacity 200ms ease-in-out, transform 800ms ease-in-out;
+}
+
+.notes-search__form.-open,
+.notes-search__input:focus-within {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.notes-search__input {
+  width: 80%;
+}
+
+.notes-search__submit {
+  position: absolute;
+  right: var(--layout__rhythm);
+  height: 100%;
+  background-color: var(--color__ui);
+}
+
+.notes-search__toggle {
+  opacity: 1;
+  position: absolute;
+  top: var(--layout__rhythm);
+  right: var(--layout__rhythm);
+  transition: opacity 400ms ease-in-out;
+}
+
+.notes-search__toggle.-hidden {
+  opacity: 0;
+  z-index: -1;
+}
 }
 
 .title {
