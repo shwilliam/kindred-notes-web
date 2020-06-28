@@ -80,6 +80,8 @@ export default () => {
           </ul>
         </section>
 
+        <span className="rule" />
+
         <section>
           <h2 className="title -center">Recent Notes</h2>
           <ul className="note-grid">
