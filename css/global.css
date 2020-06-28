@@ -454,9 +454,21 @@ a.button:disabled,
   grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
 }
 
+.note-grid__wrapper {
+  text-align: right;
+}
+
+.note-grid.-list {
+  grid-template-columns: 1fr;
+}
+
 .note-grid__cell {
   height: 150px;
   border-radius: 0;
+}
+
+.note-grid__cell.-list {
+  height: auto;
 }
 
 .note {
@@ -473,6 +485,15 @@ a.button:disabled,
   border: 1px solid currentColor;
   white-space: pre-wrap;
   overflow: hidden;
+}
+
+.note.-inline {
+  height: auto;
+  display: block;
+  text-align: left;
+  background-color: var(--color__bg) !important;
+  border-radius: 5px;
+  margin: calc(var(--layout__rhythm) / 2) auto;
 }
 
 .note.-full {
@@ -501,7 +522,7 @@ a.button:disabled,
   border-color: var(--color__accent--yellow);
 }
 
-.note.-fill {
+.note.-fill:not(.-inline) {
   color: var(--color__text--invert);
   border-color: var(--color__ui);
 }
