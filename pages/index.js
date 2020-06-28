@@ -4,9 +4,8 @@ import {
   Footer,
   Head,
   Header,
-  Note,
+  NoteGrid,
   NotesSearch,
-  Spinner,
 } from '../components'
 import {
   useConnectionsCount,
@@ -82,32 +81,12 @@ export default () => {
 
         <span className="rule" />
 
-        <section>
-          <h2 className="title -center">Recent Notes</h2>
-          <ul className="note-grid">
-            {recentNotes.status === 'loading' ? (
-              <Spinner full />
-            ) : recentNotes.status === 'error' ? (
-              <p className="error">
-                An unexpected error occurred. Refresh the page to try again.
-              </p>
-            ) : (
-              recentNotes.data?.notes?.map(
-                ({id, content, color, style, font}) => (
-                  <li className="note-grid__cell" key={id}>
-                    <Link href={`/note/${id}`}>
-                      <a className="link -no-ul">
-                        <Note color={color} style={style} font={font}>
-                          {content}
-                        </Note>
-                      </a>
-                    </Link>
-                  </li>
-                ),
-              )
-            )}
-          </ul>
-        </section>
+        <NoteGrid
+          title="Recent notes"
+          loading={recentNotes.status === 'loading'}
+          error={recentNotes.status === 'error'}
+          notes={recentNotes?.data?.notes}
+        />
       </FadeIn>
 
       {viewer.status === 'success' && !viewer.data.id && (

@@ -1,51 +1,44 @@
-import {Tab, TabList, TabPanel, TabPanels, Tabs} from '@reach/tabs'
 import Link from 'next/link'
-import {IconEnvelope, Note} from './index'
+import {Note, Spinner} from './index'
+import {useState} from 'react'
 
-export const NoteGrid = ({inbox, outbox, viewerId}) => (
-  <Tabs>
-    <TabList>
-      <Tab>Received</Tab>
-      <Tab>Sent</Tab>
-    </TabList>
-    <TabPanels>
-      <TabPanel>
-        {inbox?.length ? (
-          <ul className="note-grid">
-            {inbox.map(({id, viewers}) => (
-              <li className="note-grid__cell" key={id}>
-                <Link href={`/notes?note=${id}`} as={`/note/${id}`}>
+export const NoteGrid = ({
+  title = 'Notes',
+  loading,
+  error,
+  notes,
+  variant = 'grid',
+}) => {
+  const [activeVariant, setActiveVariant] = useState(variant)
+  const toggleVariant = () =>
+    setActiveVariant(s => (s === 'grid' ? 'list' : 'grid'))
+
+  return (
+    <section className="wrapper">
+      <h2 className="title -center">{title}</h2>
+
+      {loading ? (
+        <Spinner full />
+      ) : error ? (
+        <p className="error">
+          An unexpected error occurred. Refresh the page to try again.
+        </p>
+      ) : (
+        <div className="note-grid__wrapper">
+          <button onClick={toggleVariant} className="link -blue" aria-hidden>
+            View as {activeVariant === 'grid' ? 'list' : 'grid'}
+          </button>
+          <ul className={`note-grid -${activeVariant}`}>
+            {notes?.map(({id, content, color, style, font}) => (
+              <li className={`note-grid__cell -${activeVariant}`} key={id}>
+                <Link href={`/note/${id}`}>
                   <a className="link -no-ul">
-                    <IconEnvelope
-                      open={viewers?.some(({id}) => id === viewerId)}
-                    />
-                  </a>
-                </Link>
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <div className="info wrapper">
-            <p className="info__text">
-              Looks like no notes match your interests.
-            </p>
-            <p className="info__text">
-              <Link href="/profile">
-                <a>Click here</a>
-              </Link>{' '}
-              to add some.
-            </p>
-          </div>
-        )}
-      </TabPanel>
-      <TabPanel>
-        {outbox?.length ? (
-          <ul className="note-grid">
-            {outbox.map(({id, content, color, style, font}) => (
-              <li className="note-grid__cell" key={id}>
-                <Link href={`/notes?note=${id}`} as={`/note/${id}`}>
-                  <a className="link -no-ul">
-                    <Note color={color} style={style} font={font}>
+                    <Note
+                      color={color}
+                      style={style}
+                      font={font}
+                      inline={activeVariant === 'list'}
+                    >
                       {content}
                     </Note>
                   </a>
@@ -53,18 +46,8 @@ export const NoteGrid = ({inbox, outbox, viewerId}) => (
               </li>
             ))}
           </ul>
-        ) : (
-          <div className="info wrapper">
-            <p className="info__text">Your sent notes will show up here. </p>
-            <p className="info__text">
-              <Link href="/new">
-                <a>Click here</a>
-              </Link>{' '}
-              to send you first!
-            </p>
-          </div>
-        )}
-      </TabPanel>
-    </TabPanels>
-  </Tabs>
-)
+        </div>
+      )}
+    </section>
+  )
+}
