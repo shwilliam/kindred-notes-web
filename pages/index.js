@@ -21,13 +21,14 @@ export default () => {
   const notesCount = useNotesCount()
   const countriesCount = useCountriesCount()
   const connectionsCount = useConnectionsCount()
+  const isAuthenticated = viewer?.data && !viewer?.data?.error
 
   return (
     <main>
       <Head title="Kindred Notes" description="Kindred Notes" />
       <h1 className="sr-only">Kindred Notes</h1>
       <Header>
-        {viewer.status === 'success' && !viewer.data ? (
+        {!isAuthenticated ? (
           <Link href="/signin">
             <a className="link -no-ul">Sign in</a>
           </Link>
@@ -89,13 +90,13 @@ export default () => {
         />
       </FadeIn>
 
-      {viewer.status === 'success' && !viewer.data.id && (
+      {!isAuthenticated && (
         <Link href="/signup">
           <a className="button -full">Sign in</a>
         </Link>
       )}
 
-      {viewer.status === 'success' && !!viewer.data.id && <Footer />}
+      {isAuthenticated && <Footer />}
     </main>
   )
 }

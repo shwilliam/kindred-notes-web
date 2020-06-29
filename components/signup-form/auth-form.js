@@ -1,19 +1,6 @@
 import {useState} from 'react'
 import {Field} from '../../components'
-
-// TODO: move to `lib/`
-const emailExistsRequest = async data => {
-  const response = await fetch('/api/users/email', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(data),
-  })
-  const responseJson = await response.json()
-
-  return responseJson.emailExists
-}
+import {emailExistsRequest} from '../../lib'
 
 export const SignupAuthForm = ({onSubmit}) => {
   const [inputValues, setInputValues] = useState({email: '', password: ''})
@@ -26,16 +13,26 @@ export const SignupAuthForm = ({onSubmit}) => {
 
     let {email, password} = inputValues
     email = email.trim()
-    password = password.trim()
 
     // TODO: confirm password field
+
+    // TODO: normalize html5 and manual input validation
+    if (!email.length) {
+      setErrorMsg('Please provide an email')
+      return
+    }
+
+    if (!password.length) {
+      setErrorMsg('Please enter a password')
+      return
+    }
 
     setLoading(true)
 
     let emailExists
     try {
       emailExists = await emailExistsRequest({email})
-    } catch (_) {
+    } catch (error) {
       // assume email is available
       emailExists = false
     }

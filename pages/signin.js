@@ -30,11 +30,24 @@ export default () => {
     const passwordElement = event.currentTarget.elements.password
 
     try {
-      setIsSubmitting(true)
+      const email = emailElement.value.trim()
+      const password = passwordElement.value
 
+      // TODO: normalize html5 and manual input validation
+      if (!email.length) {
+        setErrorMsg('Please provide an email')
+        return
+      }
+
+      if (!password.length) {
+        setErrorMsg('Please enter a password')
+        return
+      }
+
+      setIsSubmitting(true)
       const response = await signIn({
-        email: emailElement.value,
-        password: passwordElement.value,
+        email: email,
+        password: password,
       })
 
       if (!response) {
