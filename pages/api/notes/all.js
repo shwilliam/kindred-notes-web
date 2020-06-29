@@ -35,8 +35,7 @@ const handleGetAllNotes = async ({req, res}) => {
 
     res.json({notes})
   } catch (error) {
-    res.status(500)
-    res.json({error})
+    res.status(500).json({error})
   } finally {
     await Prisma.disconnect()
   }

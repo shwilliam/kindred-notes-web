@@ -6,7 +6,7 @@ const handlePostNewNote = async ({req, res}) => {
 
   try {
     const user = validateHeaderToken(req.headers)
-    if (!user) throw new Error({message: 'Authentication failed'})
+    if (!user) throw new Error('Authentication failed')
 
     const {content, color, style, font, tags} = req.body
 
@@ -33,8 +33,7 @@ const handlePostNewNote = async ({req, res}) => {
       .status(201) // created
       .json({note})
   } catch (error) {
-    res.status(500)
-    res.json({error})
+    res.status(500).json({error})
   } finally {
     await Prisma.disconnect()
   }

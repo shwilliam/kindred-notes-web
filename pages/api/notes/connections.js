@@ -12,8 +12,7 @@ const handleGetConnectionsCount = async ({res}) => {
     )
     res.json({connections: viewers.length})
   } catch (error) {
-    res.status(500)
-    res.json({error})
+    res.status(500).json({error})
   } finally {
     await Prisma.disconnect()
   }

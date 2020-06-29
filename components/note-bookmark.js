@@ -10,9 +10,9 @@ const bookmarkNoteRequest = async data => {
     },
     body: JSON.stringify(data),
   })
-  const responseJson = await response.json()
+  const responseJson = response.ok && (await response.json())
 
-  return responseJson.user
+  return responseJson?.user
 }
 
 const removeBookmarkNoteRequest = async data => {
@@ -23,9 +23,9 @@ const removeBookmarkNoteRequest = async data => {
     },
     body: JSON.stringify(data),
   })
-  const responseJson = await response.json()
+  const responseJson = response.ok && (await response.json())
 
-  return responseJson.user
+  return responseJson?.user
 }
 
 export const NoteBookmark = ({id, bordered, bookmarks}) => {

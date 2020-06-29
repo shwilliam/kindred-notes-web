@@ -25,12 +25,10 @@ const handleGetNoteById = async ({req, res}) => {
     if (note) {
       res.json({note})
     } else {
-      res.status(404)
-      res.json({error: {message: 'Note not found'}})
+      res.status(404).json({error: {message: 'Note not found'}})
     }
   } catch (error) {
-    res.status(500)
-    res.json({error})
+    res.status(500).json({error})
   } finally {
     await Prisma.disconnect()
   }
