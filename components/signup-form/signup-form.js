@@ -2,19 +2,8 @@ import Link from 'next/link'
 import {useRouter} from 'next/router'
 import {useState} from 'react'
 import {useMutation} from 'react-query'
+import {signUpRequest} from '../../lib'
 import {SignupAuthForm, SignupDetailsForm, SignupTerms} from './index'
-
-const signUpRequest = async data => {
-  const response = await fetch('/api/users/signup', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(data),
-  })
-  const responseJson = await response.json()
-  return responseJson.user
-}
 
 export const SignupForm = () => {
   const router = useRouter()
@@ -32,24 +21,24 @@ export const SignupForm = () => {
 
     setIsSubmitting(true)
 
-    try {
-      await signUp({
-        email: formValues.email,
-        password: formValues.password,
-        interests,
-        nickname,
-        avatar,
-        country,
-        city: city.name,
-        coords: [city.coords.lng, city.coords.lat],
-      })
+    const signUpResponse = await signUp({
+      email: formValues.email,
+      password: formValues.password,
+      interests,
+      nickname,
+      avatar,
+      country,
+      city: city.name,
+      coords: [city.coords.lng, city.coords.lat],
+    })
 
+    if (!signUpResponse) {
+      setErrorMsg('Unable to create account. Please try again.')
+    } else {
       setActiveStep(0)
       setTimeout(() => {
         router.push('/signin')
       }, 250)
-    } catch (error) {
-      setErrorMsg(error.message)
     }
 
     setIsSubmitting(false)

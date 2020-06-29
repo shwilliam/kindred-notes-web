@@ -1,13 +1,7 @@
 import {useRouter} from 'next/router'
 import {useEffect} from 'react'
 import {Footer, Head, Layout} from '../components'
-
-const signOutRequest = async () => {
-  const response = await fetch('/api/users/signout')
-  const responseJson = await response.json()
-
-  return responseJson
-}
+import {signOutRequest} from '../lib'
 
 export default () => {
   const router = useRouter()

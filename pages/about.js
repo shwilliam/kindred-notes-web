@@ -4,7 +4,7 @@ import {useViewer} from '../hooks'
 
 export default () => {
   const viewer = useViewer()
-  const isAuthenticated = viewer.status === 'success' && !!viewer.data
+  const isAuthenticated = viewer?.data && !viewer?.data?.error
 
   return (
     <main>

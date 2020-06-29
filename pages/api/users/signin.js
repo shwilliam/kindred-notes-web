@@ -9,7 +9,7 @@ const {JWT_SECRET} = getConfig().serverRuntimeConfig
 const isValidPassword = (hashedPassword, password) =>
   bcrypt.compareSync(password, hashedPassword)
 
-export default async (req, res) => {
+const handlePostSignIn = async ({req, res}) => {
   const Prisma = new PrismaClient({log: ['query']})
 
   try {
@@ -54,5 +54,16 @@ export default async (req, res) => {
     res.json({error})
   } finally {
     await Prisma.disconnect()
+  }
+}
+
+export default async (req, res) => {
+  switch (req.method) {
+    case 'POST':
+      await handlePostSignIn({req, res})
+      break
+    default:
+      res.status(405).end()
+      break
   }
 }
