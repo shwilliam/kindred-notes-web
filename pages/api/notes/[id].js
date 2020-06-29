@@ -1,12 +1,13 @@
 import {PrismaClient} from '@prisma/client'
 
-export default async (req, res) => {
+const handleGetNoteById = async ({req, res}) => {
   const Prisma = new PrismaClient({log: ['query']})
 
   try {
     const {
       query: {id},
     } = req
+
     const note = await Prisma.note.findOne({
       where: {id: Number(id)},
       include: {
@@ -32,5 +33,16 @@ export default async (req, res) => {
     res.json({error})
   } finally {
     await Prisma.disconnect()
+  }
+}
+
+export default async (req, res) => {
+  switch (req.method) {
+    case 'GET':
+      await handleGetNoteById({req, res})
+      break
+    default:
+      res.status(405).end()
+      break
   }
 }

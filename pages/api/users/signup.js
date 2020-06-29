@@ -2,7 +2,7 @@ import {PrismaClient} from '@prisma/client'
 import bcrypt from 'bcrypt'
 import {findNewOrExistingTags} from '../../../lib'
 
-export default async (req, res) => {
+const handlePostSignUp = async ({req, res}) => {
   const Prisma = new PrismaClient({log: ['query']})
 
   try {
@@ -16,7 +16,6 @@ export default async (req, res) => {
       coords,
       password,
     } = req.body
-
     const allTags = await Prisma.tag.findMany()
     const {newTags, existingTags} = findNewOrExistingTags(allTags, interests)
 
@@ -38,12 +37,23 @@ export default async (req, res) => {
       },
     })
 
-    res.status(201) // created
-    res.json({user})
+    res
+      .status(201) // created
+      .json({user})
   } catch (error) {
-    res.status(500)
-    res.json({error})
+    res.status(500).json({error})
   } finally {
     await Prisma.disconnect()
+  }
+}
+
+export default async (req, res) => {
+  switch (req.method) {
+    case 'POST':
+      await handlePostSignUp({req, res})
+      break
+    default:
+      res.status(405).end()
+      break
   }
 }

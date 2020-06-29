@@ -1,11 +1,24 @@
 import {validateHeaderToken} from '../../../lib'
 
-export default async (req, res) => {
-  const user = validateHeaderToken(req.headers)
+const handleGetViewer = ({req, res}) => {
+  try {
+    const token = validateHeaderToken(req.headers)
 
-  if (user) res.json(user)
-  else {
-    res.status(401)
-    res.json({error: 'Error authenticating user'})
+    if (!token)
+      res.status(401).json({error: {message: 'Authentication failed'}})
+    else res.json(token)
+  } catch (error) {
+    res.status(401).json({error})
+  }
+}
+
+export default (req, res) => {
+  switch (req.method) {
+    case 'GET':
+      handleGetViewer({req, res})
+      break
+    default:
+      res.status(405).end()
+      break
   }
 }

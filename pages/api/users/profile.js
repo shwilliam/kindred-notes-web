@@ -1,7 +1,7 @@
 import {PrismaClient} from '@prisma/client'
 import {validateHeaderToken} from '../../../lib'
 
-export default async (req, res) => {
+const handleGetProfile = async ({req, res}) => {
   const Prisma = new PrismaClient({log: ['query']})
 
   try {
@@ -14,13 +14,22 @@ export default async (req, res) => {
     if (user) {
       res.json({user})
     } else {
-      res.status(404)
-      res.json({error: {message: 'User not found'}})
+      res.status(404).json({error: {message: 'User not found'}})
     }
   } catch (error) {
-    res.status(500)
-    res.json({error})
+    res.status(500).json({error})
   } finally {
     await Prisma.disconnect()
+  }
+}
+
+export default async (req, res) => {
+  switch (req.method) {
+    case 'GET':
+      await handleGetProfile({req, res})
+      break
+    default:
+      res.status(405).end()
+      break
   }
 }

@@ -1,6 +1,6 @@
 import {PrismaClient} from '@prisma/client'
 
-export default async (_req, res) => {
+const handleGetNotesCount = async ({res}) => {
   const Prisma = new PrismaClient({log: ['query']})
 
   try {
@@ -8,9 +8,19 @@ export default async (_req, res) => {
 
     res.json({notes})
   } catch (error) {
-    res.status(500)
-    res.json({error})
+    res.status(500).json({error})
   } finally {
     await Prisma.disconnect()
+  }
+}
+
+export default async (req, res) => {
+  switch (req.method) {
+    case 'GET':
+      await handleGetNotesCount({res})
+      break
+    default:
+      res.status(405).end()
+      break
   }
 }

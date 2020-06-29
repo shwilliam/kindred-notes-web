@@ -1,17 +1,16 @@
 import {PrismaClient} from '@prisma/client'
 import {validateHeaderToken} from '../../../lib'
 
-export default async (req, res) => {
+const handleGetOutbox = async ({req, res}) => {
   const Prisma = new PrismaClient({log: ['query']})
-  const {id} = validateHeaderToken(req.headers)
-
-  if (!id) {
-    res.status(500)
-    res.json({error: 'Error fetching notes'})
-    return
-  }
-
   try {
+    const {id} = validateHeaderToken(req.headers)
+
+    if (!id) {
+      res.status(500).json('Error fetching notes')
+      return
+    }
+
     const user = await Prisma.user.findOne({where: {id}})
 
     const notes = await Prisma.note.findMany({
@@ -34,9 +33,19 @@ export default async (req, res) => {
 
     res.json({notes})
   } catch (error) {
-    res.status(500)
-    res.json({error})
+    res.status(500).json({error})
   } finally {
     await Prisma.disconnect()
+  }
+}
+
+export default async (req, res) => {
+  switch (req.method) {
+    case 'GET':
+      await handleGetOutbox({req, res})
+      break
+    default:
+      res.status(405).end()
+      break
   }
 }

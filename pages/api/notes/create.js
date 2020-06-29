@@ -1,7 +1,7 @@
 import {PrismaClient} from '@prisma/client'
 import {findNewOrExistingTags, validateHeaderToken} from '../../../lib'
 
-export default async (req, res) => {
+const handlePostNewNote = async ({req, res}) => {
   const Prisma = new PrismaClient({log: ['query']})
 
   try {
@@ -29,12 +29,24 @@ export default async (req, res) => {
       },
     })
 
-    res.status(201) // created
-    res.json({note})
+    res
+      .status(201) // created
+      .json({note})
   } catch (error) {
     res.status(500)
     res.json({error})
   } finally {
     await Prisma.disconnect()
+  }
+}
+
+export default async (req, res) => {
+  switch (req.method) {
+    case 'POST':
+      await handlePostNewNote({req, res})
+      break
+    default:
+      res.status(405).end()
+      break
   }
 }

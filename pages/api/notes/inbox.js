@@ -1,7 +1,7 @@
 import {PrismaClient} from '@prisma/client'
 import {validateHeaderToken} from '../../../lib'
 
-export default async (req, res) => {
+const handleGetInbox = async ({req, res}) => {
   const Prisma = new PrismaClient({log: ['query']})
   const {id} = validateHeaderToken(req.headers)
 
@@ -55,5 +55,16 @@ export default async (req, res) => {
     res.json({error})
   } finally {
     await Prisma.disconnect()
+  }
+}
+
+export default async (req, res) => {
+  switch (req.method) {
+    case 'GET':
+      await handleGetInbox({req, res})
+      break
+    default:
+      res.status(405).end()
+      break
   }
 }
