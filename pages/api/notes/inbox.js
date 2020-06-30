@@ -44,6 +44,7 @@ const handleGetInbox = async ({req, res}) => {
           },
           include: {
             viewers: true,
+            author: true,
           },
           // take: 20,
         })

@@ -3,8 +3,8 @@ import {FadeIn, Footer, Head, Header, Spinner} from '../components'
 import {useNotifications} from '../hooks'
 import {validateHeaderToken} from '../lib'
 
-export default () => {
-  const notifications = useNotifications()
+export default ({viewerId}) => {
+  const notifications = useNotifications(viewerId)
 
   return (
     <main>
@@ -21,17 +21,19 @@ export default () => {
           <section className="main">
             <div className="wrapper">
               <ul>
-                {notifications.data?.replies.map(
-                  ({id, content, noteId, author}) => (
-                    <li key={id}>
-                      <Link href={`/note/${noteId}`}>
-                        <a>
-                          {author.nickname} replied "{content}"
-                        </a>
-                      </Link>
-                    </li>
-                  ),
-                )}
+                {notifications.map(({id, content, noteId, author, style}) => (
+                  <li key={id}>
+                    <Link href={`/note/${noteId || id}`}>
+                      <a className="link -no-ul">
+                        {!!style // is note
+                          ? `New note from ${author?.nickname ?? 'anonymous'}`
+                          : `${
+                              author?.nickname ?? 'Anonymous'
+                            } replied "${content}"`}
+                      </a>
+                    </Link>
+                  </li>
+                ))}
               </ul>
             </div>
           </section>
@@ -52,5 +54,5 @@ export const getServerSideProps = ctx => {
       })
       .end()
 
-  return {props: {}}
+  return {props: {viewerId: token?.id}}
 }
