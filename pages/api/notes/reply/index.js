@@ -1,5 +1,5 @@
 import {PrismaClient} from '@prisma/client'
-import {validateHeaderToken} from '../../../lib'
+import {validateHeaderToken} from '../../../../lib'
 
 const handlePostReply = async ({req, res}) => {
   const Prisma = new PrismaClient({log: ['query']})
