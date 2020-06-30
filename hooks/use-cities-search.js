@@ -1,12 +1,15 @@
 import {useEffect, useState} from 'react'
-import {cities, filterCitiesByCountry} from '../lib'
-import {useDebounce} from './index'
+import {filterCitiesByCountry} from '../lib'
+import {useCities, useDebounce} from './index'
 
 export const useCitiesSearch = (query, country) => {
   const [results, setResults] = useState([])
   const debouncedSearchTerm = useDebounce(query, 500)
+  const cities = useCities()
 
   useEffect(() => {
+    if (!cities) return
+
     if (country && debouncedSearchTerm) {
       setResults(
         cities

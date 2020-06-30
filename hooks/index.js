@@ -1,5 +1,6 @@
 export * from './use-add-interest'
 export * from './use-array-iterator'
+export * from './use-cities'
 export * from './use-cities-search'
 export * from './use-connections-count'
 export * from './use-countries-count'
