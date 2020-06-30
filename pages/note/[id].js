@@ -20,11 +20,14 @@ export default ({viewerId}) => {
   const {id} = router.query
   const profile = useProfile()
   const note = useNote(id)
-  const viewNote = useViewNote()
+  const {viewNote, viewReplies} = useViewNote()
 
   useEffect(() => {
     // TODO: avoid calling if already viewed
-    if (id) viewNote({id})
+    if (id) {
+      viewNote({id})
+      viewReplies({id})
+    }
   }, [id])
 
   if (note.status === 'loading')
