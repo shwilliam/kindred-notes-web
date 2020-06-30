@@ -1,13 +1,13 @@
 import {TermsAndConditions} from '../../components'
 
-export const SignupTerms = ({onAccept}) => {
+export const SignupTerms = ({onAccept, termsAndConditionsCopy}) => {
   const handleAcceptTerms = () => {
     onAccept()
   }
 
   return (
     <>
-      <TermsAndConditions />
+      <TermsAndConditions>{termsAndConditionsCopy}</TermsAndConditions>
 
       <button
         title="Accept terms and conditions"

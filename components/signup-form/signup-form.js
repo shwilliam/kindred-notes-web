@@ -5,7 +5,7 @@ import {useMutation} from 'react-query'
 import {signUpRequest} from '../../lib'
 import {SignupAuthForm, SignupDetailsForm, SignupTerms} from './index'
 
-export const SignupForm = () => {
+export const SignupForm = ({termsAndConditionsCopy}) => {
   const router = useRouter()
   const [signUp] = useMutation(signUpRequest)
   const [formValues, setFormValues] = useState()
@@ -81,7 +81,10 @@ export const SignupForm = () => {
         aria-hidden={activeStep !== 2}
         className={`fill offscreen ${activeStep === 2 ? '-show' : ''}`}
       >
-        <SignupTerms onAccept={agreeToTerms} />
+        <SignupTerms
+          onAccept={agreeToTerms}
+          termsAndConditionsCopy={termsAndConditionsCopy}
+        />
       </section>
 
       <p className="wave-pad -small">

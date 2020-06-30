@@ -29,11 +29,18 @@ npm i
   with public scopes enabled
 - Whitelist any URLs you intend to use **(Optional)**
 
-#### 4. Configure environment variables
+#### 4. Create copy source file on Google Docs
+
+- Create a new document on Google Docs
+- Enable permissions for anyone with a link to view the document
+- Copy the content from `copy.example.txt` into the document and modify the
+  dummy text but do **not** modify any [[headers]].
+
+#### 5. Configure environment variables
 
 - Copy `.env.example` to a new file named `.env.local`
-- Replace the placeholder values in `.env.local` with your DB connection string
-  and Mapbox key found in your [Mapbox dashboard](https://account.mapbox.com/access-tokens/)
+- Replace the placeholder values in `.env.local` with your DB connection string,
+  Google Docs document ID and Mapbox key found in your [Mapbox dashboard](https://account.mapbox.com/access-tokens/)
 
 ### Testing
 
