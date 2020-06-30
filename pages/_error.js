@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import {FadeIn, Head, Header} from '../components'
 
-const Error = ({statusCode}) => (
+export default ({statusCode}) => (
   <main>
     <Head title="Not found" />
     <h1 className="sr-only">{statusCode}</h1>
@@ -35,9 +35,7 @@ const Error = ({statusCode}) => (
   </main>
 )
 
-Error.getInitialProps = ({res, err}) => {
+export const getInitialProps = ({res, err}) => {
   const statusCode = res ? res.statusCode : err ? err.statusCode : 404
   return {statusCode}
 }
-
-export default Error
