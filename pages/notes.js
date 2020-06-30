@@ -5,16 +5,14 @@ import {
   Footer,
   Head,
   Header,
-  NoteModal,
-  Spinner,
   InboxOutboxTabs,
+  NoteModal,
 } from '../components'
-import {useNotesInbox, useNotesOutbox, useViewer, useViewNote} from '../hooks'
-import {protectRoute} from '../lib'
+import {useNotesInbox, useNotesOutbox, useViewNote} from '../hooks'
+import {validateHeaderToken} from '../lib'
 
-export default () => {
+export default ({viewerId}) => {
   const router = useRouter()
-  const viewer = useViewer()
   const notesInbox = useNotesInbox()
   const notesOutbox = useNotesOutbox()
   const viewNote = useViewNote()
@@ -43,30 +41,24 @@ export default () => {
       <h1 className="sr-only">Kindred Notes</h1>
       <Header />
 
-      {viewer.status === 'loading' ? (
-        <Spinner full />
-      ) : viewer.status === 'error' ? (
-        <p className="error">
-          An unexpected error occurred. Please refresh the page to try again.
-        </p>
-      ) : (
-        <>
-          {router.query.note && (
-            <NoteModal id={router.query.note} onDismiss={handleModalClose} />
-          )}
-
-          <FadeIn className="footer-pad">
-            {notesInbox.status === 'success' &&
-              notesOutbox.status === 'success' && (
-                <InboxOutboxTabs
-                  inbox={notesInbox.data.notes}
-                  outbox={notesOutbox.data.notes}
-                  viewerId={viewer.data.id}
-                />
-              )}
-          </FadeIn>
-        </>
+      {router.query.note && (
+        <NoteModal
+          id={router.query.note}
+          viewerId={viewerId}
+          onDismiss={handleModalClose}
+        />
       )}
+
+      <FadeIn className="footer-pad">
+        {notesInbox.status === 'success' &&
+          notesOutbox.status === 'success' && (
+            <InboxOutboxTabs
+              inbox={notesInbox.data.notes}
+              outbox={notesOutbox.data.notes}
+              viewerId={viewerId}
+            />
+          )}
+      </FadeIn>
 
       <Footer />
     </main>
@@ -74,6 +66,13 @@ export default () => {
 }
 
 export const getServerSideProps = ctx => {
-  protectRoute(ctx)
-  return {props: {}}
+  const token = validateHeaderToken(ctx.req.headers)
+  if (!token)
+    ctx.res
+      .writeHead(301, {
+        Location: '/signin',
+      })
+      .end()
+
+  return {props: {viewerId: token.id}}
 }

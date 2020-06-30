@@ -13,10 +13,9 @@ import {
   Note,
   Tag,
   TagsInput,
-  Spinner,
 } from '../components'
-import {useArrayIterator, useViewer} from '../hooks'
-import {protectRoute} from '../lib'
+import {useArrayIterator} from '../hooks'
+import {validateHeaderToken} from '../lib'
 
 const NOTE_OPTIONS = {
   color: ['BLUE', 'GREEN', 'YELLOW'],
@@ -44,7 +43,6 @@ export default () => {
       queryCache.invalidateQueries('notesOutbox')
     },
   })
-  const viewer = useViewer()
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [colorVal, nextColor] = useArrayIterator(NOTE_OPTIONS.color)
   const [styleVal, nextStyle] = useArrayIterator(NOTE_OPTIONS.style)
@@ -97,101 +95,93 @@ export default () => {
       <h1 className="sr-only">New note</h1>
       <Header />
 
-      {viewer.status === 'loading' ? (
-        <Spinner full />
-      ) : viewer.status === 'error' ? (
-        <p className="error">
-          An unexpected error occurred. Please refresh the page to try again.
-        </p>
-      ) : (
-        <FadeIn className="footer-pad">
-          <form onSubmit={handleSubmit}>
-            <Note color={colorVal} style={styleVal} font={fontVal} full>
-              <Field
-                className="note__input"
-                name="content"
-                type="text"
-                required
-                label="Note"
-                placeholder="Write a kind note"
-                invert={styleVal === 'FILL'}
-                floating
-                center
-              />
-              <section className="note__actions">
-                <button
-                  className="button -floating"
-                  onClick={nextColor}
-                  type="button"
-                >
-                  {/*
-                   * FIXME: fix sr output
-                   * - announce value on change
-                   * - better toggle label
-                   */}
-                  <span className="sr-only">{colorVal}</span>
-                  <IconPalette
-                    className={`icon -${colorVal.toLowerCase()} -${styleVal.toLowerCase()}`}
-                    aria-hidden
-                  />
-                </button>
-                <button
-                  className="button -floating"
-                  onClick={nextStyle}
-                  type="button"
-                >
-                  <span className="sr-only">{styleVal}</span>
-                  <IconSquare
-                    className={`icon -${colorVal.toLowerCase()} -${styleVal.toLowerCase()}`}
-                    fill={styleVal === 'FILL'}
-                    aria-hidden
-                  />
-                </button>
-                <button
-                  className="button -floating"
-                  onClick={nextFont}
-                  type="button"
-                >
-                  <span className="sr-only">{fontVal}</span>
-                  <IconFont
-                    className={`icon -${colorVal.toLowerCase()} -${styleVal.toLowerCase()}`}
-                    aria-hidden
-                  />
-                </button>
-              </section>
-            </Note>
-
-            <div className="wrapper">
-              <label>
-                <span className="title -small">Tag related topics</span>
-                <TagsInput
-                  className="input note__input"
-                  value={topicsVal}
-                  onChange={setTopicsVal}
-                />
-              </label>
-
-              <ul className="tags">
-                {topicsVal?.map((topic, idx) => (
-                  <li key={idx}>
-                    <Tag idx={idx} topic={topic} onClick={handleTagClick} />
-                  </li>
-                ))}
-              </ul>
-
-              {errorMsg && <p className="error">{errorMsg}</p>}
-
+      <FadeIn className="footer-pad">
+        <form onSubmit={handleSubmit}>
+          <Note color={colorVal} style={styleVal} font={fontVal} full>
+            <Field
+              className="note__input"
+              name="content"
+              type="text"
+              required
+              label="Note"
+              placeholder="Write a kind note"
+              invert={styleVal === 'FILL'}
+              floating
+              center
+            />
+            <section className="note__actions">
               <button
-                className="button -full"
-                disabled={isSubmitting}
-                type="submit"
+                className="button -floating"
+                onClick={nextColor}
+                type="button"
               >
-                Post
+                {/*
+                 * FIXME: fix sr output
+                 * - announce value on change
+                 * - better toggle label
+                 */}
+                <span className="sr-only">{colorVal}</span>
+                <IconPalette
+                  className={`icon -${colorVal.toLowerCase()} -${styleVal.toLowerCase()}`}
+                  aria-hidden
+                />
               </button>
-            </div>
-          </form>
-        </FadeIn>
-      )}
+              <button
+                className="button -floating"
+                onClick={nextStyle}
+                type="button"
+              >
+                <span className="sr-only">{styleVal}</span>
+                <IconSquare
+                  className={`icon -${colorVal.toLowerCase()} -${styleVal.toLowerCase()}`}
+                  fill={styleVal === 'FILL'}
+                  aria-hidden
+                />
+              </button>
+              <button
+                className="button -floating"
+                onClick={nextFont}
+                type="button"
+              >
+                <span className="sr-only">{fontVal}</span>
+                <IconFont
+                  className={`icon -${colorVal.toLowerCase()} -${styleVal.toLowerCase()}`}
+                  aria-hidden
+                />
+              </button>
+            </section>
+          </Note>
+
+          <div className="wrapper">
+            <label>
+              <span className="title -small">Tag related topics</span>
+              <TagsInput
+                className="input note__input"
+                value={topicsVal}
+                onChange={setTopicsVal}
+              />
+            </label>
+
+            <ul className="tags">
+              {topicsVal?.map((topic, idx) => (
+                <li key={idx}>
+                  <Tag idx={idx} topic={topic} onClick={handleTagClick} />
+                </li>
+              ))}
+            </ul>
+
+            {errorMsg && <p className="error">{errorMsg}</p>}
+
+            <button
+              className="button -full"
+              disabled={isSubmitting}
+              type="submit"
+            >
+              Post
+            </button>
+          </div>
+        </form>
+      </FadeIn>
 
       <Footer />
     </main>
@@ -199,6 +189,13 @@ export default () => {
 }
 
 export const getServerSideProps = ctx => {
-  protectRoute(ctx)
+  const token = validateHeaderToken(ctx.req.headers)
+  if (!token)
+    ctx.res
+      .writeHead(301, {
+        Location: '/signin',
+      })
+      .end()
+
   return {props: {}}
 }

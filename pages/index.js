@@ -12,16 +12,14 @@ import {
   useCountriesCount,
   useNotesCount,
   useRecentNotes,
-  useViewer,
 } from '../hooks'
+import {validateHeaderToken} from '../lib'
 
-export default () => {
-  const viewer = useViewer()
+export default ({isAuthenticated}) => {
   const recentNotes = useRecentNotes()
   const notesCount = useNotesCount()
   const countriesCount = useCountriesCount()
   const connectionsCount = useConnectionsCount()
-  const isAuthenticated = viewer?.data && !viewer?.data?.error
 
   return (
     <main>
@@ -99,4 +97,11 @@ export default () => {
       {isAuthenticated && <Footer />}
     </main>
   )
+}
+
+export const getServerSideProps = ctx => {
+  const token = validateHeaderToken(ctx.req.headers)
+  const isAuthenticated = !!token
+
+  return {props: {isAuthenticated}}
 }

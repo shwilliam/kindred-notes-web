@@ -10,7 +10,7 @@ import {
   TagsInput,
 } from '../components'
 import {useAddInterest, useDeleteInterest, useProfile} from '../hooks'
-import {protectRoute} from '../lib'
+import {validateHeaderToken} from '../lib'
 
 export default () => {
   const profile = useProfile()
@@ -94,6 +94,13 @@ export default () => {
 }
 
 export const getServerSideProps = ctx => {
-  protectRoute(ctx)
+  const token = validateHeaderToken(ctx.req.headers)
+  if (!token)
+    ctx.res
+      .writeHead(301, {
+        Location: '/signin',
+      })
+      .end()
+
   return {props: {}}
 }

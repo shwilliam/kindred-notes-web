@@ -12,13 +12,12 @@ import {
   ReplyList,
   Spinner,
 } from '../../components'
-import {useNote, useProfile, useViewer, useViewNote} from '../../hooks'
-import {protectRoute} from '../../lib'
+import {useNote, useProfile, useViewNote} from '../../hooks'
+import {validateHeaderToken} from '../../lib'
 
-export default () => {
+export default ({viewerId}) => {
   const router = useRouter()
   const {id} = router.query
-  const viewer = useViewer()
   const profile = useProfile()
   const note = useNote(id)
   const viewNote = useViewNote()
@@ -28,7 +27,7 @@ export default () => {
     if (id) viewNote({id})
   }, [id])
 
-  if (viewer.status === 'loading' || note.status === 'loading')
+  if (note.status === 'loading')
     return (
       <>
         <h1 className="sr-only">Note</h1>
@@ -55,7 +54,6 @@ export default () => {
     style,
     replies,
   } = note.data.note
-  const {id: viewerId} = viewer.data
   const isOwn = authorId === viewerId
   return (
     <main>
@@ -75,24 +73,29 @@ export default () => {
           {content}
         </Note>
 
-        {viewerId && isOwn && <ReplyList replies={replies || []} />}
+        {isOwn && <ReplyList replies={replies || []} />}
 
-        {viewerId && isOwn && (
+        {isOwn && (
           <Link href={`/note/map/${noteId}`}>
             <a>Map</a>
           </Link>
         )}
 
-        {viewerId && !isOwn && (
-          <ReplyForm id={noteId} onSubmit={router.reload} />
-        )}
+        {!isOwn && <ReplyForm id={noteId} onSubmit={router.reload} />}
       </FadeIn>
-      {viewerId && <Footer />}
+      <Footer />
     </main>
   )
 }
 
 export const getServerSideProps = ctx => {
-  protectRoute(ctx)
-  return {props: {}}
+  const token = validateHeaderToken(ctx.req.headers)
+  if (!token)
+    ctx.res
+      .writeHead(301, {
+        Location: '/signin',
+      })
+      .end()
+
+  return {props: {viewerId: token.id}}
 }

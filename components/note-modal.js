@@ -1,8 +1,7 @@
 import {FadeIn, Modal, Note, ReplyForm, ReplyList, Spinner} from '../components'
-import {useNote, useViewer} from '../hooks'
+import {useNote} from '../hooks'
 
-export const NoteModal = ({id, onDismiss}) => {
-  const viewer = useViewer()
+export const NoteModal = ({id, viewerId, onDismiss}) => {
   const note = useNote(id)
 
   return (
@@ -24,8 +23,7 @@ export const NoteModal = ({id, onDismiss}) => {
             >
               {note.data.note.content}
             </Note>
-            {viewer.status === 'success' &&
-            viewer.data.id === note.data.note.authorId ? (
+            {viewerId === note.data.note.authorId ? (
               <ReplyList replies={note.data.note?.replies} />
             ) : (
               <ReplyForm id={id} onSubmit={onDismiss} />

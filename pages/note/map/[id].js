@@ -8,7 +8,7 @@ import {
   Spinner,
 } from '../../../components'
 import {useNote} from '../../../hooks'
-import {protectRoute, reduceViewerToFeature} from '../../../lib'
+import {reduceViewerToFeature, validateHeaderToken} from '../../../lib'
 
 export default () => {
   const router = useRouter()
@@ -56,6 +56,13 @@ export default () => {
 }
 
 export const getServerSideProps = ctx => {
-  protectRoute(ctx)
+  const token = validateHeaderToken(ctx.req.headers)
+  if (!token)
+    ctx.res
+      .writeHead(301, {
+        Location: '/signin',
+      })
+      .end()
+
   return {props: {}}
 }

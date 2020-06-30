@@ -2,7 +2,7 @@ import Link from 'next/link'
 import {useRouter} from 'next/router'
 import {FadeIn, Footer, Head, Header, Note, Spinner} from '../components'
 import {useNotesSearch} from '../hooks'
-import {protectRoute} from '../lib'
+import {validateHeaderToken} from '../lib'
 
 export default () => {
   const router = useRouter()
@@ -54,6 +54,13 @@ export default () => {
 }
 
 export const getServerSideProps = ctx => {
-  protectRoute(ctx)
+  const token = validateHeaderToken(ctx.req.headers)
+  if (!token)
+    ctx.res
+      .writeHead(301, {
+        Location: '/signin',
+      })
+      .end()
+
   return {props: {}}
 }
