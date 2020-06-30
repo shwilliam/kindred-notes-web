@@ -1,3 +1,4 @@
+export * from './bell'
 export * from './bookmark'
 export * from './envelope'
 export * from './font'

@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import {useRouter} from 'next/router'
-import {IconHome, IconNote, IconPen, IconProfile} from './index'
+import {IconBell, IconHome, IconNote, IconPen, IconProfile} from './index'
 
 export const Nav = () => {
   const router = useRouter()
@@ -33,6 +33,16 @@ export const Nav = () => {
           <IconPen
             className="nav__icon"
             fill={router.pathname === '/new'}
+            aria-hidden
+          />
+        </a>
+      </Link>
+      <Link href="/notifications">
+        <a className="nav__link">
+          <span className="sr-only">Notifications</span>
+          <IconBell
+            className="nav__icon"
+            fill={router.pathname === '/notifications'}
             aria-hidden
           />
         </a>

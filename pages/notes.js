@@ -15,7 +15,7 @@ export default ({viewerId}) => {
   const router = useRouter()
   const notesInbox = useNotesInbox()
   const notesOutbox = useNotesOutbox()
-  const viewNote = useViewNote()
+  const {viewNote, viewReplies} = useViewNote()
 
   const handleModalClose = () => {
     router.back()
@@ -27,7 +27,10 @@ export default ({viewerId}) => {
 
   useEffect(() => {
     // TODO: avoid calling if already viewed
-    if (router.query.note) viewNote({id: router.query.note})
+    if (router.query.note) {
+      viewNote({id: router.query.note})
+      viewReplies({id: router.query.note})
+    }
   }, [router.query])
 
   useEffect(() => {
