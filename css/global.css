@@ -634,6 +634,7 @@ ul.tags,
   flex-wrap: wrap;
   justify-content: center;
   margin: var(--layout__rhythm) 0;
+  border: none;
 }
 
 .tag {
@@ -642,8 +643,13 @@ ul.tags,
   padding: calc(var(--layout__rhythm) / 2) var(--layout__rhythm);
   margin: calc(var(--layout__rhythm) / 4) calc(var(--layout__rhythm) / 2);
   background-color: var(--color__ui);
+  border: 1px solid var(--color__ui);
   color: var(--color__accent--blue);
   border-radius: 4px;
+}
+
+.tag.-selected {
+  border-color: var(--color__accent--blue);
 }
 
 .profile__title {
