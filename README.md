@@ -23,20 +23,20 @@ npm i
 > **Note**: Prisma supports PostgreSQL, MySQL and SQLite DBs so choose your
 > favorite!
 
-#### 3. Set up Mapbox
+#### 4. Set up Mapbox
 
 - [Create a new access token](https://account.mapbox.com/access-tokens/create)
   with public scopes enabled
 - Whitelist any URLs you intend to use **(Optional)**
 
-#### 4. Create copy source file on Google Docs
+#### 5. Create copy source file on Google Docs
 
 - Create a new document on Google Docs
 - Enable permissions for anyone with a link to view the document
 - Copy the content from `copy.example.txt` into the document and modify the
   dummy text but do **not** modify any [[headers]].
 
-#### 5. Configure environment variables
+#### 6. Configure environment variables
 
 - Copy `.env.example` to a new file named `.env.local`
 - Replace the placeholder values in `.env.local` with your DB connection string,
