@@ -47,12 +47,15 @@ export default ({viewerId}) => {
 
 export const getServerSideProps = ctx => {
   const token = validateHeaderToken(ctx.req.headers)
-  if (!token)
+
+  if (!token) {
     ctx.res
       .writeHead(301, {
         Location: '/signin',
       })
       .end()
+    return {props: {}}
+  }
 
-  return {props: {viewerId: token?.id}}
+  return {props: {viewerId: token.id}}
 }
