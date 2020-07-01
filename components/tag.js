@@ -9,7 +9,7 @@ export const Tag = ({topic, onClick, selected = false}) => {
     >
       {selected && <span className="sr-only">Remove</span>}
       {topic}
-      {selected && <span aria-hidden>{topic}&nbsp;&nbsp;&nbsp;✕</span>}
+      {selected && <span aria-hidden>&nbsp;&nbsp;&nbsp;✕</span>}
     </button>
   )
 }
