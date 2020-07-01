@@ -103,7 +103,7 @@ export const SignupDetailsForm = ({
       <ul className="tags">
         {interests?.map((topic, idx) => (
           <li key={idx}>
-            <Tag idx={idx} topic={topic} onClick={handleInterestClick} />
+            <Tag topic={topic} onClick={handleInterestClick} selected />
           </li>
         ))}
       </ul>

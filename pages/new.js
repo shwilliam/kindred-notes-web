@@ -165,7 +165,11 @@ export default () => {
             <ul className="tags">
               {topicsVal?.map((topic, idx) => (
                 <li key={idx}>
-                  <Tag idx={idx} topic={topic} onClick={handleTagClick} />
+                  <Tag
+                    topic={topic}
+                    selected={topicsVal.includes(topic)}
+                    onClick={handleTagClick}
+                  />
                 </li>
               ))}
             </ul>

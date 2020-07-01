@@ -47,11 +47,7 @@ export default () => {
               <ul className="tags">
                 {profile.data.user?.interests.map(({title}, idx) => (
                   <li key={idx}>
-                    <Tag
-                      idx={idx}
-                      topic={title}
-                      onClick={handleInterestClick}
-                    />
+                    <Tag topic={title} onClick={handleInterestClick} selected />
                   </li>
                 ))}
               </ul>
