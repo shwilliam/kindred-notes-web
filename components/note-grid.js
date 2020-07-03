@@ -1,6 +1,7 @@
 import Link from 'next/link'
-import {Note, Spinner} from './index'
 import {useState} from 'react'
+import {truncate} from '../lib'
+import {Note, Spinner} from './index'
 
 export const NoteGrid = ({
   title = 'Notes',
@@ -39,7 +40,9 @@ export const NoteGrid = ({
                       font={font}
                       inline={activeVariant === 'list'}
                     >
-                      {content}
+                      {activeVariant === 'grid'
+                        ? truncate(50, content)
+                        : content}
                     </Note>
                   </a>
                 </Link>

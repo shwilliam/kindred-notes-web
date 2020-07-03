@@ -1,6 +1,7 @@
 import {Tab, TabList, TabPanel, TabPanels, Tabs} from '@reach/tabs'
 import Link from 'next/link'
 import {IconEnvelope, Note} from './index'
+import {truncate} from '../lib'
 
 export const InboxOutboxTabs = ({inbox, outbox, viewerId}) => (
   <Tabs>
@@ -46,7 +47,7 @@ export const InboxOutboxTabs = ({inbox, outbox, viewerId}) => (
                 <Link href={`/notes?note=${id}`} as={`/note/${id}`}>
                   <a className="link -no-ul">
                     <Note color={color} style={style} font={font}>
-                      {content}
+                      {truncate(50, content)}
                     </Note>
                   </a>
                 </Link>
