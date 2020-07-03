@@ -1,12 +1,12 @@
 import Link from 'next/link'
-import {FadeIn, Footer, Head, Header} from '../components'
+import {FadeIn, Head, Header} from '../components'
 import {validateHeaderToken} from '../lib'
 
 export default ({isAuthenticated}) => (
   <main>
     <Head title="About" description="Read about Kindred Notes" />
     <h1 className="sr-only">About</h1>
-    <Header />
+    <Header isAuthenticated={isAuthenticated} />
 
     <FadeIn>
       <article className="wrapper">
@@ -35,7 +35,6 @@ export default ({isAuthenticated}) => (
         )}
       </article>
     </FadeIn>
-    {isAuthenticated && <Footer />}
   </main>
 )
 

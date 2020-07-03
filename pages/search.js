@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import {useRouter} from 'next/router'
-import {FadeIn, Footer, Head, Header, Note, Spinner} from '../components'
+import {FadeIn, Head, Header, Note, Spinner} from '../components'
 import {useNotesSearch} from '../hooks'
 import {validateHeaderToken} from '../lib'
 
@@ -47,8 +47,6 @@ export default () => {
       ) : (
         <h2 className="title -center">No notes found 😢</h2>
       )}
-
-      <Footer />
     </main>
   )
 }

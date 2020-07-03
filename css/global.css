@@ -16,7 +16,6 @@ body,
     Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   font-size: 16px;
   height: 100%;
-  min-height: 500px;
 }
 
 /* utils */
@@ -39,6 +38,20 @@ body,
 
 .wave-pad.-small {
   margin-bottom: 105px;
+}
+
+.hide-mobile {
+  display: none;
+}
+
+@media (min-width: 800px) {
+  .hide-mobile {
+    display: initial;
+  }
+
+  .hide-desktop {
+    display: none;
+  }
 }
 
 /* layout */
@@ -86,6 +99,7 @@ body,
 }
 
 .layout.-fill {
+  min-height: 525px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -105,6 +119,17 @@ body,
   position: relative;
 }
 
+@media (min-width: 800px) {
+  .header {
+    position: sticky;
+    top: 0;
+    z-index: 999;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+  }
+}
+
 .header__logo {
   width: 65px;
   height: 65px;
@@ -113,13 +138,9 @@ body,
 
 .header__action {
   position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
+  top: 50%;
+  right: calc(var(--layout__rhythm) * 2);
+  transform: translateY(-50%);
 }
 
 .notes-search {
@@ -210,14 +231,6 @@ body,
   padding: calc(var(--layout__rhythm) / 2) 0;
 }
 
-.footer {
-  position: fixed;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  background-color: var(--color__ui);
-}
-
 .link {
   cursor: pointer;
   border: none;
@@ -237,12 +250,25 @@ body,
 }
 
 .nav {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: var(--color__ui);
   width: 100%;
   display: flex;
   justify-content: space-around;
+  z-index: 999;
+}
+
+@media (min-width: 800px) {
+  .nav {
+    position: static;
+  }
 }
 
 .nav__link {
+  text-decoration: none;
   padding: var(--layout__rhythm);
 }
 
@@ -506,7 +532,7 @@ a.button:disabled,
   width: 80%;
   max-width: 600px;
   margin: 0 auto;
-  height: 300px;
+  min-height: 300px;
   margin: calc(var(--layout__rhythm) * 2) auto;
   box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 1px -1px,
     rgba(0, 0, 0, 0.14) 0px 1px 1px 0px, rgba(0, 0, 0, 0.12) 0px 1px 3px 0px;

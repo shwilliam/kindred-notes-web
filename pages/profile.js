@@ -2,8 +2,8 @@ import Link from 'next/link'
 import {
   Avatar,
   FadeIn,
-  Footer,
   Head,
+  Nav,
   Note,
   Spinner,
   Tag,
@@ -25,6 +25,7 @@ export default () => {
     <main>
       <Head title="Profile" />
       <h1 className="sr-only">Profile</h1>
+      <Nav />
 
       {profile.status === 'loading' ? (
         <Spinner full />
@@ -83,8 +84,6 @@ export default () => {
           </section>
         </FadeIn>
       )}
-
-      <Footer />
     </main>
   )
 }

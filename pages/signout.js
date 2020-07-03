@@ -1,6 +1,6 @@
 import {useRouter} from 'next/router'
 import {useEffect} from 'react'
-import {Footer, Head, Layout} from '../components'
+import {Head, Layout} from '../components'
 import {signOutRequest} from '../lib'
 
 export default () => {
@@ -17,7 +17,6 @@ export default () => {
     <Layout>
       <Head title="Signing out..." />
       <h1 className="sr-only">Signing out...</h1>
-      <Footer />
     </Layout>
   )
 }

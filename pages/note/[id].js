@@ -3,7 +3,6 @@ import {useRouter} from 'next/router'
 import {useEffect} from 'react'
 import {
   FadeIn,
-  Footer,
   Head,
   Header,
   Note,
@@ -86,7 +85,6 @@ export default ({viewerId}) => {
 
         {!isOwn && <ReplyForm id={noteId} onSubmit={router.reload} />}
       </FadeIn>
-      <Footer />
     </main>
   )
 }

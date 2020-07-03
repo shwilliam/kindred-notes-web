@@ -1,12 +1,5 @@
 import {useRouter} from 'next/router'
-import {
-  FadeIn,
-  Footer,
-  Head,
-  Header,
-  MapView,
-  Spinner,
-} from '../../../components'
+import {FadeIn, Head, Header, MapView, Spinner} from '../../../components'
 import {useNote} from '../../../hooks'
 import {reduceViewerToFeature, validateHeaderToken} from '../../../lib'
 
@@ -20,8 +13,7 @@ export default () => {
       <>
         <h1 className="sr-only">Note Map</h1>
         <Header />
-        <Spinner full />
-        <Footer />
+        <Spinner />
       </>
     )
 
@@ -50,7 +42,6 @@ export default () => {
       <FadeIn className="footer-pad">
         <MapView markers={repliesGeoJson} />
       </FadeIn>
-      <Footer />
     </main>
   )
 }

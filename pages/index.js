@@ -1,12 +1,5 @@
 import Link from 'next/link'
-import {
-  FadeIn,
-  Footer,
-  Head,
-  Header,
-  NoteGrid,
-  NotesSearch,
-} from '../components'
+import {FadeIn, Head, Header, NoteGrid, NotesSearch} from '../components'
 import {
   useConnectionsCount,
   useCountriesCount,
@@ -25,10 +18,10 @@ export default ({isAuthenticated}) => {
     <main>
       <Head title="Kindred Notes" description="Kindred Notes" />
       <h1 className="sr-only">Kindred Notes</h1>
-      <Header>
+      <Header isAuthenticated={isAuthenticated}>
         {!isAuthenticated ? (
           <Link href="/signin">
-            <a className="link -no-ul">Sign in</a>
+            <a className="link">Sign in</a>
           </Link>
         ) : (
           <NotesSearch />
@@ -88,13 +81,13 @@ export default ({isAuthenticated}) => {
         />
       </FadeIn>
 
-      {!isAuthenticated && (
-        <Link href="/signup">
-          <a className="button -full">Sign in</a>
-        </Link>
-      )}
-
-      {isAuthenticated && <Footer />}
+      <div className="wrapper">
+        {!isAuthenticated && (
+          <Link href="/signup">
+            <a className="button -full">Sign in</a>
+          </Link>
+        )}
+      </div>
     </main>
   )
 }

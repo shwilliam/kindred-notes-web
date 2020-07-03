@@ -4,7 +4,6 @@ import {queryCache, useMutation} from 'react-query'
 import {
   FadeIn,
   Field,
-  Footer,
   Head,
   Header,
   IconFont,
@@ -186,8 +185,6 @@ export default () => {
           </div>
         </form>
       </FadeIn>
-
-      <Footer />
     </main>
   )
 }

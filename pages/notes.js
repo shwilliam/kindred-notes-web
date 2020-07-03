@@ -2,11 +2,11 @@ import {useRouter} from 'next/router'
 import {useEffect} from 'react'
 import {
   FadeIn,
-  Footer,
   Head,
   Header,
   InboxOutboxTabs,
   NoteModal,
+  Spinner,
 } from '../components'
 import {useNotesInbox, useNotesOutbox, useViewNote} from '../hooks'
 import {validateHeaderToken} from '../lib'
@@ -53,17 +53,16 @@ export default ({viewerId}) => {
       )}
 
       <FadeIn className="footer-pad">
-        {notesInbox.status === 'success' &&
-          notesOutbox.status === 'success' && (
-            <InboxOutboxTabs
-              inbox={notesInbox.data.notes}
-              outbox={notesOutbox.data.notes}
-              viewerId={viewerId}
-            />
-          )}
+        {notesInbox.status === 'success' && notesOutbox.status === 'success' ? (
+          <InboxOutboxTabs
+            inbox={notesInbox.data.notes}
+            outbox={notesOutbox.data.notes}
+            viewerId={viewerId}
+          />
+        ) : (
+          <Spinner />
+        )}
       </FadeIn>
-
-      <Footer />
     </main>
   )
 }
