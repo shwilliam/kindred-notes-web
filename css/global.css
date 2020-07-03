@@ -261,6 +261,21 @@ body,
   z-index: 999;
 }
 
+.nav.-floating {
+  position: sticky;
+  top: 0;
+  bottom: unset;
+  left: var(--layout__rhythm);
+  background-color: transparent;
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  margin: var(--layout__rhythm) 0 calc(var(--layout__rhythm) * -2.5) 0;
+  padding: var(--layout__rhythm);
+  font-size: 1.15rem;
+  font-weight: 600;
+}
+
 @media (min-width: 800px) {
   .nav {
     position: static;

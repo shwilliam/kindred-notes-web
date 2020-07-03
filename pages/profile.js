@@ -3,7 +3,6 @@ import {
   Avatar,
   FadeIn,
   Head,
-  Nav,
   Note,
   Spinner,
   Tag,
@@ -11,8 +10,10 @@ import {
 } from '../components'
 import {useAddInterest, useDeleteInterest, useProfile} from '../hooks'
 import {validateHeaderToken} from '../lib'
+import {useRouter} from 'next/router'
 
 export default () => {
+  const router = useRouter()
   const profile = useProfile()
   const [deleteInterest] = useDeleteInterest()
   const [addInterest] = useAddInterest()
@@ -25,7 +26,12 @@ export default () => {
     <main>
       <Head title="Profile" />
       <h1 className="sr-only">Profile</h1>
-      <Nav />
+
+      <nav className="nav -floating wrapper">
+        <button className="link" onClick={router.back}>
+          Back
+        </button>
+      </nav>
 
       {profile.status === 'loading' ? (
         <Spinner full />
