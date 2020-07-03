@@ -68,7 +68,7 @@ export const SignupForm = ({termsAndConditionsCopy}) => {
         className={`fill offscreen ${activeStep !== 0 ? '-show' : ''}`}
       >
         <SignupDetailsForm
-          className="footer-pad"
+          className="wave-pad"
           onSubmit={handleSubmit}
           onToggleTerms={toggleTerms}
           isSubmitting={isSubmitting}

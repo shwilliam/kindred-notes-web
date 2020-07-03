@@ -19,7 +19,7 @@ export const NoteGrid = ({
       <h2 className="title -center">{title}</h2>
 
       {loading ? (
-        <Spinner full />
+        <Spinner />
       ) : error ? (
         <p className="error">
           An unexpected error occurred. Refresh the page to try again.

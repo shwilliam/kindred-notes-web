@@ -96,7 +96,7 @@ export default () => {
         >
           Log in
         </button>
-        <p className="wave-pad -small">
+        <p className="wave-pad">
           Don't have an account?{' '}
           <Link href="signup">
             <a className="link -no-ul">Sign up</a>
