@@ -3,7 +3,7 @@ import {FadeIn, Head, Header, MapView, Spinner} from '../../../components'
 import {useNote} from '../../../hooks'
 import {reduceViewerToFeature, validateHeaderToken} from '../../../lib'
 
-export default () => {
+export default ({viewerId}) => {
   const router = useRouter()
   const {id} = router.query
   const note = useNote(id)
@@ -12,7 +12,7 @@ export default () => {
     return (
       <>
         <h1 className="sr-only">Note Map</h1>
-        <Header />
+        <Header viewerId={viewerId} />
         <Spinner />
       </>
     )
@@ -21,7 +21,7 @@ export default () => {
     return (
       <>
         <h1 className="sr-only">Note Map</h1>
-        <Header />
+        <Header viewerId={viewerId} />
         <p className="error">
           An unexpected error occurred. Please refresh the page to try again.
         </p>
@@ -37,7 +37,7 @@ export default () => {
     <main>
       <Head title="Note Map" />
       <h1 className="sr-only">Note Map</h1>
-      <Header />
+      <Header viewerId={viewerId} />
 
       <FadeIn className="footer-pad">
         <MapView markers={repliesGeoJson} />
@@ -48,6 +48,8 @@ export default () => {
 
 export const getServerSideProps = ctx => {
   const token = validateHeaderToken(ctx.req.headers)
+  const viewerId = token ? token.id : null
+
   if (!token)
     ctx.res
       .writeHead(301, {
@@ -55,5 +57,5 @@ export const getServerSideProps = ctx => {
       })
       .end()
 
-  return {props: {}}
+  return {props: {viewerId}}
 }
