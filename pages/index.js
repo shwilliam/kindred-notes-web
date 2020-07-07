@@ -73,6 +73,33 @@ export default ({isAuthenticated}) => {
 
         <span className="rule" />
 
+        {!isAuthenticated && (
+          <section className="wrapper">
+            <h2 className="title -center">
+              Welcome!{' '}
+              <span role="img" aria-label="waving hand">
+                👋
+              </span>
+            </h2>
+
+            <p className="paragraph">
+              KindredNotes is a social enterprise dedicated to encouraging and
+              inspiring kindness and empathy through kind notes.
+            </p>
+
+            <h2 className="title -center">What is a KindredNote?</h2>
+
+            <p className="paragraph">
+              A KindredNote is just what it sounds like, a kind note. It could
+              be a simple note to say something kind or a quote that’s had a
+              positive impact. It could be a story, an experience or a thought.
+              Our intention is to spread kindness and increase empathy by
+              demonstrating that despite our many differences in perspectives,
+              beliefs and values, that at the core, we are all the same.
+            </p>
+          </section>
+        )}
+
         <NoteGrid
           title="Recent notes"
           loading={recentNotes.status === 'loading'}
