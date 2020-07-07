@@ -111,7 +111,7 @@ export default ({isAuthenticated}) => {
       <div className="wrapper">
         {!isAuthenticated && (
           <Link href="/signup">
-            <a className="button -full">Sign in</a>
+            <a className="button -full">Get started</a>
           </Link>
         )}
       </div>
