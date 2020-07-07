@@ -35,7 +35,7 @@ const createNoteRequest = async data => {
   return responseJson.note
 }
 
-export default () => {
+export default ({viewerId}) => {
   const router = useRouter()
   const [createNote] = useMutation(createNoteRequest, {
     onSuccess: () => {
@@ -92,7 +92,7 @@ export default () => {
     <main>
       <Head title="New note" description="Write a kind notes" />
       <h1 className="sr-only">New note</h1>
-      <Header />
+      <Header viewerId={viewerId} />
 
       <FadeIn className="footer-pad">
         <form onSubmit={handleSubmit}>
@@ -191,6 +191,8 @@ export default () => {
 
 export const getServerSideProps = ctx => {
   const token = validateHeaderToken(ctx.req.headers)
+  const viewerId = token ? token.id : null
+
   if (!token)
     ctx.res
       .writeHead(301, {
@@ -198,5 +200,5 @@ export const getServerSideProps = ctx => {
       })
       .end()
 
-  return {props: {}}
+  return {props: {viewerId}}
 }

@@ -42,7 +42,7 @@ export default ({viewerId}) => {
     <main>
       <Head title="My notes" description="Kindred Notes" />
       <h1 className="sr-only">Kindred Notes</h1>
-      <Header />
+      <Header viewerId={viewerId} />
 
       {router.query.note && (
         <NoteModal

@@ -8,7 +8,7 @@ import {
 } from '../hooks'
 import {validateHeaderToken} from '../lib'
 
-export default ({isAuthenticated}) => {
+export default ({viewerId}) => {
   const recentNotes = useRecentNotes()
   const notesCount = useNotesCount()
   const countriesCount = useCountriesCount()
@@ -18,8 +18,8 @@ export default ({isAuthenticated}) => {
     <main>
       <Head title="Kindred Notes" description="Kindred Notes" />
       <h1 className="sr-only">Kindred Notes</h1>
-      <Header isAuthenticated={isAuthenticated}>
-        {!isAuthenticated ? (
+      <Header viewerId={viewerId}>
+        {!viewerId ? (
           <Link href="/signin">
             <a className="link">Sign in</a>
           </Link>
@@ -73,7 +73,7 @@ export default ({isAuthenticated}) => {
 
         <span className="rule" />
 
-        {!isAuthenticated && (
+        {!viewerId && (
           <section className="wrapper">
             <h2 className="title -center">
               Welcome!{' '}
@@ -109,7 +109,7 @@ export default ({isAuthenticated}) => {
       </FadeIn>
 
       <div className="wrapper">
-        {!isAuthenticated && (
+        {!viewerId && (
           <Link href="/signup">
             <a className="button -full">Get started</a>
           </Link>
@@ -121,7 +121,7 @@ export default ({isAuthenticated}) => {
 
 export const getServerSideProps = ctx => {
   const token = validateHeaderToken(ctx.req.headers)
-  const isAuthenticated = !!token
+  const viewerId = token ? token.id : null
 
-  return {props: {isAuthenticated}}
+  return {props: {viewerId}}
 }

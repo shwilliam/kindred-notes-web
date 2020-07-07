@@ -10,12 +10,10 @@ export default ({viewerId}) => {
     <main>
       <Head title="Notifications" />
       <h1 className="sr-only">Notifications</h1>
-      <Header />
+      <Header viewerId={viewerId} />
 
-      {notifications.status === 'loading' ? (
+      {!notifications ? (
         <Spinner />
-      ) : notifications.status === 'error' ? (
-        <p className="error">Unable to fetch notifications...</p>
       ) : (
         <FadeIn className="footer-pad">
           <section className="main">

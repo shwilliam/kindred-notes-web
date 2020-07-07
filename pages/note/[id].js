@@ -33,7 +33,7 @@ export default ({viewerId}) => {
     return (
       <>
         <h1 className="sr-only">Note</h1>
-        <Header />
+        <Header viewerId={viewerId} />
         <Spinner />
       </>
     )
@@ -42,7 +42,7 @@ export default ({viewerId}) => {
     return (
       <>
         <h1 className="sr-only">Note</h1>
-        <Header />
+        <Header viewerId={viewerId} />
         <p>Uh oh.. Something went wrong.</p>
       </>
     )
@@ -61,7 +61,7 @@ export default ({viewerId}) => {
     <main>
       <Head title="Kindred Notes" />
       <h1 className="sr-only">Note</h1>
-      <Header />
+      <Header viewerId={viewerId} />
 
       <FadeIn className="footer-pad">
         <Note color={color} style={style} font={font} full>

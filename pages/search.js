@@ -4,7 +4,7 @@ import {FadeIn, Head, Header, Note, Spinner} from '../components'
 import {useNotesSearch} from '../hooks'
 import {validateHeaderToken} from '../lib'
 
-export default () => {
+export default ({viewerId}) => {
   const router = useRouter()
   const {query} = router.query
   const notesSearch = useNotesSearch(query)
@@ -13,7 +13,7 @@ export default () => {
     <main>
       <Head title="My notes" description="Kindred Notes" />
       <h1 className="sr-only">Kindred Notes</h1>
-      <Header />
+      <Header viewerId={viewerId} />
 
       {notesSearch.status === 'loading' ? (
         <Spinner full />
@@ -53,6 +53,7 @@ export default () => {
 
 export const getServerSideProps = ctx => {
   const token = validateHeaderToken(ctx.req.headers)
+  const viewerId = token ? token.id : null
   if (!token)
     ctx.res
       .writeHead(301, {
@@ -60,5 +61,5 @@ export const getServerSideProps = ctx => {
       })
       .end()
 
-  return {props: {}}
+  return {props: {viewerId}}
 }

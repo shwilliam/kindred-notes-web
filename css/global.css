@@ -283,6 +283,7 @@ body,
 }
 
 .nav__link {
+  position: relative;
   text-decoration: none;
   padding: var(--layout__rhythm);
 }
@@ -700,6 +701,21 @@ ul.tags,
   color: var(--color__accent--blue);
   margin: 0 var(--layout__rhythm) calc(var(--layout__rhythm) * 1.5)
     var(--layout__rhythm);
+}
+
+.notification-count {
+  position: absolute;
+  top: 0.4rem;
+  right: 0.15rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 1.4rem;
+  width: 1.4rem;
+  font-size: 0.8rem;
+  border-radius: 0.75rem;
+  background-color: var(--color__accent--blue);
+  color: var(--color__text--invert);
 }
 
 .map {

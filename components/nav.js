@@ -1,8 +1,15 @@
 import Link from 'next/link'
 import {useRouter} from 'next/router'
-import {IconBell, IconHome, IconNote, IconPen, IconProfile} from './index'
+import {
+  IconBell,
+  IconHome,
+  IconNote,
+  IconPen,
+  IconProfile,
+  NotificationCount,
+} from './index'
 
-export const Nav = () => {
+export const Nav = ({viewerId}) => {
   const router = useRouter()
 
   return (
@@ -40,6 +47,7 @@ export const Nav = () => {
         </Link>
         <Link href="/notifications">
           <a className="nav__link">
+            <NotificationCount viewerId={viewerId} />
             <span className="hide-mobile">Notifications</span>
             <IconBell
               className="nav__icon hide-desktop"

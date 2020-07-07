@@ -10,7 +10,7 @@ const unreadRepliesRequest = async () => {
 }
 
 export const useNotifications = viewerId => {
-  const [notifications, setNotifications] = useState([])
+  const [notifications, setNotifications] = useState()
   const replyNotificationsResponse = useQuery(
     'replyNotifications',
     unreadRepliesRequest,
@@ -19,7 +19,7 @@ export const useNotifications = viewerId => {
 
   useEffect(() => {
     if (
-      !notifications.length &&
+      !notifications?.length &&
       replyNotificationsResponse?.data?.replies &&
       inboxResponse?.data?.notes
     ) {
