@@ -1,16 +1,16 @@
 import Link from 'next/link'
+import {useRouter} from 'next/router'
 import {
   Avatar,
   FadeIn,
   Head,
-  Note,
+  NoteGrid,
   Spinner,
   Tag,
   TagsInput,
 } from '../components'
 import {useAddInterest, useDeleteInterest, useProfile} from '../hooks'
 import {validateHeaderToken} from '../lib'
-import {useRouter} from 'next/router'
 
 export default () => {
   const router = useRouter()
@@ -61,22 +61,12 @@ export default () => {
 
               {profile.data.user?.bookmarks?.length ? (
                 <div className="wrapper -no-pad">
-                  <h2 className="title -small -center">Favourite Notes</h2>
-                  <ul className="note-grid">
-                    {profile.data.user?.bookmarks?.map(
-                      ({id, content, color, style, font}) => (
-                        <li className="note-grid__cell" key={id}>
-                          <Link href={`/note/${id}`}>
-                            <a className="link -no-ul">
-                              <Note color={color} style={style} font={font}>
-                                {content}
-                              </Note>
-                            </a>
-                          </Link>
-                        </li>
-                      ),
-                    )}
-                  </ul>
+                  <NoteGrid
+                    title="Favourite Notes"
+                    loading={profile.status === 'loading'}
+                    error={profile.status === 'error'}
+                    notes={profile.data.user?.bookmarks}
+                  />
                 </div>
               ) : null}
             </div>
