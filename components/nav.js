@@ -17,7 +17,7 @@ export const Nav = ({viewerId}) => {
       <nav className="nav">
         <Link href="/">
           <a className="nav__link">
-            <span className="hide-mobile">Home</span>
+            <span className="sr-only">Home</span>
             <IconHome
               className="nav__icon hide-desktop"
               fill={router.pathname === '/'}
