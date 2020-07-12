@@ -65,23 +65,24 @@ export default ({viewerId}) => {
 
       <FadeIn className="footer-pad">
         <Note color={color} style={style} font={font} full>
-          {profile.status === 'success' && (
-            <NoteBookmark
-              id={noteId}
-              bordered={style === 'BORDER'}
-              bookmarks={profile.data.user?.bookmarks}
-            />
-          )}
-          {content}
+          <>
+            {profile.status === 'success' && (
+              <NoteBookmark
+                id={noteId}
+                bordered={style === 'BORDER'}
+                bookmarks={profile.data.user?.bookmarks}
+              />
+            )}
+            {content}
+            {isOwn && (
+              <Link href={`/note/map/${noteId}`}>
+                <a className="button -full">See who received this note</a>
+              </Link>
+            )}
+          </>
         </Note>
 
         {isOwn && <ReplyList replies={replies || []} />}
-
-        {isOwn && (
-          <Link href={`/note/map/${noteId}`}>
-            <a>Map</a>
-          </Link>
-        )}
 
         {!isOwn && <ReplyForm id={noteId} onSubmit={router.reload} />}
       </FadeIn>
