@@ -33,7 +33,7 @@ export const useNotifications = viewerId => {
         ...unreadNotesInbox,
       ])
     }
-  }, [replyNotificationsResponse, inboxResponse])
+  }, [viewerId])
 
   return notifications
 }
