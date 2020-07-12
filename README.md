@@ -19,6 +19,7 @@ npm i
 #### 3. Set up a database
 
 - [Create a new database](https://www.prisma.io/docs/guides/database-workflows/setting-up-a-database)
+- Initialize DB with Prisma CLI (`npx prisma migrate up --experimental`)
 
 > **Note**: Prisma supports PostgreSQL, MySQL and SQLite DBs so choose your
 > favorite!
