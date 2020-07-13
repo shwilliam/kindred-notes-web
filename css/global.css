@@ -31,6 +31,10 @@ body,
   color: #f54962;
 }
 
+.no-resize {
+  resize: none !important;
+}
+
 .pad {
   margin: 50px;
 }

@@ -1,9 +1,9 @@
 import {useRouter} from 'next/router'
 import {useState} from 'react'
 import {queryCache, useMutation} from 'react-query'
+import TextareaAutosize from 'react-textarea-autosize'
 import {
   FadeIn,
-  Field,
   Head,
   Header,
   IconFont,
@@ -97,16 +97,12 @@ export default ({viewerId}) => {
       <FadeIn className="footer-pad">
         <form onSubmit={handleSubmit}>
           <Note color={colorVal} style={styleVal} font={fontVal} full>
-            <Field
-              className="note__input"
-              name="content"
-              type="text"
-              required
-              label="Note"
+            <TextareaAutosize
+              className={`input -floating -center ${
+                styleVal === 'FILL' ? '-invert' : ''
+              } no-resize`}
               placeholder="Write a kind note"
-              invert={styleVal === 'FILL'}
-              floating
-              center
+              name="content"
             />
             <section className="note__actions">
               <button
