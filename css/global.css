@@ -534,6 +534,14 @@ a.button:disabled,
   height: auto;
 }
 
+.note-grid__cell-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  transform: scale(0.9);
+}
+
 .note {
   height: 100%;
   width: 100%;

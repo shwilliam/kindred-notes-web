@@ -17,9 +17,11 @@ export const InboxOutboxTabs = ({inbox, outbox, viewerId}) => (
               <li className="note-grid__cell" key={id}>
                 <Link href={`/notes?note=${id}`} as={`/note/${id}`}>
                   <a className="link -no-ul">
-                    <IconEnvelope
-                      open={viewers?.some(({id}) => id === viewerId)}
-                    />
+                    <div className="note-grid__cell-icon">
+                      <IconEnvelope
+                        open={viewers?.some(({id}) => id === viewerId)}
+                      />
+                    </div>
                   </a>
                 </Link>
               </li>
