@@ -28,7 +28,7 @@ export default ({viewerId}) => {
         )}
       </Header>
 
-      <FadeIn className="footer-pad">
+      <FadeIn className="pad -bottom">
         <section className="wrapper">
           <h2 className="sr-only">Overview</h2>
           <ul className="overview-stats">
@@ -100,12 +100,15 @@ export default ({viewerId}) => {
           </section>
         )}
 
-        <NoteGrid
-          title="Recent notes"
-          loading={recentNotes.status === 'loading'}
-          error={recentNotes.status === 'error'}
-          notes={recentNotes?.data?.notes}
-        />
+        {recentNotes?.data?.notes && (
+          <NoteGrid
+            title="Recent notes"
+            notes={recentNotes?.data?.notes}
+            // not rendered if loading or error
+            loading={false}
+            error={false}
+          />
+        )}
       </FadeIn>
 
       <div className="wrapper">

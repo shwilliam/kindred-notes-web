@@ -28,6 +28,14 @@ body,
   color: #f54962;
 }
 
+.pad {
+  margin: 50px;
+}
+
+.pad.-bottom {
+  margin: 0 0 50px 0;
+}
+
 .footer-pad {
   margin-bottom: 120px;
 }
