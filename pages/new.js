@@ -4,6 +4,7 @@ import {queryCache, useMutation} from 'react-query'
 import TextareaAutosize from 'react-textarea-autosize'
 import {
   FadeIn,
+  Footer,
   Head,
   Header,
   IconFont,
@@ -181,6 +182,7 @@ export default ({viewerId}) => {
           </div>
         </form>
       </FadeIn>
+      <Footer />
     </main>
   )
 }

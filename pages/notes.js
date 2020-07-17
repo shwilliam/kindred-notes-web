@@ -2,6 +2,7 @@ import {useRouter} from 'next/router'
 import {useEffect} from 'react'
 import {
   FadeIn,
+  Footer,
   Head,
   Header,
   InboxOutboxTabs,
@@ -39,7 +40,7 @@ export default ({viewerId}) => {
   }, [router.query])
 
   return (
-    <main>
+    <main className="footer-pad">
       <Head title="My notes" description="Kindred Notes" />
       <h1 className="sr-only">Kindred Notes</h1>
       <Header viewerId={viewerId} />
@@ -63,6 +64,7 @@ export default ({viewerId}) => {
           <Spinner />
         )}
       </FadeIn>
+      <Footer />
     </main>
   )
 }

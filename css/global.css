@@ -48,7 +48,7 @@ body,
 }
 
 .footer-pad {
-  margin-bottom: 120px;
+  padding-bottom: 70px;
 }
 
 .wave-pad {
@@ -114,6 +114,9 @@ body,
 
 /* components */
 .layout {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
   color: var(--color__text);
   background-color: var(--color__bg);
   height: 100%;
@@ -132,6 +135,26 @@ body,
 
 .layout.-fill * {
   z-index: 3;
+}
+
+.footer {
+  display: none;
+  max-width: 1200px;
+  margin: var(--layout__rhythm) auto;
+  text-align: center;
+}
+
+.footer__copyright {
+  margin: calc(var(--layout__rhythm) / 2) 0 var(--layout__rhythm) 0;
+}
+
+.footer__links {
+  display: flex;
+  justify-content: center;
+}
+
+.footer__link {
+  padding: calc(var(--layout__rhythm) / 2);
 }
 
 .header {
@@ -919,6 +942,33 @@ ul.tags,
 
   .wave__content {
     width: 400px;
+  }
+}
+
+@media screen and (min-width: 800px) {
+  .footer__wrapper {
+    background-color: var(--color__ui);
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    left: 0;
+  }
+
+  .footer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: var(--layout__rhythm) calc(var(--layout__rhythm) * 2)
+      var(--layout__rhythm) calc(var(--layout__rhythm) * 2);
+    margin: 0 auto;
+  }
+
+  .footer__link {
+    padding: calc(var(--layout__rhythm) / 2);
+  }
+
+  .footer__copyright {
+    margin: 0;
   }
 
   .note.-full {

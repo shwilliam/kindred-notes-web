@@ -1,5 +1,12 @@
 import Link from 'next/link'
-import {FadeIn, Head, Header, NoteGrid, NotesSearch} from '../components'
+import {
+  Footer,
+  FadeIn,
+  Head,
+  Header,
+  NoteGrid,
+  NotesSearch,
+} from '../components'
 import {
   useConnectionsCount,
   useCountriesCount,
@@ -118,6 +125,8 @@ export default ({viewerId}) => {
           </Link>
         )}
       </div>
+
+      <Footer />
     </main>
   )
 }

@@ -6,7 +6,7 @@ export const SignupTerms = ({onAccept, termsAndConditionsCopy}) => {
   }
 
   return (
-    <>
+    <div className="wave-pad">
       <TermsAndConditions>{termsAndConditionsCopy}</TermsAndConditions>
 
       <button
@@ -17,6 +17,6 @@ export const SignupTerms = ({onAccept, termsAndConditionsCopy}) => {
       >
         Agree
       </button>
-    </>
+    </div>
   )
 }

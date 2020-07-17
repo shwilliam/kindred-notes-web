@@ -3,6 +3,7 @@ import {useRouter} from 'next/router'
 import {
   Avatar,
   FadeIn,
+  Footer,
   Head,
   NoteGrid,
   Spinner,
@@ -23,7 +24,7 @@ export default () => {
   const handleInterestClick = title => deleteInterest({title})
 
   return (
-    <main>
+    <main className="footer-pad">
       <Head title="Profile" />
       <h1 className="sr-only">Profile</h1>
 
@@ -38,7 +39,7 @@ export default () => {
       ) : profile.status === 'error' ? (
         <p className="error">Something unexpected happened...</p>
       ) : (
-        <FadeIn className="footer-pad">
+        <FadeIn>
           <section className="main">
             <div className="wrapper -small">
               <Avatar variant={profile.data.user?.avatar} />
@@ -81,6 +82,7 @@ export default () => {
           </section>
         </FadeIn>
       )}
+      <Footer />
     </main>
   )
 }

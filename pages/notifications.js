@@ -1,20 +1,21 @@
 import Link from 'next/link'
 import {
   FadeIn,
+  Footer,
   Head,
   Header,
   IconMail,
-  Spinner,
   IconMessage,
+  Spinner,
 } from '../components'
 import {useNotifications} from '../hooks'
-import {validateHeaderToken, truncate} from '../lib'
+import {truncate, validateHeaderToken} from '../lib'
 
 export default ({viewerId}) => {
   const notifications = useNotifications(viewerId)
 
   return (
-    <main>
+    <main className="footer-pad">
       <Head title="Notifications" />
       <h1 className="sr-only">Notifications</h1>
       <Header viewerId={viewerId} />
@@ -22,7 +23,7 @@ export default ({viewerId}) => {
       {!notifications ? (
         <Spinner />
       ) : (
-        <FadeIn className="footer-pad">
+        <FadeIn>
           <section className="main">
             <div className="wrapper">
               {notifications.length ? (
@@ -72,6 +73,7 @@ export default ({viewerId}) => {
           </section>
         </FadeIn>
       )}
+      <Footer />
     </main>
   )
 }
