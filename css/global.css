@@ -754,6 +754,25 @@ ul.tags,
   color: var(--color__text--invert);
 }
 
+.notifications__item {
+  padding: var(--layout__rhythm);
+  border: 1px solid var(--color__accent--blue);
+  border-radius: 5px;
+  overflow: hidden;
+  margin: calc(var(--layout__rhythm) / 2) auto;
+}
+
+.notifications__item-content {
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+.notifications__icon {
+  flex-shrink: 0;
+  margin-right: var(--layout__rhythm);
+}
+
 .map {
   position: absolute;
   top: 0;

@@ -1,7 +1,14 @@
 import Link from 'next/link'
-import {FadeIn, Head, Header, Spinner} from '../components'
+import {
+  FadeIn,
+  Head,
+  Header,
+  IconMail,
+  Spinner,
+  IconMessage,
+} from '../components'
 import {useNotifications} from '../hooks'
-import {validateHeaderToken} from '../lib'
+import {validateHeaderToken, truncate} from '../lib'
 
 export default ({viewerId}) => {
   const notifications = useNotifications(viewerId)
@@ -19,16 +26,38 @@ export default ({viewerId}) => {
           <section className="main">
             <div className="wrapper">
               {notifications.length ? (
-                <ul>
+                <ul className="notifications">
                   {notifications.map(({id, content, noteId, author, style}) => (
-                    <li key={id}>
+                    <li key={id} className="notifications__item">
                       <Link href={`/note/${noteId || id}`}>
-                        <a className="link -no-ul">
-                          {!!style // is note
-                            ? `New note from ${author?.nickname ?? 'anonymous'}`
-                            : `${
-                                author?.nickname ?? 'Anonymous'
-                              } replied "${content}"`}
+                        <a className="link -no-ul notifications__item-content">
+                          {!!style ? ( // is note
+                            <>
+                              <IconMail
+                                className="notifications__icon"
+                                aria-hidden
+                              />
+                              {truncate(
+                                80,
+                                `New note from ${
+                                  author?.nickname ?? 'anonymous'
+                                }`,
+                              )}
+                            </>
+                          ) : (
+                            <>
+                              <IconMessage
+                                className="notifications__icon"
+                                aria-hidden
+                              />
+                              {truncate(
+                                80,
+                                `${author?.nickname ?? 'Anonymous'} replied
+                              "${content}`,
+                              )}
+                              "
+                            </>
+                          )}
                         </a>
                       </Link>
                     </li>
