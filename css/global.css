@@ -43,6 +43,10 @@ body,
   margin: 0 0 50px 0;
 }
 
+.pad.-vertical {
+  margin: 75px 20px 30px 20px;
+}
+
 .footer-pad {
   margin-bottom: 120px;
 }
@@ -74,6 +78,10 @@ body,
   max-width: 600px;
   padding: 0 var(--layout__rhythm);
   margin: 0 auto var(--layout__rhythm) auto;
+}
+
+.wrapper.-small {
+  padding: 0 calc(var(--layout__rhythm) * 2);
 }
 
 .wrapper.-no-pad {
@@ -392,7 +400,7 @@ a.button:disabled,
 
 .modal {
   border-radius: 4px;
-  width: 75%;
+  width: 90%;
   max-width: 600px;
   min-height: calc(300px + (var(--layout__rhythm) * 4));
   max-height: calc(100% - (var(--layout__rhythm) * 2));
@@ -573,7 +581,7 @@ a.button:disabled,
 }
 
 .note.-full {
-  width: 80%;
+  width: 90%;
   max-width: 600px;
   margin: 0 auto;
   min-height: 300px;
@@ -892,6 +900,14 @@ ul.tags,
 
   .wave__content {
     width: 400px;
+  }
+
+  .note.-full {
+    width: 80%;
+  }
+
+  .modal {
+    width: 75%;
   }
 }
 

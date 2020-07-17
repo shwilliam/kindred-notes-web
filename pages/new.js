@@ -147,7 +147,7 @@ export default ({viewerId}) => {
             </section>
           </Note>
 
-          <div className="wrapper">
+          <div className="wrapper -small">
             <label>
               <span className="title -small">Tag related topics</span>
               <TagsInput

@@ -73,7 +73,9 @@ export default ({viewerId}) => {
                 bookmarks={profile.data.user?.bookmarks}
               />
             )}
-            {content}
+
+            <p className="pad -vertical">{content}</p>
+
             {isOwn && (
               <Link href={`/note/map/${noteId}`}>
                 <a className="button -full">See who received this note</a>

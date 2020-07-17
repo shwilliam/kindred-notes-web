@@ -40,7 +40,7 @@ export default () => {
       ) : (
         <FadeIn className="footer-pad">
           <section className="main">
-            <div className="wrapper">
+            <div className="wrapper -small">
               <Avatar variant={profile.data.user?.avatar} />
               <p className="profile__title">{profile.data.user?.email}</p>
               <label>
@@ -60,7 +60,7 @@ export default () => {
               </ul>
 
               {profile.data.user?.bookmarks?.length ? (
-                <div className="wrapper -no-pad">
+                <div className="pad -bottom">
                   <NoteGrid
                     title="Favourite Notes"
                     loading={profile.status === 'loading'}
@@ -70,7 +70,8 @@ export default () => {
                 </div>
               ) : null}
             </div>
-            <footer className="wrapper">
+
+            <footer className="wrapper -small">
               <Link href="/signout">
                 <a title="Sign out" className="button -full">
                   Sign out

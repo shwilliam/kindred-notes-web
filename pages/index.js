@@ -15,7 +15,7 @@ export default ({viewerId}) => {
   const connectionsCount = useConnectionsCount()
 
   return (
-    <main>
+    <main className="footer-pad">
       <Head title="Kindred Notes" description="Kindred Notes" />
       <h1 className="sr-only">Kindred Notes</h1>
       <Header viewerId={viewerId}>
