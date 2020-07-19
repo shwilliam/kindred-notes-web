@@ -1,8 +1,18 @@
-import {FadeIn, Modal, Note, ReplyForm, ReplyList, Spinner} from '../components'
-import {useNote} from '../hooks'
+import {
+  FadeIn,
+  Modal,
+  Note,
+  NoteBookmark,
+  ReplyForm,
+  ReplyList,
+  Spinner,
+} from '../components'
+import {useNote, useProfile} from '../hooks'
 
 export const NoteModal = ({id, viewerId, onDismiss}) => {
   const note = useNote(id)
+  const profile = useProfile()
+  const isOwn = viewerId === note?.data?.note.authorId
 
   return (
     <Modal onDismiss={onDismiss}>
@@ -21,9 +31,23 @@ export const NoteModal = ({id, viewerId, onDismiss}) => {
               font={note.data.note.font}
               full
             >
-              {note.data.note.content}
+              {profile.status === 'success' && (
+                <NoteBookmark
+                  id={id}
+                  bordered={note.data.note.style === 'BORDER'}
+                  bookmarks={profile.data.user?.bookmarks}
+                />
+              )}
+
+              <p className="pad -vertical">{note.data.note.content}</p>
+
+              {isOwn && (
+                <Link href={`/note/map/${id}`}>
+                  <a className="button -full">See who received this note</a>
+                </Link>
+              )}
             </Note>
-            {viewerId === note.data.note.authorId ? (
+            {isOwn ? (
               <ReplyList replies={note.data.note?.replies} />
             ) : (
               <ReplyForm id={id} onSubmit={onDismiss} />
