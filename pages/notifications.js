@@ -32,6 +32,7 @@ export default ({viewerId}) => {
                     <li key={id} className="notifications__item">
                       <Link href={`/note/${noteId || id}`}>
                         <a className="link -no-ul notifications__item-content">
+                          <div className="fade" />
                           {!!style ? ( // is note
                             <>
                               <IconMail

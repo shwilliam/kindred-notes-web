@@ -59,6 +59,21 @@ body,
   margin-bottom: 105px;
 }
 
+.fade {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: linear-gradient(
+    to right,
+    #ffffff00,
+    #ffffff00,
+    #ffffff00,
+    var(--color__bg)
+  );
+}
+
 .hide-mobile {
   display: none;
 }
@@ -789,6 +804,7 @@ ul.tags,
   display: flex;
   align-items: center;
   overflow: hidden;
+  position: relative;
 }
 
 .notifications__icon {
