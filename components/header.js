@@ -3,7 +3,7 @@ import Link from 'next/link'
 
 export const Header = ({viewerId, children}) => (
   <div className="header">
-    <div className="navigation">
+    <div className="nav__container">
       <Link href="/">
         <a className="nav__link">
           <span className="sr-only">Home</span>
