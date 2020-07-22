@@ -992,14 +992,14 @@ ul.tags,
     margin: 0;
   }
 
-  .-grid {
-    height: 300px;
-  }
-
   .note-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-gap: 15px;
+  }
+
+  .note-grid__cell.-grid {
+    height: 300px;
   }
 
   .note.-full {
