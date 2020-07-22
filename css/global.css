@@ -988,6 +988,20 @@ ul.tags,
     margin: 0;
   }
 
+  .-grid {
+    height: 300px;
+  }
+
+  .grid-wrapper {
+    max-width: 1000px;
+  }
+
+  .note-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 15px;
+  }
+
   .note.-full {
     width: 80%;
   }

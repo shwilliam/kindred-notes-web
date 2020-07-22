@@ -15,7 +15,7 @@ export const NoteGrid = ({
     setActiveVariant(s => (s === 'grid' ? 'list' : 'grid'))
 
   return (
-    <section className="wrapper">
+    <section className="wrapper grid-wrapper">
       <h2 className="title -center">{title}</h2>
 
       {loading ? (
