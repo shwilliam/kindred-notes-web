@@ -89,6 +89,10 @@ body,
   padding: 0 calc(var(--layout__rhythm) * 2);
 }
 
+.wrapper.-large {
+  max-width: 1000px;
+}
+
 .wrapper.-no-pad {
   padding: 0;
 }
@@ -986,6 +990,16 @@ ul.tags,
 
   .footer__copyright {
     margin: 0;
+  }
+
+  .note-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 15px;
+  }
+
+  .note-grid__cell.-grid {
+    height: 300px;
   }
 
   .note.-full {
