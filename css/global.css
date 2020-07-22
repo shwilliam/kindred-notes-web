@@ -89,6 +89,10 @@ body,
   padding: 0 calc(var(--layout__rhythm) * 2);
 }
 
+.wrapper.-large {
+  max-width: 1000px;
+}
+
 .wrapper.-no-pad {
   padding: 0;
 }
@@ -990,10 +994,6 @@ ul.tags,
 
   .-grid {
     height: 300px;
-  }
-
-  .grid-wrapper {
-    max-width: 1000px;
   }
 
   .note-grid {
