@@ -9,13 +9,16 @@ export const NoteGrid = ({
   error,
   notes,
   variant = 'grid',
+  small = false,
 }) => {
   const [activeVariant, setActiveVariant] = useState(variant)
   const toggleVariant = () =>
     setActiveVariant(s => (s === 'grid' ? 'list' : 'grid'))
 
   return (
-    <section className="wrapper -large">
+    <section
+      className={`wrapper ${activeVariant === 'grid' ? '-large' : ''}`}
+    >
       <h2 className="title -center">{title}</h2>
 
       {loading ? (
@@ -31,7 +34,12 @@ export const NoteGrid = ({
           </button>
           <ul className={`note-grid -${activeVariant}`}>
             {notes?.map(({id, content, color, style, font}) => (
-              <li className={`note-grid__cell -${activeVariant}`} key={id}>
+              <li
+                className={`note-grid__cell -${activeVariant} ${
+                  small ? '-small' : ''
+                }`}
+                key={id}
+              >
                 <Link href={`/note/${id}`}>
                   <a className="link -no-ul">
                     <Note

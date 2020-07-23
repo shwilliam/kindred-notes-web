@@ -35,7 +35,7 @@ export default () => {
       </nav>
 
       {profile.status === 'loading' ? (
-        <Spinner full />
+        <Spinner />
       ) : profile.status === 'error' ? (
         <p className="error">Something unexpected happened...</p>
       ) : (
@@ -67,6 +67,7 @@ export default () => {
                     loading={profile.status === 'loading'}
                     error={profile.status === 'error'}
                     notes={profile.data.user?.bookmarks}
+                    small
                   />
                 </div>
               ) : null}

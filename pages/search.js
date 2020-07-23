@@ -16,7 +16,7 @@ export default ({viewerId}) => {
       <Header viewerId={viewerId} />
 
       {notesSearch.status === 'loading' ? (
-        <Spinner full />
+        <Spinner />
       ) : notesSearch.status === 'error' ? (
         <p className="error">
           An unexpected error occurred. Please refresh the page to try again.

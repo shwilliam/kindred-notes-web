@@ -31,20 +31,20 @@ export default ({viewerId}) => {
 
   if (note.status === 'loading')
     return (
-      <>
+      <main>
         <h1 className="sr-only">Note</h1>
         <Header viewerId={viewerId} />
         <Spinner />
-      </>
+      </main>
     )
 
   if (note.status === 'error')
     return (
-      <>
+      <main>
         <h1 className="sr-only">Note</h1>
         <Header viewerId={viewerId} />
         <p>Uh oh.. Something went wrong.</p>
-      </>
+      </main>
     )
 
   const {
@@ -78,7 +78,13 @@ export default ({viewerId}) => {
 
             {isOwn && (
               <Link href={`/note/map/${noteId}`}>
-                <a className="button -full">See who received this note</a>
+                <a
+                  className={`button -full ${
+                    style === 'FILL' ? '-invert' : ''
+                  }`}
+                >
+                  See who received this note
+                </a>
               </Link>
             )}
           </>

@@ -395,6 +395,12 @@ a.button.-floating,
   margin: 0;
 }
 
+a.button.-invert,
+.button.-invert {
+  background-color: var(--color__bg);
+  color: var(--color__text);
+}
+
 a.button:disabled,
 .button:disabled {
   cursor: not-allowed;
@@ -594,6 +600,7 @@ a.button:disabled,
   background-color: var(--color__bg) !important;
   border-radius: 5px;
   margin: calc(var(--layout__rhythm) / 2) auto;
+  padding: calc(var(--layout__rhythm) * 2);
 }
 
 .note.-full {
@@ -999,7 +1006,7 @@ ul.tags,
     grid-gap: 15px;
   }
 
-  .note-grid__cell.-grid {
+  .note-grid__cell.-grid:not(.-small) {
     height: 300px;
   }
 

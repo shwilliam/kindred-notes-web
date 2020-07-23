@@ -44,7 +44,13 @@ export const NoteModal = ({id, viewerId, onDismiss}) => {
 
               {isOwn && (
                 <Link href={`/note/map/${id}`}>
-                  <a className="button -full">See who received this note</a>
+                  <a
+                    className={`button -full ${
+                      note.data.note.style === 'FILL' ? '-invert' : ''
+                    }`}
+                  >
+                    See who received this note
+                  </a>
                 </Link>
               )}
             </Note>

@@ -9,7 +9,7 @@ export const InboxOutboxTabs = ({inbox, outbox, viewerId}) => (
       <Tab>Received</Tab>
       <Tab>Sent</Tab>
     </TabList>
-    <TabPanels>
+    <TabPanels className="wrapper -large -no-pad">
       <TabPanel>
         {inbox?.length ? (
           <ul className="note-grid">
@@ -45,7 +45,7 @@ export const InboxOutboxTabs = ({inbox, outbox, viewerId}) => (
         {outbox?.length ? (
           <ul className="note-grid">
             {outbox.map(({id, content, color, style, font}) => (
-              <li className="note-grid__cell" key={id}>
+              <li className="note-grid__cell -grid" key={id}>
                 <Link href={`/notes?note=${id}`} as={`/note/${id}`}>
                   <a className="link -no-ul">
                     <Note color={color} style={style} font={font}>
