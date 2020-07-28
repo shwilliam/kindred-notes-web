@@ -10,6 +10,7 @@ import {
   ReplyForm,
   ReplyList,
   Spinner,
+  ShareActions,
 } from '../../components'
 import {useNote, useProfile, useViewNote} from '../../hooks'
 import {validateHeaderToken} from '../../lib'
@@ -63,6 +64,8 @@ export default ({viewerId}) => {
       <Head title="Kindred Notes" />
       <h1 className="sr-only">Note</h1>
       <Header viewerId={viewerId} />
+
+      <ShareActions content={content} url={window?.location?.href} />
 
       <FadeIn className="footer-pad">
         <Note color={color} style={style} font={font} full>

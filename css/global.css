@@ -823,6 +823,20 @@ ul.tags,
   text-align: center;
 }
 
+ul.share-buttons {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  justify-content: flex-end;
+  margin: 0 var(--layout__rhythm);
+  text-align: center;
+}
+
+.share-buttons li {
+  display: inline;
+  padding: calc(var(--layout__rhythm)/4);
+}
+
 [data-reach-tab-list],
 [data-reach-tab] {
   background-color: var(--color__ui);
