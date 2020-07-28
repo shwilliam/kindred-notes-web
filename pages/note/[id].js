@@ -57,6 +57,7 @@ export default ({viewerId}) => {
     replies,
   } = note.data.note
   const isOwn = authorId === viewerId
+
   return (
     <main>
       <Head title="Kindred Notes" />
@@ -90,9 +91,18 @@ export default ({viewerId}) => {
           </>
         </Note>
 
-        {isOwn && <ReplyList replies={replies || []} />}
+        <ReplyList replies={replies || []} />
 
-        {!isOwn && <ReplyForm id={noteId} onSubmit={router.reload} />}
+        {!isOwn &&
+          (viewerId ? (
+            <ReplyForm id={noteId} onSubmit={router.reload} />
+          ) : (
+            <div className="wrapper">
+              <Link href="/signup">
+                <a className="button -full">Sign in to leave a comment</a>
+              </Link>
+            </div>
+          ))}
       </FadeIn>
     </main>
   )
@@ -101,14 +111,5 @@ export default ({viewerId}) => {
 export const getServerSideProps = ctx => {
   const token = validateHeaderToken(ctx.req.headers)
 
-  if (!token) {
-    ctx.res
-      .writeHead(301, {
-        Location: '/signin',
-      })
-      .end()
-    return {props: {}}
-  }
-
-  return {props: {viewerId: token.id}}
+  return {props: {viewerId: token?.id ?? null}}
 }
