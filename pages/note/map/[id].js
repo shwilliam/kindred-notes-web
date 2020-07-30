@@ -40,7 +40,7 @@ export default ({viewerId}) => {
       <Header viewerId={viewerId} />
 
       <FadeIn className="footer-pad">
-        <MapView markers={repliesGeoJson} />
+        <MapView markers={repliesGeoJson} full />
       </FadeIn>
     </main>
   )

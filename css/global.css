@@ -798,6 +798,11 @@ ul.tags,
 }
 
 .map {
+  width: 100%;
+  height: 400px;
+}
+
+.map.-full {
   position: absolute;
   top: 0;
   right: 0;
@@ -834,7 +839,7 @@ ul.share-buttons {
 
 .share-buttons li {
   display: inline;
-  padding: calc(var(--layout__rhythm)/4);
+  padding: calc(var(--layout__rhythm) / 4);
 }
 
 [data-reach-tab-list],

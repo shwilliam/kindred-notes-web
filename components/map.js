@@ -2,7 +2,7 @@ import {useRouter} from 'next/router'
 import {useEffect, useRef} from 'react'
 import {createMapPopup, Mapbox, mountMap} from '../lib'
 
-export const MapView = ({markers}) => {
+export const MapView = ({markers, full = false}) => {
   const router = useRouter()
   const mapRef = useRef()
   const noMarkers = !markers?.features?.length
@@ -35,5 +35,10 @@ export const MapView = ({markers}) => {
 
   if (noMarkers) return null
 
-  return <div ref={el => (mapRef.current = el)} className="map" />
+  return (
+    <div
+      ref={el => (mapRef.current = el)}
+      className={`map ${full ? '-full' : ''}`}
+    />
+  )
 }

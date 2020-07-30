@@ -27,8 +27,8 @@ const handleGetOutbox = async ({req, res}) => {
       },
       include: {
         replies: true,
+        viewers: true,
       },
-      // take: 20,
     })
 
     res.json({notes})

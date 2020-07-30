@@ -6,25 +6,38 @@ import {
   Header,
   NoteGrid,
   NotesSearch,
+  MapView,
 } from '../components'
 import {
   useConnectionsCount,
   useCountriesCount,
   useNotesCount,
   useRecentNotes,
+  useNotesOutbox,
 } from '../hooks'
-import {validateHeaderToken} from '../lib'
+import {validateHeaderToken, reduceViewerToFeature} from '../lib'
 
 export default ({viewerId}) => {
   const recentNotes = useRecentNotes()
   const notesCount = useNotesCount()
   const countriesCount = useCountriesCount()
   const connectionsCount = useConnectionsCount()
+  const notesOutbox = useNotesOutbox()
+
+  const outboxViewers = notesOutbox?.data?.notes?.reduce(
+    (viewers, val) => [...viewers, ...val.viewers],
+    [],
+  )
+  const outboxViewersJson = outboxViewers && {
+    type: 'FeatureCollection',
+    features: outboxViewers?.reduce(reduceViewerToFeature, []),
+  }
 
   return (
     <main className="footer-pad">
       <Head title="Kindred Notes" description="Kindred Notes" />
       <h1 className="sr-only">Kindred Notes</h1>
+
       <Header viewerId={viewerId}>
         {!viewerId ? (
           <Link href="/signin">
@@ -80,6 +93,13 @@ export default ({viewerId}) => {
 
         <span className="rule" />
 
+        {viewerId && outboxViewers && (
+          <section className="wrapper -large">
+            <h2 className="title -center">Your Connections</h2>
+            <MapView markers={outboxViewersJson} />
+          </section>
+        )}
+
         {!viewerId && (
           <section className="wrapper">
             <h2 className="title -center">
@@ -121,7 +141,7 @@ export default ({viewerId}) => {
       <div className="wrapper">
         {!viewerId && (
           <Link href="/signup">
-            <a className="button -full">Get started</a>
+            <a className="button -full">Join the movement</a>
           </Link>
         )}
       </div>
