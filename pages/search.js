@@ -1,13 +1,22 @@
 import Link from 'next/link'
 import {useRouter} from 'next/router'
-import {FadeIn, Head, Header, Note, Spinner} from '../components'
+import {FadeIn, Field, Head, Header, Note, Spinner} from '../components'
 import {useNotesSearch} from '../hooks'
-import {validateHeaderToken} from '../lib'
+import {truncate, validateHeaderToken} from '../lib'
 
 export default ({viewerId}) => {
   const router = useRouter()
   const {query} = router.query
   const notesSearch = useNotesSearch(query)
+
+  const handleSubmit = e => {
+    e.preventDefault()
+
+    const query = e.currentTarget.elements.query.value.trim()
+    if (!query) return
+
+    router.push(`/search?query=${query}`)
+  }
 
   return (
     <main>
@@ -15,38 +24,52 @@ export default ({viewerId}) => {
       <h1 className="sr-only">Kindred Notes</h1>
       <Header viewerId={viewerId} />
 
-      {notesSearch.status === 'loading' ? (
-        <Spinner />
-      ) : notesSearch.status === 'error' ? (
-        <p className="error">
-          An unexpected error occurred. Please refresh the page to try again.
-        </p>
-      ) : notesSearch.data?.notes.length ? (
-        <>
-          <FadeIn className="footer-pad">
-            <section>
-              <h2 className="title -center">Search Results</h2>
-              <ul className="note-grid">
-                {notesSearch.data?.notes?.map(
-                  ({id, content, color, style, font}) => (
-                    <li className="note-grid__cell" key={id}>
-                      <Link href={`/note/${id}`}>
-                        <a className="link -no-ul">
-                          <Note color={color} style={style} font={font}>
-                            {content}
-                          </Note>
-                        </a>
-                      </Link>
-                    </li>
-                  ),
-                )}
-              </ul>
-            </section>
-          </FadeIn>
-        </>
-      ) : (
-        <h2 className="title -center">No notes found 😢</h2>
-      )}
+      <div className="wrapper -large">
+        {query ? (
+          notesSearch.status === 'loading' ? (
+            <Spinner />
+          ) : notesSearch.status === 'error' ? (
+            <p className="error">
+              An unexpected error occurred. Please refresh the page to try
+              again.
+            </p>
+          ) : notesSearch.data?.notes.length ? (
+            <>
+              <FadeIn className="footer-pad">
+                <section>
+                  <h2 className="title -center">Search Results</h2>
+                  <ul className="note-grid">
+                    {notesSearch.data?.notes?.map(
+                      ({id, content, color, style, font}) => (
+                        <li className="note-grid__cell" key={id}>
+                          <Link href={`/note/${id}`}>
+                            <a className="link -no-ul">
+                              <Note color={color} style={style} font={font}>
+                                {truncate(50, content)}
+                              </Note>
+                            </a>
+                          </Link>
+                        </li>
+                      ),
+                    )}
+                  </ul>
+                </section>
+              </FadeIn>
+            </>
+          ) : (
+            <h2 className="title -center">No notes found 😢</h2>
+          )
+        ) : (
+          <form onSubmit={handleSubmit} className="wrapper search-form">
+            <Field
+              name="query"
+              type="search"
+              placeholder="Search for a note..."
+              required
+            />
+          </form>
+        )}
+      </div>
     </main>
   )
 }

@@ -797,6 +797,10 @@ ul.tags,
   margin-right: var(--layout__rhythm);
 }
 
+.search-form {
+  margin: calc(var(--layout__rhythm) * 3) auto;
+}
+
 .map {
   width: 100%;
   height: 400px;

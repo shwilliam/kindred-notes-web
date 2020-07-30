@@ -6,6 +6,7 @@ import {
   IconNote,
   IconPen,
   IconProfile,
+  IconSearch,
   NotificationCount,
 } from './index'
 
@@ -52,6 +53,15 @@ export const Nav = ({viewerId}) => {
             <IconBell
               className="nav__icon hide-desktop"
               fill={router.pathname === '/notifications'}
+              aria-hidden
+            />
+          </a>
+        </Link>
+        <Link href="/search">
+          <a className="nav__link">
+            <span className="hide-mobile">Search</span>
+            <IconSearch
+              className="nav__icon hide-desktop"
               aria-hidden
             />
           </a>
