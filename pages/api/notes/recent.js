@@ -8,7 +8,7 @@ const handleGetRecentNotes = async ({res}) => {
       orderBy: {
         createdAt: 'desc',
       },
-      take: 20,
+      take: 12,
     })
 
     res.json({notes})
