@@ -5,10 +5,6 @@ import {cacheMiddleware} from '../utils'
 const handler = nc()
 
 handler.get(cacheMiddleware(30), async (_req, res) => {
-  await handleGetCountriesCount({res})
-})
-
-const handleGetCountriesCount = async ({res}) => {
   const Prisma = new PrismaClient({log: ['query']})
 
   try {
@@ -24,6 +20,6 @@ const handleGetCountriesCount = async ({res}) => {
   } finally {
     await Prisma.disconnect()
   }
-}
+})
 
 export default handler

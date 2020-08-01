@@ -1,6 +1,10 @@
 import {PrismaClient} from '@prisma/client'
+import nc from 'next-connect'
+import {cacheMiddleware} from '../utils'
 
-const handleGetConnectionsCount = async ({res}) => {
+const handler = nc()
+
+handler.get(cacheMiddleware(120), async (req, res) => {
   const Prisma = new PrismaClient({log: ['query']})
 
   try {
@@ -16,15 +20,6 @@ const handleGetConnectionsCount = async ({res}) => {
   } finally {
     await Prisma.disconnect()
   }
-}
+})
 
-export default async (req, res) => {
-  switch (req.method) {
-    case 'GET':
-      await handleGetConnectionsCount({res})
-      break
-    default:
-      res.status(405).end()
-      break
-  }
-}
+export default handler
