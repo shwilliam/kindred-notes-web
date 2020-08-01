@@ -1,9 +1,14 @@
 import {PrismaClient} from '@prisma/client'
+import nc from 'next-connect'
+import {cacheMiddleware} from '../utils'
 
-const handleGetPopularTags = async ({res}) => {
+const handler = nc()
+
+handler.get(cacheMiddleware(30 * 60), async (_req, res) => {
   const Prisma = new PrismaClient({log: ['query']})
 
   try {
+    // FIXME
     const tags = await Prisma.tag.findMany({
       include: {
         notes: true,
@@ -20,15 +25,6 @@ const handleGetPopularTags = async ({res}) => {
   } finally {
     await Prisma.disconnect()
   }
-}
+})
 
-export default async (req, res) => {
-  switch (req.method) {
-    case 'GET':
-      await handleGetPopularTags({res})
-      break
-    default:
-      res.status(405).end()
-      break
-  }
-}
+export default handler

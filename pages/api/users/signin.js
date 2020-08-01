@@ -2,9 +2,6 @@ import {PrismaClient} from '@prisma/client'
 import bcrypt from 'bcrypt'
 import cookie from 'cookie'
 import jwt from 'jsonwebtoken'
-import getConfig from 'next/config'
-
-const {JWT_SECRET} = getConfig().serverRuntimeConfig
 
 const isValidPassword = (hashedPassword, password) =>
   bcrypt.compareSync(password, hashedPassword)
@@ -27,7 +24,7 @@ const handlePostSignIn = async ({req, res}) => {
     } else if (isValidPassword(user.password, password)) {
       const token = jwt.sign(
         {email: user.email, id: user.id, time: new Date()},
-        JWT_SECRET,
+        process.env.JWT_SECRET,
         {
           expiresIn: '6h',
         },

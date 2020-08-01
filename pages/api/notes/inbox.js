@@ -1,7 +1,11 @@
 import {PrismaClient} from '@prisma/client'
+import nc from 'next-connect'
 import {validateHeaderToken} from '../../../lib'
+import {cacheMiddleware} from '../utils'
 
-const handleGetInbox = async ({req, res}) => {
+const handler = nc()
+
+handler.get(cacheMiddleware(60), async (req, res) => {
   const Prisma = new PrismaClient({log: ['query']})
   const {id} = validateHeaderToken(req.headers)
 
@@ -56,15 +60,6 @@ const handleGetInbox = async ({req, res}) => {
   } finally {
     await Prisma.disconnect()
   }
-}
+})
 
-export default async (req, res) => {
-  switch (req.method) {
-    case 'GET':
-      await handleGetInbox({req, res})
-      break
-    default:
-      res.status(405).end()
-      break
-  }
-}
+export default handler

@@ -1,5 +1,5 @@
 import {AuthLayout, Head, SignupForm} from '../components'
-import {getGoogleDocCopy} from '../lib'
+// import {getGoogleDocCopy} from '../lib'
 
 export default ({copy}) => (
   <AuthLayout>
@@ -10,7 +10,10 @@ export default ({copy}) => (
 )
 
 export const getStaticProps = async () => {
-  const copy = await getGoogleDocCopy()
+  // const copy = await getGoogleDocCopy()
+  const copy = {
+    terms_and_conditions: 'TODO',
+  }
 
   return {props: {copy}}
 }
