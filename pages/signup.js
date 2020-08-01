@@ -3,7 +3,7 @@ import {getGoogleDocCopy} from '../lib'
 
 export default ({copy}) => (
   <AuthLayout>
-    <Head title="Sign up" description="Sign up for a Kindred Notes account" />
+    <Head title="Sign up" description="Sign up for a kindrednotes account" />
     <h2 className="sr-only">Sign Up</h2>
     <SignupForm termsAndConditionsCopy={copy.terms_and_conditions} />
   </AuthLayout>

@@ -41,8 +41,8 @@ export default ({viewerId}) => {
 
   return (
     <main className="footer-pad">
-      <Head title="My notes" description="Kindred Notes" />
-      <h1 className="sr-only">Kindred Notes</h1>
+      <Head title="My notes" description="Connected Kindness" />
+      <h1 className="sr-only">kindrednotes</h1>
       <Header viewerId={viewerId} />
 
       {router.query.note && (

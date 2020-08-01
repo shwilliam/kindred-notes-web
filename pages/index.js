@@ -35,8 +35,8 @@ export default ({viewerId}) => {
 
   return (
     <main className="footer-pad">
-      <Head title="Kindred Notes" description="Kindred Notes" />
-      <h1 className="sr-only">Kindred Notes</h1>
+      <Head title="kindrednotes" description="Connected Kindness" />
+      <h1 className="sr-only">kindrednotes</h1>
 
       <Header viewerId={viewerId}>
         {!viewerId ? (
@@ -110,14 +110,14 @@ export default ({viewerId}) => {
             </h2>
 
             <p className="paragraph">
-              KindredNotes is a social enterprise dedicated to encouraging and
+              kindrednotes is a social enterprise dedicated to encouraging and
               inspiring kindness and empathy through kind notes.
             </p>
 
-            <h2 className="title -center">What is a KindredNote?</h2>
+            <h2 className="title -center">What is a kindrednote?</h2>
 
             <p className="paragraph">
-              A KindredNote is just what it sounds like, a kind note. It could
+              A kindrednote is just what it sounds like, a kind note. It could
               be a simple note to say something kind or a quote that’s had a
               positive impact. It could be a story, an experience or a thought.
               Our intention is to spread kindness and increase empathy by

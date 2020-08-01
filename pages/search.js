@@ -20,8 +20,8 @@ export default ({viewerId}) => {
 
   return (
     <main>
-      <Head title="My notes" description="Kindred Notes" />
-      <h1 className="sr-only">Kindred Notes</h1>
+      <Head title="Search" description="Connected Kindness" />
+      <h1 className="sr-only">kindrednotes</h1>
       <Header viewerId={viewerId} />
 
       <div className="wrapper -large">

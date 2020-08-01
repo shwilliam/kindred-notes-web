@@ -66,7 +66,7 @@ export default () => {
 
   return (
     <AuthLayout open={wavesOpen}>
-      <Head title="Sign in" description="Sign in to Kindred Notes" />
+      <Head title="Sign in" description="Sign in to kindrednotes" />
       <h2 className="sr-only">Sign In</h2>
       <form onSubmit={handleSubmit}>
         <Field

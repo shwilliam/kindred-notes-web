@@ -61,7 +61,7 @@ export default ({viewerId}) => {
 
   return (
     <main>
-      <Head title="Kindred Notes" />
+      <Head title="kindrednotes" description="Connected Kindness" />
       <h1 className="sr-only">Note</h1>
       <Header viewerId={viewerId} />
 
