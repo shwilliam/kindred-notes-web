@@ -1,12 +1,10 @@
 import cities from 'cities.json'
+import nc from 'next-connect'
 
-export default async (req, res) => {
-  switch (req.method) {
-    case 'GET':
-      res.json({cities})
-      break
-    default:
-      res.status(405).end()
-      break
-  }
-}
+const handler = nc()
+
+handler.get(async (_req, res) => {
+  res.json({cities})
+})
+
+export default handler
