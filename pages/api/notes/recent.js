@@ -1,6 +1,6 @@
 import {PrismaClient} from '@prisma/client'
 import nc from 'next-connect'
-import {cacheMiddleware} from '../utils'
+import {cacheMiddleware} from '../../../lib'
 
 const handler = nc()
 

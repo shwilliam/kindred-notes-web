@@ -1,6 +1,6 @@
 import cities from 'cities.json'
 import nc from 'next-connect'
-import {cacheMiddleware} from './utils'
+import {cacheMiddleware} from '../../lib'
 
 const handler = nc()
 

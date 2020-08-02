@@ -1,10 +1,10 @@
 import {PrismaClient} from '@prisma/client'
 import nc from 'next-connect'
-import {cacheContent} from '../utils'
+import {cacheMiddleware} from '../../../lib'
 
 const handler = nc()
 
-handler.get(cacheContent(120), async (_req, res) => {
+handler.get(cacheMiddleware(120), async (_req, res) => {
   const Prisma = new PrismaClient({log: ['query']})
 
   try {

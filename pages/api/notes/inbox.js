@@ -1,7 +1,6 @@
 import {PrismaClient} from '@prisma/client'
 import nc from 'next-connect'
-import {validateHeaderToken} from '../../../lib'
-import {cacheMiddleware} from '../utils'
+import {validateHeaderToken, cacheMiddleware} from '../../../lib'
 
 const handler = nc()
 
