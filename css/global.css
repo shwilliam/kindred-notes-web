@@ -23,6 +23,10 @@ body,
 }
 
 /* utils */
+.bold {
+  font-weight: 800;
+}
+
 .flip {
   display: inline-block;
   transform: scaleX(-1);
@@ -281,6 +285,10 @@ button.cookies__accept {
 .title.-center {
   display: block;
   text-align: center;
+}
+
+.title.-blue {
+  color: var(--color__accent--blue);
 }
 
 .logo {
@@ -792,6 +800,12 @@ a.button:disabled,
   font-size: 1.4rem;
   font-weight: 800;
   color: var(--color__accent--blue);
+}
+
+.check-list li {
+  list-style-type: '✔︎ ';
+  margin: var(--layout__rhythm) 0 var(--layout__rhythm) var(--layout__rhythm);
+  padding-left: calc(var(--layout__rhythm) / 3);
 }
 
 ul.tags,
