@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import {useRouter} from 'next/router'
-import {FadeIn, Field, Head, Header, Note, Spinner} from '../components'
+import {FadeIn, Field, Footer, Head, Header, Note, Spinner} from '../components'
 import {useNotesSearch} from '../hooks'
 import {truncate, validateHeaderToken} from '../lib'
 
@@ -37,7 +37,7 @@ export default ({viewerId}) => {
             <>
               <FadeIn className="footer-pad">
                 <section>
-                  <h2 className="title -center">Search Results</h2>
+                  <h2 className="title -center">Notes with "{query}"</h2>
                   <ul className="note-grid">
                     {notesSearch.data?.notes?.map(
                       ({id, content, color, style, font}) => (
@@ -77,6 +77,8 @@ export default ({viewerId}) => {
           </form>
         )}
       </div>
+
+      <Footer />
     </main>
   )
 }
