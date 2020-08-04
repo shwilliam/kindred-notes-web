@@ -45,25 +45,27 @@ export default ({viewerId}) => {
       <h1 className="sr-only">kindrednotes</h1>
       <Header viewerId={viewerId} />
 
-      {router.query.note && (
+      {router.query.note ? (
         <NoteModal
           id={router.query.note}
           viewerId={viewerId}
           onDismiss={handleModalClose}
+          animate
         />
+      ) : (
+        <FadeIn className="footer-pad">
+          {notesInbox.status === 'success' &&
+          notesOutbox.status === 'success' ? (
+            <InboxOutboxTabs
+              inbox={notesInbox.data.notes}
+              outbox={notesOutbox.data.notes}
+              viewerId={viewerId}
+            />
+          ) : (
+            <Spinner />
+          )}
+        </FadeIn>
       )}
-
-      <FadeIn className="footer-pad">
-        {notesInbox.status === 'success' && notesOutbox.status === 'success' ? (
-          <InboxOutboxTabs
-            inbox={notesInbox.data.notes}
-            outbox={notesOutbox.data.notes}
-            viewerId={viewerId}
-          />
-        ) : (
-          <Spinner />
-        )}
-      </FadeIn>
       <Footer />
     </main>
   )

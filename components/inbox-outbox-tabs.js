@@ -14,7 +14,7 @@ export const InboxOutboxTabs = ({inbox, outbox, viewerId}) => (
         {inbox?.length ? (
           <ul className="note-grid">
             {inbox.map(({id, viewers}) => (
-              <li className="note-grid__cell" key={id}>
+              <li className="note-grid__cell -fill" key={id}>
                 <Link href={`/notes?note=${id}`} as={`/note/${id}`}>
                   <a className="link -no-ul">
                     <div className="note-grid__cell-icon">
@@ -48,7 +48,7 @@ export const InboxOutboxTabs = ({inbox, outbox, viewerId}) => (
           <ul className="note-grid">
             {outbox.map(({id, content, color, style, font}) => (
               <li className="note-grid__cell -grid" key={id}>
-                <Link href={`/notes?note=${id}`} as={`/note/${id}`}>
+                <Link href={`/note/${id}`}>
                   <a className="link -no-ul">
                     <Note color={color} style={style} font={font}>
                       {truncate(50, content)}

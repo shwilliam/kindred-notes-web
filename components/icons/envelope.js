@@ -17,7 +17,7 @@ export const IconEnvelope = ({open = false, ...props}) =>
         >
           <feOffset input="SourceAlpha" />
           <feGaussianBlur stdDeviation="0.5" result="blur" />
-          <feFlood flood-opacity="0.161" />
+          <feFlood floodOpacity="0.161" />
           <feComposite operator="in" in2="blur" />
           <feComposite in="SourceGraphic" />
         </filter>

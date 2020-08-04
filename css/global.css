@@ -11,6 +11,7 @@
   --color__accent--blue: #48a9c6;
   --color__accent--green: #56c298;
   --color__accent--yellow: #ffc53f;
+  --ease__qudratic--in-out: cubic-bezier(0.455, 0.03, 0.515, 0.955);
 }
 
 html,
@@ -432,27 +433,8 @@ a.button:disabled,
   background-color: var(--color__ui);
 }
 
-.modal__bg {
-  position: fixed;
-  background-color: rgba(0, 0, 0, 0.65);
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  margin: auto;
-  z-index: 999;
-  padding: calc(var(--layout__rhythm) * 2) 0;
-}
-
 .modal {
-  border-radius: 4px;
-  width: 90%;
-  max-width: 600px;
-  min-height: calc(300px + (var(--layout__rhythm) * 4));
-  max-height: calc(100% - (var(--layout__rhythm) * 2));
   margin: 0 auto;
-  overflow-y: scroll;
-  background-color: var(--color__bg);
 }
 
 .dropdown-combobox__dropdown {
@@ -487,6 +469,7 @@ a.button:disabled,
 
 .bg {
   background-color: var(--color__accent--blue);
+  z-index: 2;
   position: absolute;
   height: 100vh;
   left: 0;
@@ -587,6 +570,11 @@ a.button:disabled,
 .note-grid__cell {
   height: 150px;
   border-radius: 0;
+}
+
+.note-grid__cell.-fill {
+  background-color: var(--color__accent--blue);
+  border: 1px solid var(--color__ui);
 }
 
 .note-grid__cell.-list {
@@ -697,6 +685,58 @@ a.button:disabled,
   position: absolute;
   top: var(--layout__rhythm);
   right: var(--layout__rhythm);
+}
+
+.note-opening {
+  position: absolute;
+  top: 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin: 0 auto;
+  margin-top: 30vmin;
+  overflow: visible;
+  transition: opacity 0.6s var(--ease__qudratic--in-out);
+}
+
+.note-opening.-expanded {
+  opacity: 0;
+}
+
+.note-opening svg {
+  position: absolute;
+  top: 0;
+}
+
+.note-opening__bg {
+  background-color: var(--color__bg);
+  transition: opacity 0.6s var(--ease__qudratic--in-out);
+  opacity: 1;
+}
+
+.note-opening__bg.-hide {
+  opacity: 0;
+}
+
+.note-opening__message {
+  transition: transform 0.5s var(--ease__qudratic--in-out);
+  transform: translateY(0);
+}
+
+.note-opening__message.-opening {
+  transform: translateY(-65px);
+}
+
+.note-opening__message.-open {
+  transform: translateY(-10px);
+  z-index: 3;
+}
+
+.note-opening__message.-expanded {
+  transform: scale(4) translateY(-20px);
 }
 
 .reply {

@@ -3,6 +3,7 @@ import {useRouter} from 'next/router'
 import {useEffect} from 'react'
 import {
   FadeIn,
+  Footer,
   Head,
   Header,
   Note,
@@ -107,6 +108,8 @@ export default ({viewerId}) => {
 
         <ShareActions content={content} url={window?.location?.href} />
       </FadeIn>
+
+      <Footer />
     </main>
   )
 }
