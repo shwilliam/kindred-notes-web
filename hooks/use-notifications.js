@@ -41,8 +41,8 @@ export const useNotifications = viewerId => {
       inboxResponse?.data?.notes
     ) {
       const unreadNotesInbox =
-        inboxResponse?.data?.notes.filter(({viewers}) =>
-          viewers.every(({id}) => id !== viewerId),
+        inboxResponse?.data?.notes.filter(note =>
+          note?.viewers?.every(({id}) => id !== viewerId),
         ) ?? []
 
       if (unreadNotesInbox.length !== notifications?.length)
