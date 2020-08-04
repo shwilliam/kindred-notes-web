@@ -9,8 +9,8 @@ import {
   NoteBookmark,
   ReplyForm,
   ReplyList,
-  Spinner,
   ShareActions,
+  Spinner,
 } from '../../components'
 import {useNote, useProfile, useViewNote} from '../../hooks'
 import {validateHeaderToken} from '../../lib'
@@ -65,8 +65,6 @@ export default ({viewerId}) => {
       <h1 className="sr-only">Note</h1>
       <Header viewerId={viewerId} />
 
-      <ShareActions content={content} url={window?.location?.href} />
-
       <FadeIn className="footer-pad">
         <Note color={color} style={style} font={font} full>
           <>
@@ -106,6 +104,8 @@ export default ({viewerId}) => {
               </Link>
             </div>
           ))}
+
+        <ShareActions content={content} url={window?.location?.href} />
       </FadeIn>
     </main>
   )

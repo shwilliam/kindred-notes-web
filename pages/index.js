@@ -1,33 +1,29 @@
 import Link from 'next/link'
 import {
-  Footer,
   FadeIn,
+  Footer,
   Head,
   Header,
+  MapView,
   NoteGrid,
   NotesSearch,
-  MapView,
 } from '../components'
 import {
   useConnectionsCount,
   useCountriesCount,
   useNotesCount,
+  useNotesOutboxViewers,
   useRecentNotes,
-  useNotesOutbox,
 } from '../hooks'
-import {validateHeaderToken, reduceViewerToFeature} from '../lib'
+import {reduceViewerToFeature, validateHeaderToken} from '../lib'
 
 export default ({viewerId}) => {
   const recentNotes = useRecentNotes()
   const notesCount = useNotesCount()
   const countriesCount = useCountriesCount()
   const connectionsCount = useConnectionsCount()
-  const notesOutbox = useNotesOutbox()
+  const outboxViewers = useNotesOutboxViewers()
 
-  const outboxViewers = notesOutbox?.data?.notes?.reduce(
-    (viewers, val) => [...viewers, ...val.viewers],
-    [],
-  )
   const outboxViewersJson = outboxViewers && {
     type: 'FeatureCollection',
     features: outboxViewers?.reduce(reduceViewerToFeature, []),
@@ -93,7 +89,7 @@ export default ({viewerId}) => {
 
         <span className="rule" />
 
-        {viewerId && outboxViewers && (
+        {viewerId && outboxViewersJson?.features?.length > 0 && (
           <section className="wrapper -large">
             <h2 className="title -center">Your Connections</h2>
             <MapView markers={outboxViewersJson} />
@@ -131,7 +127,6 @@ export default ({viewerId}) => {
           <NoteGrid
             title="Recent notes"
             notes={recentNotes?.data?.notes}
-            // not rendered if loading or error
             loading={false}
             error={false}
           />

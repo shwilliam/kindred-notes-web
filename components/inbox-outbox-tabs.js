@@ -28,16 +28,18 @@ export const InboxOutboxTabs = ({inbox, outbox, viewerId}) => (
             ))}
           </ul>
         ) : (
-          <div className="info wrapper">
-            <p className="info__text">
-              Looks like no notes match your interests.
-            </p>
-            <p className="info__text">
-              <Link href="/profile">
-                <a>Click here</a>
-              </Link>{' '}
-              to add some.
-            </p>
+          <div className="wrapper">
+            <div className="info">
+              <p className="info__text">
+                Looks like no notes match your interests.
+              </p>
+              <p className="info__text">
+                <Link href="/profile">
+                  <a>Click here</a>
+                </Link>{' '}
+                to add some.
+              </p>
+            </div>
           </div>
         )}
       </TabPanel>
@@ -57,14 +59,16 @@ export const InboxOutboxTabs = ({inbox, outbox, viewerId}) => (
             ))}
           </ul>
         ) : (
-          <div className="info wrapper">
-            <p className="info__text">Your sent notes will show up here. </p>
-            <p className="info__text">
-              <Link href="/new">
-                <a>Click here</a>
-              </Link>{' '}
-              to send you first!
-            </p>
+          <div className="wrapper">
+            <div className="info">
+              <p className="info__text">Your sent notes will show up here. </p>
+              <p className="info__text">
+                <Link href="/new">
+                  <a>Click here</a>
+                </Link>{' '}
+                to send you first!
+              </p>
+            </div>
           </div>
         )}
       </TabPanel>

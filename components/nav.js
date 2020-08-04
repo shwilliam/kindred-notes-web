@@ -58,12 +58,9 @@ export const Nav = ({viewerId}) => {
           </a>
         </Link>
         <Link href="/search">
-          <a className="nav__link">
+          <a className="nav__link -float">
             <span className="hide-mobile">Search</span>
-            <IconSearch
-              className="nav__icon hide-desktop"
-              aria-hidden
-            />
+            <IconSearch className="nav__icon hide-desktop" aria-hidden />
           </a>
         </Link>
         <Link href="/profile">

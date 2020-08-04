@@ -1,6 +1,5 @@
 import {useRouter} from 'next/router'
 import {useState} from 'react'
-import {queryCache, useMutation} from 'react-query'
 import TextareaAutosize from 'react-textarea-autosize'
 import {
   FadeIn,
@@ -14,7 +13,7 @@ import {
   Tag,
   TagsInput,
 } from '../components'
-import {useArrayIterator} from '../hooks'
+import {useArrayIterator, useCreateNote} from '../hooks'
 import {validateHeaderToken} from '../lib'
 
 const NOTE_OPTIONS = {
@@ -23,26 +22,9 @@ const NOTE_OPTIONS = {
   font: ['SANS', 'HAND', 'MONO'],
 }
 
-const createNoteRequest = async data => {
-  const response = await fetch('/api/notes/create', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(data),
-  })
-  const responseJson = await response.json()
-
-  return responseJson.note
-}
-
 export default ({viewerId}) => {
   const router = useRouter()
-  const [createNote] = useMutation(createNoteRequest, {
-    onSuccess: () => {
-      queryCache.invalidateQueries('notesOutbox')
-    },
-  })
+  const createNote = useCreateNote()
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [colorVal, nextColor] = useArrayIterator(NOTE_OPTIONS.color)
   const [styleVal, nextStyle] = useArrayIterator(NOTE_OPTIONS.style)

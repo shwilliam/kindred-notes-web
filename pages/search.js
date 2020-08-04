@@ -57,7 +57,14 @@ export default ({viewerId}) => {
               </FadeIn>
             </>
           ) : (
-            <h2 className="title -center">No notes found 😢</h2>
+            <>
+              <div className="title -center">
+                <h2>No notes found</h2>
+                <span className="emoji" role="img" aria-label="Crying emoji">
+                  😢
+                </span>
+              </div>
+            </>
           )
         ) : (
           <form onSubmit={handleSubmit} className="wrapper search-form">

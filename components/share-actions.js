@@ -7,20 +7,20 @@ export const ShareActions = ({content, url}) => {
     <ul className="share-buttons">
       <li>
         <a
-          href={`https://www.facebook.com/sharer/sharer.php?u=${url}&quote=${truncatedContent}`}
-          target="_blank"
-          title="Share to Facebook"
-        >
-          <img alt="Share on Facebook" src="/images/icons/fb.png" />
-        </a>
-      </li>
-      <li>
-        <a
           href={`https://twitter.com/intent/tweet?source=${url}&text=${truncatedContent}&via=kindrednotes`}
           target="_blank"
           title="Tweet"
         >
           <img alt="Tweet" src="/images/icons/twitter.png" />
+        </a>
+      </li>
+      <li>
+        <a
+          href={`https://www.facebook.com/sharer/sharer.php?u=${url}&quote=${truncatedContent}`}
+          target="_blank"
+          title="Share to Facebook"
+        >
+          <img alt="Share on Facebook" src="/images/icons/fb.png" />
         </a>
       </li>
       <li>

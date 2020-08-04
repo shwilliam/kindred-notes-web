@@ -1,24 +1,12 @@
 import Link from 'next/link'
 import {useRouter} from 'next/router'
 import {useState} from 'react'
-import {useMutation} from 'react-query'
 import {AuthLayout, Field, Head} from '../components'
-
-const signInRequest = async data => {
-  const response = await fetch('/api/users/signin', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(data),
-  })
-
-  return await response.json()
-}
+import {useSignIn} from '../hooks'
 
 export default () => {
   const router = useRouter()
-  const [signIn] = useMutation(signInRequest)
+  const signIn = useSignIn()
   const [errorMsg, setErrorMsg] = useState()
   const [wavesOpen, setWavesOpen] = useState(true)
   const [isSubmitting, setIsSubmitting] = useState(false)

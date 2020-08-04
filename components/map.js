@@ -1,18 +1,12 @@
-import {useRouter} from 'next/router'
 import {useEffect, useRef} from 'react'
 import {createMapPopup, Mapbox, mountMap} from '../lib'
 
 export const MapView = ({markers, full = false}) => {
-  const router = useRouter()
   const mapRef = useRef()
   const noMarkers = !markers?.features?.length
 
   useEffect(() => {
-    if (noMarkers) {
-      // having no markers means this map is useless
-      router.push('/not-found')
-      return
-    }
+    if (noMarkers) return
 
     const map = mountMap(mapRef.current)
 

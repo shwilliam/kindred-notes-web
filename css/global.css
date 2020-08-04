@@ -78,6 +78,10 @@ body,
   display: none;
 }
 
+.emoji {
+  font-size: 2em;
+}
+
 /* layout */
 .wrapper {
   max-width: 600px;
@@ -171,7 +175,8 @@ body,
   min-height: 100px;
   background-color: var(--color__ui);
   text-align: center;
-  position: relative;
+  position: sticky;
+  top: 0;
   z-index: 999;
 }
 
@@ -328,6 +333,12 @@ a.nav__link {
   padding: var(--layout__rhythm);
 }
 
+a.nav__link.-float {
+  position: fixed;
+  top: var(--layout__rhythm);
+  right: var(--layout__rhythm);
+}
+
 .nav__icon {
   color: var(--color__accent--blue);
   height: 28px;
@@ -450,10 +461,10 @@ a.button:disabled,
 }
 
 .info {
+  padding: var(--layout__rhythm);
+  margin: calc(var(--layout__rhythm) * 3) var(--layout__rhythm);
   border-radius: 4px;
   background-color: var(--color__ui);
-  padding: var(--layout__rhythm);
-  margin: calc(var(--layout__rhythm) * 3) auto;
 }
 
 .info__text {
@@ -835,9 +846,9 @@ ul.tags,
 ul.share-buttons {
   list-style: none;
   padding: 0;
+  margin: var(--layout__rhythm) auto;
   display: flex;
-  justify-content: flex-end;
-  margin: 0 var(--layout__rhythm);
+  width: 115px;
   text-align: center;
 }
 
@@ -986,6 +997,10 @@ ul.share-buttons {
   }
 
   .nav {
+    position: static;
+  }
+
+  a.nav__link.-float {
     position: static;
   }
 

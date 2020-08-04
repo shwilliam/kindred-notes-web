@@ -66,9 +66,14 @@ export default ({viewerId}) => {
                   ))}
                 </ul>
               ) : (
-                <p className="title -center">
-                  You're all caught up!&nbsp;&nbsp;&nbsp;🎉
-                </p>
+                <>
+                  <div className="title -center">
+                    <p>You're all caught up!</p>
+                    <span className="emoji" role="img" aria-label="Confetti">
+                      🎉
+                    </span>
+                  </div>
+                </>
               )}
             </div>
           </section>
