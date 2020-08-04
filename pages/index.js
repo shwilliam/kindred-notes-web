@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import {
+  CookiesDisclaimer,
   FadeIn,
   Footer,
   Head,
@@ -43,6 +44,8 @@ export default ({viewerId}) => {
           <NotesSearch />
         )}
       </Header>
+
+      {viewerId && <CookiesDisclaimer />}
 
       <FadeIn className="pad -bottom">
         <section className="wrapper">

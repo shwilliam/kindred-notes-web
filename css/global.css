@@ -150,6 +150,20 @@ body,
   z-index: 3;
 }
 
+.cookies__wrapper {
+  background-color: var(--color__ui);
+  padding: 0 var(--layout__rhythm) var(--layout__rhythm) var(--layout__rhythm);
+}
+
+.cookies {
+  display: flex;
+}
+
+button.cookies__accept {
+  margin: 0 var(--layout__rhythm);
+  color: var(--color__text);
+}
+
 .footer {
   display: none;
   max-width: 1200px;

@@ -1,6 +1,7 @@
 export * from './auth-layout'
 export * from './avatar'
 export * from './avatar-select'
+export * from './cookies-disclaimer'
 export * from './dropdown-combobox'
 export * from './fade-in'
 export * from './field'
