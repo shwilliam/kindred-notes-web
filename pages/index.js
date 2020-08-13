@@ -47,7 +47,7 @@ const HomePage = ({viewerId}) => {
 
       {viewerId && <CookiesDisclaimer />}
 
-      <FadeIn className="pad -bottom">
+      <FadeIn className="pad--bottom">
         <section className="wrapper">
           <h2 className="sr-only">Overview</h2>
           <ul className="overview-stats">

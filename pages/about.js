@@ -15,7 +15,7 @@ const AboutPage = ({viewerId}) => (
       )}
     </Header>
 
-    <FadeIn className="pad -bottom">
+    <FadeIn className="pad--bottom">
       <section className="wrapper">
         <h1 className="title -center">About</h1>
         <p className="paragraph">

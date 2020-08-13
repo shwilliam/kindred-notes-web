@@ -77,7 +77,7 @@ const NotePage = ({viewerId}) => {
               />
             )}
 
-            <p className="pad -vertical">{content}</p>
+            <p className={isOwn ? 'pad--top' : 'pad--vertical'}>{content}</p>
 
             {isOwn && (
               <Link href={`/note/map/${noteId}`}>

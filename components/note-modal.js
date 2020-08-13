@@ -84,7 +84,9 @@ export const NoteModal = ({id, viewerId, onDismiss, animate = false}) => {
                     />
                   )}
 
-                  <p className="pad -vertical">{note.data.note.content}</p>
+                  <p className={isOwn ? 'pad--top' : 'pad--vertical'}>
+                    {note.data.note.content}
+                  </p>
 
                   {isOwn && (
                     <Link href={`/note/map/${id}`}>

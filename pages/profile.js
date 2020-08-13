@@ -61,7 +61,7 @@ const ProfilePage = () => {
               </ul>
 
               {profile.data.user?.bookmarks?.length ? (
-                <div className="pad -bottom">
+                <div className="pad--bottom">
                   <NoteGrid
                     title="Favourite Notes"
                     loading={profile.status === 'loading'}
