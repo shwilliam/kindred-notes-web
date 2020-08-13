@@ -12,7 +12,7 @@ import {
 import {useNotesInbox, useNotesOutbox, useViewNote} from '../hooks'
 import {validateHeaderToken} from '../lib'
 
-export default ({viewerId}) => {
+const NotesPage = ({viewerId}) => {
   const router = useRouter()
   const notesInbox = useNotesInbox()
   const notesOutbox = useNotesOutbox()
@@ -85,3 +85,5 @@ export const getServerSideProps = ctx => {
 
   return {props: {viewerId: token.id}}
 }
+
+export default NotesPage

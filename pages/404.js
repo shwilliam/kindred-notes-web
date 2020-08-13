@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import {FadeIn, Head, Header} from '../components'
 
-export default () => (
+const FourOhFour = () => (
   <main>
     <Head title="Not found" />
     <h1 className="sr-only">404</h1>
@@ -18,3 +18,5 @@ export default () => (
     </FadeIn>
   </main>
 )
+
+export default FourOhFour

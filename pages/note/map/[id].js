@@ -3,7 +3,7 @@ import {FadeIn, Head, Header, MapView, Spinner} from '../../../components'
 import {useNote} from '../../../hooks'
 import {reduceViewerToFeature, validateHeaderToken} from '../../../lib'
 
-export default ({viewerId}) => {
+const NoteMapPage = ({viewerId}) => {
   const router = useRouter()
   const {id} = router.query
   const note = useNote(id)
@@ -59,3 +59,5 @@ export const getServerSideProps = ctx => {
 
   return {props: {viewerId}}
 }
+
+export default NoteMapPage

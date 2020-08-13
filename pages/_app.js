@@ -6,7 +6,7 @@ import '@reach/tabs/styles.css'
 import '../css/mapbox.min.css'
 import '../css/global.css'
 
-export default ({Component, pageProps}) => (
+const App = ({Component, pageProps}) => (
   <ReactQueryConfigProvider>
     <div className="layout">
       <AnimatePresence exitBeforeEnter>
@@ -15,3 +15,5 @@ export default ({Component, pageProps}) => (
     </div>
   </ReactQueryConfigProvider>
 )
+
+export default App

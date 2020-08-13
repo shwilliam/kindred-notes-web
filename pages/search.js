@@ -4,7 +4,7 @@ import {FadeIn, Field, Footer, Head, Header, Note, Spinner} from '../components'
 import {useNotesSearch} from '../hooks'
 import {truncate, validateHeaderToken} from '../lib'
 
-export default ({viewerId}) => {
+const SearchPage = ({viewerId}) => {
   const router = useRouter()
   const {query} = router.query
   const notesSearch = useNotesSearch(query)
@@ -95,3 +95,5 @@ export const getServerSideProps = ctx => {
 
   return {props: {viewerId}}
 }
+
+export default SearchPage

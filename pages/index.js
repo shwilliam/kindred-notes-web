@@ -18,7 +18,7 @@ import {
 } from '../hooks'
 import {reduceViewerToFeature, validateHeaderToken} from '../lib'
 
-export default ({viewerId}) => {
+const HomePage = ({viewerId}) => {
   const recentNotes = useRecentNotes()
   const notesCount = useNotesCount()
   const countriesCount = useCountriesCount()
@@ -225,7 +225,7 @@ export default ({viewerId}) => {
 
             <p className="title -small -center">We Believe…</p>
 
-            <ul className>
+            <ul>
               <li>One person can make a huge difference.</li>
               <li>Change starts with each one of us.</li>
               <li>We are all connected. By helping one, we help all.</li>
@@ -268,3 +268,5 @@ export const getServerSideProps = ctx => {
 
   return {props: {viewerId}}
 }
+
+export default HomePage

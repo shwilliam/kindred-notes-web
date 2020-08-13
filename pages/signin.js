@@ -4,7 +4,7 @@ import {useState} from 'react'
 import {AuthLayout, Field, Head} from '../components'
 import {useSignIn} from '../hooks'
 
-export default () => {
+const SignInPage = () => {
   const router = useRouter()
   const signIn = useSignIn()
   const [errorMsg, setErrorMsg] = useState()
@@ -94,3 +94,4 @@ export default () => {
     </AuthLayout>
   )
 }
+export default SignInPage

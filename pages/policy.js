@@ -7,7 +7,7 @@ import {getGoogleDocCopy} from '../lib'
    */
 }
 
-export default ({copy}) => (
+const PolicyPage = ({copy}) => (
   <main>
     <Head title="Privacy Policy" description="Connected Kindness" />
     <Header viewerId={true} />
@@ -25,3 +25,5 @@ export const getStaticProps = async () => {
 
   return {props: {copy}}
 }
+
+export default PolicyPage

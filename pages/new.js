@@ -22,7 +22,7 @@ const NOTE_OPTIONS = {
   font: ['SANS', 'HAND', 'MONO'],
 }
 
-export default ({viewerId}) => {
+const NewPage = ({viewerId}) => {
   const router = useRouter()
   const createNote = useCreateNote()
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -182,3 +182,5 @@ export const getServerSideProps = ctx => {
 
   return {props: {viewerId}}
 }
+
+export default NewPage

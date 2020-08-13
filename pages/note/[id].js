@@ -16,7 +16,7 @@ import {
 import {useNote, useProfile, useViewNote} from '../../hooks'
 import {validateHeaderToken} from '../../lib'
 
-export default ({viewerId}) => {
+const NotePage = ({viewerId}) => {
   const router = useRouter()
   const {id} = router.query
   const profile = useProfile()
@@ -119,3 +119,5 @@ export const getServerSideProps = ctx => {
 
   return {props: {viewerId: token?.id ?? null}}
 }
+
+export default NotePage

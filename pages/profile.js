@@ -13,7 +13,7 @@ import {
 import {useAddInterest, useDeleteInterest, useProfile} from '../hooks'
 import {validateHeaderToken} from '../lib'
 
-export default () => {
+const ProfilePage = () => {
   const router = useRouter()
   const profile = useProfile()
   const [deleteInterest] = useDeleteInterest()
@@ -99,3 +99,5 @@ export const getServerSideProps = ctx => {
 
   return {props: {}}
 }
+
+export default ProfilePage

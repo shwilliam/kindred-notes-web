@@ -11,7 +11,7 @@ import {
 import {useNotifications} from '../hooks'
 import {truncate, validateHeaderToken} from '../lib'
 
-export default ({viewerId}) => {
+const NotificationsPage = ({viewerId}) => {
   const notifications = useNotifications(viewerId)
 
   return (
@@ -98,3 +98,5 @@ export const getServerSideProps = ctx => {
 
   return {props: {viewerId: token.id}}
 }
+
+export default NotificationsPage

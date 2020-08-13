@@ -1,7 +1,7 @@
 import {AuthLayout, Head, SignupForm} from '../components'
 import {getGoogleDocCopy} from '../lib'
 
-export default ({copy}) => (
+const SignUpPage = ({copy}) => (
   <AuthLayout>
     <Head title="Sign up" description="Sign up for a kindrednotes account" />
     <h2 className="sr-only">Sign Up</h2>
@@ -14,3 +14,5 @@ export const getStaticProps = async () => {
 
   return {props: {copy}}
 }
+
+export default SignUpPage

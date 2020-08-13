@@ -2,7 +2,7 @@ import Link from 'next/link'
 import {FadeIn, Footer, Head, Header, NotesSearch} from '../components'
 import {validateHeaderToken} from '../lib'
 
-export default ({viewerId}) => (
+const AboutPage = ({viewerId}) => (
   <main className="footer-pad">
     <Head title="About kindrednotes" description="Connected Kindness" />
     <Header viewerId={viewerId}>
@@ -91,3 +91,5 @@ export const getServerSideProps = ctx => {
 
   return {props: {viewerId}}
 }
+
+export default AboutPage

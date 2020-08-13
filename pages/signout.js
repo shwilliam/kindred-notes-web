@@ -3,7 +3,7 @@ import {useEffect} from 'react'
 import {Head} from '../components'
 import {signOutRequest} from '../lib'
 
-export default () => {
+const SignOutPage = () => {
   const router = useRouter()
 
   useEffect(() => {
@@ -20,3 +20,5 @@ export default () => {
     </div>
   )
 }
+
+export default SignOutPage

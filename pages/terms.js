@@ -7,7 +7,7 @@ import {getGoogleDocCopy} from '../lib'
    */
 }
 
-export default ({copy}) => (
+const TermsPage = ({copy}) => (
   <main>
     <Head title="Terms and Conditions" description="Connected Kindness" />
     <Header viewerId={true} />
@@ -25,3 +25,5 @@ export const getStaticProps = async () => {
 
   return {props: {copy}}
 }
+
+export default TermsPage
