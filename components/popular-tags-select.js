@@ -1,22 +1,33 @@
 import {useEffect, useState, useRef} from 'react'
 import {usePopularTags} from '../hooks'
 
-export const PopularTagsSelect = ({onChange}) => {
+export const PopularTagsSelect = ({
+  onChange,
+  tags = [],
+  title,
+  onSelect,
+  onRemove,
+}) => {
   const fieldsetRef = useRef()
   const popularTags = usePopularTags()
-  const [selectedTags, setSelectedTags] = useState([])
+  const [selectedTags, setSelectedTags] = useState(tags)
 
   useEffect(() => {
-    onChange(selectedTags)
+    onChange && onChange(selectedTags)
   }, [selectedTags])
 
   const handleChange = event => {
     event.persist()
-    if (event.target.checked) setSelectedTags(s => [...s, event.target.value])
-    else {
+    const tagValue = event.target.value
+
+    if (event.target.checked) {
+      setSelectedTags(s => [...s, tagValue])
+      onSelect && onSelect({title: tagValue})
+    } else {
+      onRemove && onRemove({title: tagValue})
       setSelectedTags(s => {
         const selectedTagsCopy = [...s]
-        const titleIdx = s.findIndex(title => title === event.target.value)
+        const titleIdx = s.findIndex(title => title === tagValue)
         selectedTagsCopy.splice(titleIdx, 1)
 
         return selectedTagsCopy
@@ -24,35 +35,40 @@ export const PopularTagsSelect = ({onChange}) => {
     }
   }
 
-  if (popularTags.status === 'loading') return null
-
-  if (popularTags.status === 'error')
-    return <p className="error">Error fetching popular tags</p>
-
   return (
     <fieldset ref={fieldsetRef} className="tags">
-      <legend className="sr-only">Choose from popular tags</legend>
+      {title ? (
+        <legend className="title -small -center">{title}</legend>
+      ) : (
+        <legend className="sr-only">Choose from popular tags</legend>
+      )}
 
-      {popularTags.data?.tags.map(({title}) => (
-        <div key={title}>
-          <input
-            onChange={handleChange}
-            type="checkbox"
-            name="popular-tag"
-            id={title}
-            value={title}
-            className="sr-only"
-          />
+      {popularTags.status === 'loading' && <p>Loading...</p>}
+
+      {popularTags.status === 'error' && (
+        <p className="error">Error fetching popular tags</p>
+      )}
+
+      {popularTags.status === 'success' &&
+        popularTags.data?.tags?.map(({title}) => (
           <label
+            key={title}
+            htmlFor={title}
             className={`button tag ${
               selectedTags.includes(title) ? '-selected' : ''
             }`}
-            htmlFor={title}
           >
             {title}
+            <input
+              onChange={handleChange}
+              type="checkbox"
+              name="popular-tag"
+              id={title}
+              value={title}
+              className="sr-only"
+            />
           </label>
-        </div>
-      ))}
+        ))}
     </fieldset>
   )
 }

@@ -10,8 +10,7 @@ import {
   IconPalette,
   IconSquare,
   Note,
-  Tag,
-  TagsInput,
+  PopularTagsSelect,
 } from '../components'
 import {useArrayIterator, useCreateNote} from '../hooks'
 import {validateHeaderToken} from '../lib'
@@ -61,14 +60,6 @@ const NewPage = ({viewerId}) => {
     }
 
     setIsSubmitting(false)
-  }
-
-  const handleTagClick = idx => {
-    setTopicsVal(s => {
-      const topics = [...s]
-      topics.splice(idx, 1)
-      return topics
-    })
   }
 
   return (
@@ -131,26 +122,7 @@ const NewPage = ({viewerId}) => {
           </Note>
 
           <div className="wrapper -small">
-            <label>
-              <span className="title -small">Tag related topics</span>
-              <TagsInput
-                className="input note__input"
-                value={topicsVal}
-                onChange={setTopicsVal}
-              />
-            </label>
-
-            <ul className="tags">
-              {topicsVal?.map((topic, idx) => (
-                <li key={idx}>
-                  <Tag
-                    topic={topic}
-                    selected={topicsVal.includes(topic)}
-                    onClick={handleTagClick}
-                  />
-                </li>
-              ))}
-            </ul>
+            <PopularTagsSelect onChange={setTopicsVal} />
 
             {errorMsg && <p className="error">{errorMsg}</p>}
 

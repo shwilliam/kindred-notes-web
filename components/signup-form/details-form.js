@@ -1,13 +1,8 @@
 import {useState} from 'react'
-import {
-  AvatarSelect,
-  DropdownCombobox,
-  Field,
-  Tag,
-  TagsInput,
-} from '../../components'
+import {AvatarSelect, DropdownCombobox, Field} from '../../components'
 import {useCitiesSearch, useCountriesSearch} from '../../hooks'
 import {formatCitiesSelectItems, formatCountriesSelectItems} from '../../lib'
+import {PopularTagsSelect} from '../popular-tags-select'
 
 export const SignupDetailsForm = ({
   isSubmitting = false,
@@ -32,14 +27,6 @@ export const SignupDetailsForm = ({
   } = useCountriesSearch()
   const citiesSearchResults = useCitiesSearch(cityQuery, country)
   const handleNicknameChange = e => setNickname(e.target.value)
-
-  const handleInterestClick = idx => {
-    setInterests(s => {
-      const interests = [...s]
-      interests.splice(idx, 1)
-      return interests
-    })
-  }
 
   const handleSubmit = event => {
     event.preventDefault()
@@ -90,23 +77,7 @@ export const SignupDetailsForm = ({
         disabled={!country}
       />
 
-      <label>
-        <div className="title -small -center">Topics of Interest</div>
-        <TagsInput
-          name="interests"
-          className="input note__input"
-          value={interests}
-          onChange={setInterests}
-        />
-      </label>
-
-      <ul className="tags">
-        {interests?.map((topic, idx) => (
-          <li key={idx}>
-            <Tag topic={topic} onClick={handleInterestClick} selected />
-          </li>
-        ))}
-      </ul>
+      <PopularTagsSelect onChange={setInterests} title="Topics of Interest" />
 
       {(formError || errorMsg) && (
         <p className="error">{formError || errorMsg}</p>

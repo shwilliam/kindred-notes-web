@@ -6,9 +6,8 @@ import {
   Footer,
   Head,
   NoteGrid,
+  PopularTagsSelect,
   Spinner,
-  Tag,
-  TagsInput,
 } from '../components'
 import {useAddInterest, useDeleteInterest, useProfile} from '../hooks'
 import {validateHeaderToken} from '../lib'
@@ -18,10 +17,6 @@ const ProfilePage = () => {
   const profile = useProfile()
   const [deleteInterest] = useDeleteInterest()
   const [addInterest] = useAddInterest()
-
-  const handleInterestsChange = interests => addInterest({title: interests[0]})
-
-  const handleInterestClick = title => deleteInterest({title})
 
   return (
     <main className="footer-pad">
@@ -44,21 +39,12 @@ const ProfilePage = () => {
             <div className="wrapper -small">
               <Avatar variant={profile.data.user?.avatar} />
               <p className="profile__title">{profile.data.user?.email}</p>
-              <label>
-                <p className="title -small -center">Topics of Interest</p>
-                <TagsInput
-                  className="input"
-                  value={profile.data.user?.interests}
-                  onChange={handleInterestsChange}
-                />
-              </label>
-              <ul className="tags">
-                {profile.data.user?.interests.map(({title}, idx) => (
-                  <li key={idx}>
-                    <Tag topic={title} onClick={handleInterestClick} selected />
-                  </li>
-                ))}
-              </ul>
+              <PopularTagsSelect
+                title="Topics of Interest"
+                onSelect={addInterest}
+                onRemove={deleteInterest}
+                tags={profile.data.user?.interests.map(({title}) => title)}
+              />
 
               {profile.data.user?.bookmarks?.length ? (
                 <div className="pad--bottom">
