@@ -50,7 +50,7 @@ const NotesPage = ({viewerId}) => {
           id={router.query.note}
           viewerId={viewerId}
           onDismiss={handleModalClose}
-          animate
+          animate={!!router.query.new}
         />
       ) : (
         <FadeIn className="footer-pad">

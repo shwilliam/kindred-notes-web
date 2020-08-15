@@ -1,6 +1,4 @@
 import Link from 'next/link'
-import {useReducer} from 'react'
-import {useMount} from 'react-use'
 import {
   FadeIn,
   Modal,
@@ -11,54 +9,19 @@ import {
   ReplyList,
   Spinner,
 } from '../components'
-import {useNote, useProfile} from '../hooks'
+import {useNote, useNoteOpeningAnimation, useProfile} from '../hooks'
 
 export const NoteModal = ({id, viewerId, onDismiss, animate = false}) => {
   const note = useNote(id)
   const profile = useProfile()
   const isOwn = viewerId === note?.data?.note.authorId
-
-  const [
-    noteOpeningAnimationState,
-    dispatchNoteOpeningAnimationChange,
-  ] = useReducer((state, action) => {
-    switch (action.type) {
-      case 'CLOSED':
-      case 'OPENING':
-      case 'OPEN':
-      case 'EXPANDED':
-      case 'REMOVED':
-        return action.type
-      default:
-        return state
-    }
-  }, 'CLOSED')
-
-  useMount(() => {
-    if (!animate) return
-
-    setTimeout(() => {
-      dispatchNoteOpeningAnimationChange({type: 'OPENING'})
-      setTimeout(() => {
-        dispatchNoteOpeningAnimationChange({type: 'OPEN'})
-        setTimeout(() => {
-          dispatchNoteOpeningAnimationChange({type: 'EXPANDED'})
-          setTimeout(() => {
-            dispatchNoteOpeningAnimationChange({type: 'REMOVED'})
-          }, 400)
-        }, 600)
-      }, 600)
-    }, 300)
-  })
+  const state = useNoteOpeningAnimation(!animate)
 
   return (
     <>
-      {animate && noteOpeningAnimationState !== 'REMOVED' && (
-        <NoteOpeningAnimation state={noteOpeningAnimationState} />
-      )}
+      {animate && state !== 'REMOVED' && <NoteOpeningAnimation state={state} />}
 
-      {(!animate ||
-        ['EXPANDED', 'REMOVED'].includes(noteOpeningAnimationState)) && (
+      {(!animate || ['EXPANDED', 'REMOVED'].includes(state)) && (
         <Modal onDismiss={onDismiss}>
           <FadeIn>
             {note.status === 'loading' ? (
