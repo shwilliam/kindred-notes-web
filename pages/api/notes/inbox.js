@@ -1,10 +1,10 @@
 import {PrismaClient} from '@prisma/client'
 import nc from 'next-connect'
-import {validateHeaderToken, cacheMiddleware} from '../../../lib'
+import {validateHeaderToken} from '../../../lib'
 
 const handler = nc()
 
-handler.get(cacheMiddleware(60), async (req, res) => {
+handler.get(async (req, res) => {
   const Prisma = new PrismaClient({log: ['query']})
   const {id} = validateHeaderToken(req.headers)
 
