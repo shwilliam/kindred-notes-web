@@ -1,6 +1,6 @@
 import {Tab, TabList, TabPanel, TabPanels, Tabs} from '@reach/tabs'
 import Link from 'next/link'
-import {truncate} from '../lib'
+import {getEmojiFromCountryCode, truncate} from '../lib'
 import {IconEnvelope, Note} from './index'
 
 export const InboxOutboxTabs = ({inbox, outbox, viewerId}) => (
@@ -13,8 +13,9 @@ export const InboxOutboxTabs = ({inbox, outbox, viewerId}) => (
       <TabPanel>
         {inbox?.length ? (
           <ul className="note-grid">
-            {inbox.map(({id, viewers}) => {
+            {inbox.map(({id, viewers, author}) => {
               const isOpen = !!viewers?.some(({id}) => id === viewerId)
+              const flag = getEmojiFromCountryCode(author.country) || ''
 
               return (
                 <li className="note-grid__cell -fill" key={id}>
@@ -24,7 +25,7 @@ export const InboxOutboxTabs = ({inbox, outbox, viewerId}) => (
                   >
                     <a className="link -no-ul">
                       <div className="note-grid__cell-icon">
-                        <IconEnvelope open={isOpen} />
+                        <IconEnvelope open={isOpen} stamp={flag} />
                       </div>
                     </a>
                   </Link>

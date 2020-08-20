@@ -1,4 +1,4 @@
-export const IconEnvelope = ({open = false, ...props}) =>
+export const IconEnvelope = ({open = false, stamp, ...props}) =>
   open ? (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -50,6 +50,9 @@ export const IconEnvelope = ({open = false, ...props}) =>
           fill="#add5d6"
         />
       </g>
+      <text x="133" y="76">
+        {stamp}
+      </text>
     </svg>
   ) : (
     <svg
@@ -102,5 +105,8 @@ export const IconEnvelope = ({open = false, ...props}) =>
           strokeWidth="1"
         />
       </g>
+      <text fontSize="1.3em" x="78" y="62">
+        {stamp}
+      </text>
     </svg>
   )
