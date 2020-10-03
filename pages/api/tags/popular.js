@@ -20,7 +20,6 @@ handler.get(cacheMiddleware(30 * 60), async (_req, res) => {
 
     res.json({tags: tagsByPopularity.slice(0, 10)})
   } catch (error) {
-    console.log({error})
     res.status(500).json({error})
   } finally {
     await Prisma.disconnect()
