@@ -79,7 +79,7 @@ const NotePage = ({viewerId}) => {
 
             <p className={isOwn ? 'pad--top' : 'pad--vertical'}>{content}</p>
 
-            {isOwn && (
+            {(isOwn && note.data.note?.viewers?.length) ? (
               <Link href={`/note/map/${noteId}`}>
                 <a
                   className={`button -full ${
@@ -89,7 +89,7 @@ const NotePage = ({viewerId}) => {
                   See who received this note
                 </a>
               </Link>
-            )}
+            ) : null}
           </>
         </Note>
 
