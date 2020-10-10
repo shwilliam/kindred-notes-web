@@ -14,6 +14,7 @@ const NoteMapPage = ({viewerId}) => {
         <h1 className="sr-only">Note Map</h1>
         <Header viewerId={viewerId} />
         <Spinner />
+        <div />
       </>
     )
 
